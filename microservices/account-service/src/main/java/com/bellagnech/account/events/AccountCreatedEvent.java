@@ -19,5 +19,5 @@ public class AccountCreatedEvent extends BaseEvent {
     private String status;
     private String customerEmail;
     private String customerName;
-}
+} 
 

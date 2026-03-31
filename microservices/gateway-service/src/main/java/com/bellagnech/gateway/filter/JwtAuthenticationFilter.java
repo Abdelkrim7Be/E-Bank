@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
     public JwtAuthenticationFilter() {
         super(Config.class);
-    }
+    } 
 
     @Override
     public GatewayFilter apply(Config config) {

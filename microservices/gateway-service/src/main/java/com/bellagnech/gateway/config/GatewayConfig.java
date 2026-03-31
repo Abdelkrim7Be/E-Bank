@@ -49,7 +49,7 @@ public class GatewayConfig {
             )
             .route("admin-accounts", r -> r
                 .path("/api/admin/accounts/**")
-                .filters(f -> f
+                .filters(f -> f 
                     .rewritePath("/api/admin/accounts(?<segment>.*)", "/api/accounts${segment}")
                     .filter(rateLimitingFilter.apply(new RateLimitingFilter.Config()))
                     .filter(jwtFilter.apply(new JwtAuthenticationFilter.Config()))

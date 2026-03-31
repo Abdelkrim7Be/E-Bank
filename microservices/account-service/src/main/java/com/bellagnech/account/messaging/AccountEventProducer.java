@@ -25,7 +25,7 @@ public class AccountEventProducer {
     @Value("${app.kafka.enabled:false}")
     private boolean kafkaEnabled;
 
-    public AccountEventProducer(ObjectMapper objectMapper) {
+    public AccountEventProducer(ObjectMapper objectMapper) { 
         this.objectMapper = objectMapper;
     }
 

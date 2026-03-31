@@ -76,12 +76,12 @@ flowchart TB
 
 | Service                 | Port | Role                                                                                                     |
 | ----------------------- | ---- | -------------------------------------------------------------------------------------------------------- |
-| **discovery-service**   | 8761 | Eureka server: registry of all microservices. Others register here and the gateway discovers instances. |
-| **gateway-service**     | 8080 | API Gateway: single entry point, JWT validation, rate limiting, routes `/api/*` to the right service.     |
+| **discovery-service**   | 8761 | Eureka server: registry of all microservices. Others register here and the gateway discovers instances.  |
+| **gateway-service**     | 8080 | API Gateway: single entry point, JWT validation, rate limiting, routes `/api/*` to the right service.    |
 | **customer-service**    | 8081 | Users, auth (login/register), customers. Produces **customer-events** to Kafka.                          |
 | **account-service**     | 8082 | Bank accounts (current/saving). Produces **account-events** and **account-balance-updates**.             |
 | **transaction-service** | 8083 | Credit, debit, transfer; operation history. Has **TransactionEventProducer** for **transaction-events**. |
-| **reporting-service**   | 8084 | Dashboards, stats. **Consumes** all Kafka topics (customer, account, balance, transaction).             |
+| **reporting-service**   | 8084 | Dashboards, stats. **Consumes** all Kafka topics (customer, account, balance, transaction).              |
 
 **Flow in short:**  
 Frontend → Gateway → Eureka (resolve) → one of the services. Customer/Account/Transaction services publish events to Kafka; Reporting service subscribes and reacts (e.g. logging, future analytics).
@@ -322,21 +322,15 @@ reporting-service/
 
 ## Mermaid diagram files
 
-Mermaid source is in the repo so you can edit or render it elsewhere:
+Mermaid diagram sources are in the **`docs/`** folder. You can edit or render them in [Mermaid Live Editor](https://mermaid.live) or any Mermaid-capable tool.
 
-| File                                                               | Description                                                               |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| [mermaid-architecture.mmd](mermaid-architecture.mmd)               | High-level architecture (frontend, gateway, Eureka, services, Kafka, H2). |
-| [mermaid-kafka-microservices.mmd](mermaid-kafka-microservices.mmd) | Kafka producers, topics, and reporting-service as consumer.               |
-| [mermaid-general-flow.mmd](mermaid-general-flow.mmd)               | General request flow (user → frontend → gateway → Eureka → service).      |
+| File                                                                         | Description                                                               |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [docs/mermaid-architecture.mmd](docs/mermaid-architecture.mmd)               | High-level architecture (frontend, gateway, Eureka, services, Kafka, H2). |
+| [docs/mermaid-kafka-microservices.mmd](docs/mermaid-kafka-microservices.mmd) | Kafka producers, topics, and reporting-service as consumer.               |
+| [docs/mermaid-general-flow.mmd](docs/mermaid-general-flow.mmd)               | General request flow (user → frontend → gateway → Eureka → service).      |
 
-Same content is under `docs/`:
-
-- `docs/mermaid-architecture.mmd`
-- `docs/mermaid-kafka-microservices.mmd`
-- `docs/mermaid-general-flow.mmd`
-
-You can paste the content into [Mermaid Live Editor](https://mermaid.live) or use any tool that supports Mermaid.
+The same files are also at the repo root (`mermaid-architecture.mmd`, `mermaid-kafka-microservices.mmd`, `mermaid-general-flow.mmd`) for convenience.
 
 ---
 

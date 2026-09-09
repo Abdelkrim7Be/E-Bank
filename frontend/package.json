@@ -8,7 +8,11 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:dig_bank_frontend": "node dist/dig_bank_frontend/server/server.mjs",
-    "build:prod:copy": "ng build --configuration production && cp -r dist/dig_bank_frontend/* ../dig_bank/src/main/resources/static/"
+    "build:prod:copy": "ng build --configuration production && cp -r dist/dig_bank_frontend/* ../dig_bank/src/main/resources/static/",
+    "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test --grep @smoke",
+    "test:a11y": "playwright test --grep accessibility",
+    "test:inventory": "python3 ../scripts/inventory-ui.py"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +39,8 @@
     "@angular-devkit/build-angular": "^19.2.12",
     "@angular/cli": "^19.2.12",
     "@angular/compiler-cli": "^19.2.0",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",

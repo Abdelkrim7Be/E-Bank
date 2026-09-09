@@ -397,3 +397,17 @@
         </div>
       </div>
     </div>
+
+<dialog #details aria-labelledby="transaction-title" class="transaction-dialog">
+  <div class="d-flex justify-content-between align-items-center gap-4 mb-4"><h2 class="h5 mb-0" id="transaction-title">Transaction details</h2><button type="button" class="btn-close" aria-label="Close transaction details" (click)="details.close()"></button></div>
+  <dl *ngIf="selectedTransaction as transaction">
+    <dt>Reference</dt><dd>{{ transaction.id }}</dd>
+    <dt>Account</dt><dd>{{ transaction.accountId }}</dd>
+    <dt>Amount</dt><dd>{{ transaction.amount | currency }}</dd>
+    <dt>Type</dt><dd>{{ transaction.type }}</dd>
+    <dt>Date</dt><dd>{{ transaction.operationDate | date:'medium' }}</dd>
+    <dt>Description</dt><dd>{{ transaction.description }}</dd>
+    <dt>Status</dt><dd>{{ transaction.status }}</dd>
+  </dl>
+  <button type="button" class="btn btn-primary" (click)="details.close()">Done</button>
+</dialog>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -21,6 +21,8 @@ import { AuthService } from "../../../auth/services/auth.service";
   styleUrl: "./customer-transactions.component.css",
 })
 export class CustomerTransactionsComponent implements OnInit {
+  @ViewChild("details") details!: ElementRef<HTMLDialogElement>;
+  selectedTransaction: Transaction | null = null;
   transactions: Transaction[] = [];
   pagedResponse: PagedResponse<Transaction> | null = null;
   loading = true;
@@ -54,17 +56,11 @@ export class CustomerTransactionsComponent implements OnInit {
         this.transactions = response.content || [];
         this.loading = false;
       },
-      error: (error) => {
-        this.accountService.getTransactions(this.filter).subscribe({
-          next: (response) => {
-            this.pagedResponse = response;
-            this.transactions = response.content || [];
-            this.loading = false;
-          },
-          error: () => {
-            this.loadDemoTransactions();
-          },
-        });
+      error: () => {
+        this.error = "Your transactions could not be loaded. Please try again.";
+        this.transactions = [];
+        this.pagedResponse = null;
+        this.loading = false;
       },
     });
   }
@@ -172,18 +168,23 @@ export class CustomerTransactionsComponent implements OnInit {
   }
 
   exportTransactions(): void {
-    // Placeholder for export functionality
-    this.successMessage = "Export functionality will be implemented soon.";
-    setTimeout(() => {
-      this.successMessage = "";
-    }, 3000);
+    if (!this.transactions.length) return;
+    const cell = (value: unknown) => {
+      let text = String(value ?? "");
+      if (/^[=+@\-\t\r]/.test(text)) text = "'" + text;
+      return '"' + text.replaceAll('"', '""') + '"';
+    };
+    const rows = [["ID", "Account", "Type", "Amount", "Date", "Description"],
+      ...this.transactions.map(t => [t.id, t.accountId, t.type, t.amount, t.operationDate, t.description])];
+    const url = URL.createObjectURL(new Blob(['\ufeff' + rows.map(row => row.map(cell).join(',')).join('\r\n')], {type: 'text/csv;charset=utf-8'}));
+    const link = document.createElement('a');
+    link.href = url; link.download = 'e-bank-transactions-page.csv'; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   viewTransactionDetails(transaction: Transaction): void {
-    // Placeholder for transaction details modal
-    alert(
-      `Transaction Details:\n\nID: ${transaction.id}\nType: ${transaction.type}\nAmount: ${transaction.amount}\nDate: ${transaction.operationDate}\nStatus: ${transaction.status}`,
-    );
+    this.selectedTransaction = transaction;
+    this.details.nativeElement.showModal();
   }
 
   getTransactionTypeBadge(type: string): string {
@@ -246,68 +247,4 @@ export class CustomerTransactionsComponent implements OnInit {
     });
   }
 
-  private loadDemoTransactions(): void {
-    console.log("Loading demo transaction data...");
-
-    // Create demo transactions
-    const demoTransactions: Transaction[] = [
-      {
-        id: 1,
-        accountId: "ACC-CA-001",
-        type: TransactionType.DEPOSIT,
-        amount: 1000,
-        balance: 5000,
-        description: "Initial Deposit",
-        status: TransactionStatus.COMPLETED,
-        operationDate: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-      },
-      {
-        id: 2,
-        accountId: "ACC-CA-001",
-        type: TransactionType.WITHDRAWAL,
-        amount: 200,
-        balance: 4800,
-        description: "ATM Withdrawal",
-        status: TransactionStatus.COMPLETED,
-        operationDate: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-      },
-      {
-        id: 3,
-        accountId: "ACC-CA-001",
-        type: TransactionType.TRANSFER,
-        amount: 500,
-        balance: 4300,
-        description: "Transfer to Savings",
-        status: TransactionStatus.COMPLETED,
-        operationDate: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
-      },
-      {
-        id: 4,
-        accountId: "ACC-CA-001",
-        type: TransactionType.DEPOSIT,
-        amount: 2000,
-        balance: 6300,
-        description: "Salary Deposit",
-        status: TransactionStatus.COMPLETED,
-        operationDate: new Date(Date.now() - 604800000).toISOString(), // 1 week ago
-      },
-    ];
-
-    // Create demo paged response
-    this.pagedResponse = {
-      content: demoTransactions,
-      totalElements: demoTransactions.length,
-      totalPages: 1,
-      size: 20,
-      number: 0,
-      first: true,
-      last: true,
-    };
-
-    this.transactions = demoTransactions;
-    this.error = "Showing demo data - API endpoints not available";
-    this.loading = false;
-
-    console.log("Demo transaction data loaded:", this.transactions);
-  }
 }

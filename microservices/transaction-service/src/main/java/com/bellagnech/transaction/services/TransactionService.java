@@ -194,18 +194,9 @@ public class TransactionService {
     }
 
     private void publishTransactionEvent(String type, String accountId, double amount, String description) {
-        try {
-            TransactionEvent event = TransactionEvent.builder()
-                    .type(type)
-                    .accountId(accountId)
-                    .amount(amount)
-                    .description(description)
-                    .build();
-            transactionEventProducer.sendTransactionEvent(accountId, event);
-        } catch (Exception e) {
-            // Demo-safe behavior: do not fail core transaction flow if Kafka publish fails.
-            log.warn("Failed to publish transaction event type={} for account {}: {}", type, accountId, e.getMessage());
-        }
+        TransactionEvent event = TransactionEvent.builder()
+            .type(type).accountId(accountId).amount(amount).description(description).build();
+        transactionEventProducer.sendTransactionEvent(accountId, event);
     }
 
     private AccountOperationDTO toDTO(AccountOperation operation) {

@@ -16,6 +16,7 @@ RUN mvn -pl account-service -am package -DskipTests -B -q
 
 FROM eclipse-temurin:21-jre-alpine
 RUN addgroup -S spring && adduser -S spring -G spring
+RUN mkdir -p /app/data && chown spring:spring /app/data
 USER spring
 COPY --from=build /app/account-service/target/account-service-*.jar /app/app.jar
 EXPOSE 8082

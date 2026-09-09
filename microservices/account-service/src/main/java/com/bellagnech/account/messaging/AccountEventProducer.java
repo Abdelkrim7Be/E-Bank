@@ -2,6 +2,7 @@ package com.bellagnech.account.messaging;
 
 import com.bellagnech.account.events.AccountBalanceUpdatedEvent;
 import com.bellagnech.account.events.AccountCreatedEvent;
+import com.bellagnech.account.events.AccountStatusChangedEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ public class AccountEventProducer {
 
     private static final String ACCOUNT_EVENTS_TOPIC = "account-events";
     private static final String BALANCE_UPDATE_TOPIC = "account-balance-updates";
+    private static final String STATUS_CHANGE_TOPIC = "account-status-changes";
 
     @Autowired(required = false)
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -57,6 +59,21 @@ public class AccountEventProducer {
             kafkaTemplate.send(BALANCE_UPDATE_TOPIC, event.getAccountId(), payload);
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize AccountBalanceUpdatedEvent: {}", e.getMessage(), e);
+        }
+    }
+
+    public void publishAccountStatusChanged(AccountStatusChangedEvent event) {
+        if (!kafkaEnabled || kafkaTemplate == null) {
+            log.debug("Kafka disabled, skipping AccountStatusChangedEvent for account={}", event.getAccountId());
+            return;
+        }
+        try {
+            String payload = objectMapper.writeValueAsString(event);
+            log.info("Publishing AccountStatusChangedEvent: accountId={}, {} -> {}",
+                    event.getAccountId(), event.getPreviousStatus(), event.getNewStatus());
+            kafkaTemplate.send(STATUS_CHANGE_TOPIC, event.getAccountId(), payload);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to serialize AccountStatusChangedEvent: {}", e.getMessage());
         }
     }
 }

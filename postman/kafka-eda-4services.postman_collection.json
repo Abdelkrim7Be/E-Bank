@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "Kafka EDA Demo - 4 Services",
+    "_postman_id": "d79e7d4d-8f64-4c68-9f02-1f188efea9fb",
+    "description": "Minimal Postman flow for customer/account/transaction/reporting Kafka demo.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 - Create Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Kafka Demo User\",\n  \"email\": \"kafka.demo.user@example.com\",\n  \"phone\": \"+216-00000000\",\n  \"address\": \"Demo Street\"\n}"
+        },
+        "url": "{{customerBaseUrl}}/api/customers"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('customerId', body.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Create Account For Customer",
+      "request": {
+        "method": "POST",
+        "url": "{{accountBaseUrl}}/api/accounts/current?initialBalance=1000&overDraft=100&customerId={{customerId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('accountId', body.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Credit Transaction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"amount\": 150,\n  \"description\": \"Postman demo credit\"\n}"
+        },
+        "url": "{{transactionBaseUrl}}/api/transactions/credit"
+      }
+    },
+    {
+      "name": "4 - Debit Transaction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"amount\": 40,\n  \"description\": \"Postman demo debit\"\n}"
+        },
+        "url": "{{transactionBaseUrl}}/api/transactions/debit"
+      }
+    },
+    {
+      "name": "5 - Read Reporting Kafka Events",
+      "request": {
+        "method": "GET",
+        "url": "{{reportingBaseUrl}}/api/reports/debug/events"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "customerBaseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "accountBaseUrl",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "transactionBaseUrl",
+      "value": "http://localhost:8083"
+    },
+    {
+      "key": "reportingBaseUrl",
+      "value": "http://localhost:8084"
+    },
+    {
+      "key": "customerId",
+      "value": ""
+    },
+    {
+      "key": "accountId",
+      "value": ""
+    }
+  ]
+}

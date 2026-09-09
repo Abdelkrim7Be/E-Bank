@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  // In microservices mode, the backend entrypoint is the gateway
-  apiUrl: "http://localhost:8080/api", // Update this for real production deployment
+  // In Docker, Nginx proxies /api/ to the gateway service
+  apiUrl: "/api",
   useMockApi: false,
   appName: "Digital Banking",
   version: "1.0.0",

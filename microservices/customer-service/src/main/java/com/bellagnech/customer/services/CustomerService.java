@@ -4,6 +4,8 @@ import com.bellagnech.customer.dtos.CustomerDTO;
 import com.bellagnech.customer.entities.Customer;
 import com.bellagnech.customer.entities.User;
 import com.bellagnech.customer.events.CustomerCreatedEvent;
+import com.bellagnech.customer.events.CustomerDeletedEvent;
+import com.bellagnech.customer.events.CustomerUpdatedEvent;
 import com.bellagnech.customer.exceptions.CustomerNotFoundException;
 import com.bellagnech.customer.messaging.CustomerEventProducer;
 import com.bellagnech.customer.repositories.CustomerRepository;
@@ -87,6 +89,25 @@ public class CustomerService {
         }
 
         Customer updated = customerRepository.save(existing);
+
+        // Publish Kafka event
+        try {
+            CustomerUpdatedEvent event = CustomerUpdatedEvent.builder()
+                    .eventId(java.util.UUID.randomUUID().toString())
+                    .eventType(CustomerUpdatedEvent.EVENT_TYPE)
+                    .timestamp(java.time.Instant.now())
+                    .customerId(updated.getId())
+                    .name(updated.getName())
+                    .email(updated.getEmail())
+                    .phone(updated.getPhone())
+                    .address(updated.getAddress())
+                    .username(user != null ? user.getUsername() : null)
+                    .build();
+            eventProducer.publishCustomerUpdated(event);
+        } catch (Exception e) {
+            log.warn("Failed to publish customer updated event: {}", e.getMessage());
+        }
+
         return toDTO(updated);
     }
 
@@ -97,6 +118,19 @@ public class CustomerService {
             throw new CustomerNotFoundException("Customer not found with ID: " + customerId);
         }
         customerRepository.deleteById(customerId);
+
+        // Publish Kafka event
+        try {
+            CustomerDeletedEvent event = CustomerDeletedEvent.builder()
+                    .eventId(java.util.UUID.randomUUID().toString())
+                    .eventType(CustomerDeletedEvent.EVENT_TYPE)
+                    .timestamp(java.time.Instant.now())
+                    .customerId(customerId)
+                    .build();
+            eventProducer.publishCustomerDeleted(event);
+        } catch (Exception e) {
+            log.warn("Failed to publish customer deleted event: {}", e.getMessage());
+        }
     }
 
     @Transactional(readOnly = true)

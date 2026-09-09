@@ -7,6 +7,8 @@ import com.bellagnech.transaction.entities.AccountOperation;
 import com.bellagnech.transaction.enums.OperationType;
 import com.bellagnech.transaction.exceptions.AccountNotFoundException;
 import com.bellagnech.transaction.exceptions.BalanceNotSufficientException;
+import com.bellagnech.transaction.messaging.TransactionEvent;
+import com.bellagnech.transaction.messaging.TransactionEventProducer;
 import com.bellagnech.transaction.repositories.AccountOperationRepository;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class TransactionService {
     private final AccountOperationRepository operationRepository;
     private final AccountServiceClient accountServiceClient;
     private final CustomerServiceClient customerServiceClient;
+    private final TransactionEventProducer transactionEventProducer;
 
     @Transactional
     public void credit(String accountId, double amount, String description) throws AccountNotFoundException {
@@ -51,6 +54,7 @@ public class TransactionService {
         operation.setDescription(description);
         operation.setType(OperationType.CREDIT);
         operationRepository.save(operation);
+        publishTransactionEvent("CREDIT", accountId, amount, description);
 
         log.info("Credit operation completed for account {}", accountId);
     }
@@ -83,6 +87,7 @@ public class TransactionService {
         operation.setDescription(description);
         operation.setType(OperationType.DEBIT);
         operationRepository.save(operation);
+        publishTransactionEvent("DEBIT", accountId, amount, description);
 
         log.info("Debit operation completed for account {}", accountId);
     }
@@ -178,6 +183,21 @@ public class TransactionService {
         } catch (Exception e) {
             log.error("Failed to update account balance for account {}: {}", accountId, e.getMessage());
             throw new RuntimeException("Failed to update account balance", e);
+        }
+    }
+
+    private void publishTransactionEvent(String type, String accountId, double amount, String description) {
+        try {
+            TransactionEvent event = TransactionEvent.builder()
+                    .type(type)
+                    .accountId(accountId)
+                    .amount(amount)
+                    .description(description)
+                    .build();
+            transactionEventProducer.sendTransactionEvent(accountId, event);
+        } catch (Exception e) {
+            // Demo-safe behavior: do not fail core transaction flow if Kafka publish fails.
+            log.warn("Failed to publish transaction event type={} for account {}: {}", type, accountId, e.getMessage());
         }
     }
 

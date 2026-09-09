@@ -8,6 +8,7 @@ import com.bellagnech.account.entities.SavingAccount;
 import com.bellagnech.account.enums.AccountStatus;
 import com.bellagnech.account.events.AccountBalanceUpdatedEvent;
 import com.bellagnech.account.events.AccountCreatedEvent;
+import com.bellagnech.account.events.AccountStatusChangedEvent;
 import com.bellagnech.account.exceptions.BankAccountNotFoundException;
 import com.bellagnech.account.exceptions.CustomerNotFoundException;
 import com.bellagnech.account.messaging.AccountEventProducer;
@@ -82,6 +83,7 @@ public class AccountService {
         account.setStatus(AccountStatus.CREATED);
 
         SavingAccount saved = bankAccountRepository.save(account);
+        publishAccountCreatedEvent(saved.getId(), customerId, "SavingAccount", initialBalance, "CREATED");
         return toSavingDTO(saved);
     }
 
@@ -191,8 +193,24 @@ public class AccountService {
         log.info("Updating account {} status to {}", accountId, status);
         BankAccount account = bankAccountRepository.findById(accountId)
                 .orElseThrow(() -> new BankAccountNotFoundException("Account not found with ID: " + accountId));
+        String previousStatus = account.getStatus() != null ? account.getStatus().name() : "UNKNOWN";
         account.setStatus(status);
         bankAccountRepository.save(account);
+
+        // Publish Kafka event
+        try {
+            AccountStatusChangedEvent event = AccountStatusChangedEvent.builder()
+                    .eventType("ACCOUNT_STATUS_CHANGED")
+                    .aggregateId(accountId)
+                    .accountId(accountId)
+                    .customerId(account.getCustomerId())
+                    .previousStatus(previousStatus)
+                    .newStatus(status.name())
+                    .build();
+            eventProducer.publishAccountStatusChanged(event);
+        } catch (Exception e) {
+            log.warn("Failed to publish account status changed event: {}", e.getMessage());
+        }
     }
 
     @Transactional

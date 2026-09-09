@@ -1,0 +1,9 @@
+.alert {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    code {
+      background-color: #f8f9fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }

@@ -1,0 +1,47 @@
+.customer-list {
+        padding: 1.5rem;
+      }
+
+      .user-avatar {
+        font-size: 2rem;
+      }
+
+      .table th {
+        border-top: none;
+        font-weight: 600;
+        color: var(--dark-gray);
+      }
+
+      .btn-group-sm .btn {
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pagination .page-link {
+        color: var(--primary-red);
+        border-color: var(--border-color);
+      }
+
+      .pagination .page-item.active .page-link {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+      }
+
+      .pagination .page-link:hover {
+        background-color: rgba(230, 57, 70, 0.1);
+        border-color: var(--primary-red);
+      }
+
+      @media (max-width: 768px) {
+        .customer-list {
+          padding: 1rem;
+        }
+
+        .d-flex.justify-content-between {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .table-responsive {
+          font-size: 0.875rem;
+        }
+      }

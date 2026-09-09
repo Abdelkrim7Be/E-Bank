@@ -1,0 +1,27 @@
+.customer-transactions {
+        padding: 1.5rem;
+      }
+
+      .table th {
+        border-top: none;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .table td {
+        vertical-align: middle;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+      }
+
+      @media (max-width: 768px) {
+        .customer-transactions {
+          padding: 1rem;
+        }
+
+        .table-responsive {
+          font-size: 0.875rem;
+        }
+      }

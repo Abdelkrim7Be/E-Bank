@@ -3,7 +3,7 @@ export const environment = {
   // In Docker, Nginx proxies /api/ to the gateway service
   apiUrl: "/api",
   useMockApi: false,
-  appName: "Digital Banking",
+  appName: "E-Bank",
   version: "1.0.0",
   tokenKey: "digital-banking-token",
   // Backend endpoint configuration matching TODO.md specifications

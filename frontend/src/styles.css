@@ -3,7 +3,7 @@
 /* Import Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-/* Global Styles for Digital Banking Application */
+/* Global Styles for E-Bank Application */
 
 /* CSS Custom Properties for Color Scheme */
 :root {
@@ -260,7 +260,7 @@ body {
   background: #d62d3a;
 }
 
-/* Digital Banking Color Scheme */
+/* E-Bank Color Scheme */
 :root {
   --primary-red: #e63946;
   --primary-white: #f1faee;

@@ -1,0 +1,24 @@
+.card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--primary-red);
+        box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
+      }
+
+      .btn-primary {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+      }
+
+      .btn-primary:hover {
+        background-color: #d62d3a;
+        border-color: #d62d3a;
+      }
+
+      .bg-light {
+        background-color: var(--primary-white) !important;
+      }

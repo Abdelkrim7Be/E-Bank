@@ -18,48 +18,11 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     LoaderComponent,
     NotificationsComponent,
   ],
-  template: `
-    <div class="app-container">
-      <!-- Navigation (only show when authenticated and not on auth pages) -->
-      <app-navigation *ngIf="showNavigation"></app-navigation>
-
-      <!-- Main Content -->
-      <main class="main-content" [class.with-nav]="showNavigation">
-        <router-outlet></router-outlet>
-      </main>
-
-      <!-- Global Components -->
-      <app-loader></app-loader>
-      <app-notifications></app-notifications>
-    </div>
-  `,
-  styles: [
-    `
-      .app-container {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .main-content {
-        flex: 1;
-        background-color: var(--light-gray);
-      }
-
-      .main-content.with-nav {
-        margin-top: 0;
-      }
-
-      @media (max-width: 991.98px) {
-        .main-content.with-nav {
-          margin-top: 0;
-        }
-      }
-    `,
-  ],
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit {
-  title = 'Digital Banking';
+  title = 'E-Bank';
   showNavigation = false;
 
   constructor(private authService: AuthService, private router: Router) {}

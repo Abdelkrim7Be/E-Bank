@@ -1,0 +1,38 @@
+.customer-layout {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: #f8f9fa;
+    }
+
+    .footer {
+      margin-top: auto;
+    }
+
+    .footer-links a {
+      transition: color 0.2s ease-in-out;
+    }
+
+    .footer-links a:hover {
+      color: var(--bs-primary) !important;
+    }
+
+    @media (max-width: 768px) {
+      .footer .col-md-6 {
+        text-align: center !important;
+        margin-bottom: 0.5rem;
+      }
+      
+      .footer-links {
+        text-align: center;
+      }
+      
+      .footer-links a {
+        display: inline-block;
+        margin: 0.25rem 0.5rem;
+      }
+    }

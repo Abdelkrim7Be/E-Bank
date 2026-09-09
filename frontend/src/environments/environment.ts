@@ -3,7 +3,7 @@ export const environment = {
   // Point Angular to the API Gateway, not the monolith
   apiUrl: "http://localhost:8080/api",
   useMockApi: false, // Set to true to use mock data during development
-  appName: "Digital Banking",
+  appName: "E-Bank",
   version: "1.0.0",
   tokenKey: "digital-banking-token",
   // Backend endpoint configuration matching TODO.md specifications

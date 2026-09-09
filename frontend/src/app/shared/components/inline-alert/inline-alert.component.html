@@ -1,0 +1,29 @@
+<div 
+      *ngIf="message"
+      class="alert"
+      [ngClass]="getAlertClass()"
+      role="alert">
+      
+      <div class="d-flex align-items-start">
+        <div class="alert-icon me-2" *ngIf="showIcon">
+          <i [ngClass]="getIconClass()"></i>
+        </div>
+        
+        <div class="flex-grow-1">
+          <div class="alert-title" *ngIf="title">
+            <strong>{{ title }}</strong>
+          </div>
+          <div class="alert-message">
+            {{ message }}
+          </div>
+        </div>
+        
+        <button 
+          *ngIf="dismissible"
+          type="button" 
+          class="btn-close" 
+          [attr.aria-label]="'Close'"
+          (click)="onDismiss()">
+        </button>
+      </div>
+    </div>

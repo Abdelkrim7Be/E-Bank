@@ -1,0 +1,269 @@
+<div class="container-fluid mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  {{ isEditMode ? "Edit Customer" : "Add New Customer" }}
+                </h5>
+                <a
+                  routerLink="/admin/customers"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-left me-1"></i> Back to Customers
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Error Alert -->
+              @if (error) {
+                <div
+                  class="alert alert-danger alert-dismissible fade show"
+                  role="alert"
+                >
+                  <pre
+                    class="mb-0"
+                    style="white-space: pre-wrap; font-family: inherit;"
+                    >{{ error }}</pre
+                  >
+                  <button
+                    type="button"
+                    class="btn-close"
+                    (click)="error = null"
+                  ></button>
+                </div>
+              }
+
+              <!-- Success Alert -->
+              @if (success) {
+                <div
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  {{ success }}
+                  <button
+                    type="button"
+                    class="btn-close"
+                    (click)="success = null"
+                  ></button>
+                </div>
+              }
+
+              <!-- Loading Spinner -->
+              @if (loading) {
+                <div class="text-center py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              }
+
+              <!-- Customer Form -->
+              @if (!loading) {
+                <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <!-- Username Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="username" class="form-label"
+                        >Username *</label
+                      >
+                      <input
+                        type="text"
+                        id="username"
+                        formControlName="username"
+                        class="form-control"
+                        [class.is-invalid]="
+                          customerForm.get('username')?.invalid &&
+                          customerForm.get('username')?.touched
+                        "
+                        placeholder="Enter username"
+                      />
+                      @if (
+                        customerForm.get("username")?.invalid &&
+                        customerForm.get("username")?.touched
+                      ) {
+                        <div class="invalid-feedback">
+                          @if (
+                            customerForm.get("username")?.errors?.["required"]
+                          ) {
+                            <div>Username is required</div>
+                          }
+                          @if (
+                            customerForm.get("username")?.errors?.["minlength"]
+                          ) {
+                            <div>Username must be at least 3 characters</div>
+                          }
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label">Email *</label>
+                      <input
+                        type="email"
+                        id="email"
+                        formControlName="email"
+                        class="form-control"
+                        [class.is-invalid]="
+                          customerForm.get('email')?.invalid &&
+                          customerForm.get('email')?.touched
+                        "
+                        placeholder="Enter email address"
+                      />
+                      @if (
+                        customerForm.get("email")?.invalid &&
+                        customerForm.get("email")?.touched
+                      ) {
+                        <div class="invalid-feedback">
+                          @if (
+                            customerForm.get("email")?.errors?.["required"]
+                          ) {
+                            <div>Email is required</div>
+                          }
+                          @if (customerForm.get("email")?.errors?.["email"]) {
+                            <div>Please enter a valid email address</div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <!-- First Name Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName" class="form-label"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        id="firstName"
+                        formControlName="firstName"
+                        class="form-control"
+                        placeholder="Enter first name"
+                      />
+                    </div>
+
+                    <!-- Last Name Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName" class="form-label">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        formControlName="lastName"
+                        class="form-control"
+                        placeholder="Enter last name"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <!-- Name Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="name" class="form-label">Display Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        formControlName="name"
+                        class="form-control"
+                        placeholder="Enter customer's display name"
+                      />
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div class="col-md-6 mb-3">
+                      <label for="phone" class="form-label">Phone Number</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        formControlName="phone"
+                        class="form-control"
+                        placeholder="Enter phone number"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Password Fields (only for new customers) -->
+                  @if (!isEditMode) {
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label"
+                          >Password *</label
+                        >
+                        <input
+                          type="password"
+                          id="password"
+                          formControlName="password"
+                          class="form-control"
+                          [class.is-invalid]="
+                            customerForm.get('password')?.invalid &&
+                            customerForm.get('password')?.touched
+                          "
+                          placeholder="Enter password"
+                        />
+                        @if (
+                          customerForm.get("password")?.invalid &&
+                          customerForm.get("password")?.touched
+                        ) {
+                          <div class="invalid-feedback">
+                            @if (
+                              customerForm.get("password")?.errors?.["required"]
+                            ) {
+                              <div>Password is required</div>
+                            }
+                            @if (
+                              customerForm.get("password")?.errors?.[
+                                "minlength"
+                              ]
+                            ) {
+                              <div>Password must be at least 6 characters</div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Address Field -->
+                  <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea
+                      id="address"
+                      formControlName="address"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Enter customer's address"
+                    ></textarea>
+                  </div>
+
+                  <!-- Form Actions -->
+                  <div class="d-flex justify-content-end gap-2">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      routerLink="/admin/customers"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      [disabled]="customerForm.invalid || submitting"
+                    >
+                      @if (submitting) {
+                        <span
+                          class="spinner-border spinner-border-sm me-2"
+                          role="status"
+                        ></span>
+                      }
+                      {{ isEditMode ? "Update Customer" : "Create Customer" }}
+                    </button>
+                  </div>
+                </form>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

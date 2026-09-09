@@ -1,0 +1,158 @@
+.customer-dashboard {
+        padding: 1.5rem;
+      }
+
+      .welcome-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary-red) 0%,
+          #d62d3a 100%
+        );
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+      }
+
+      .account-card {
+        transition: transform 0.2s ease-in-out;
+        border-left: 4px solid var(--primary-red);
+      }
+
+      .account-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .balance-amount {
+        color: var(--primary-red);
+        font-weight: 700;
+      }
+
+      .transaction-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .transaction-icon.deposit {
+        background-color: rgba(42, 157, 143, 0.1);
+        color: var(--success-green);
+      }
+
+      .transaction-icon.withdrawal {
+        background-color: rgba(233, 196, 106, 0.1);
+        color: var(--warning-yellow);
+      }
+
+      .transaction-icon.transfer {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+      }
+
+      .transaction-item:last-child .border-bottom {
+        border-bottom: none !important;
+      }
+
+      .stat-item {
+        padding: 0.5rem 0;
+      }
+
+      .quick-actions .btn {
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .header-actions {
+        align-items: center;
+      }
+
+      .action-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: none;
+        min-width: 90px;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .action-btn i {
+        font-size: 1rem;
+      }
+
+      .quick-action-card {
+        transition: all 0.3s ease-in-out;
+        border-radius: 12px;
+        border-width: 2px;
+        font-weight: 600;
+      }
+
+      .quick-action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .quick-action-card i {
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .quick-action-card:hover i {
+        transform: scale(1.1);
+      }
+
+      @media (max-width: 768px) {
+        .customer-dashboard {
+          padding: 1rem;
+        }
+
+        .welcome-section {
+          padding: 1.5rem;
+          text-align: center;
+        }
+
+        .header-actions {
+          justify-content: center !important;
+          margin-top: 1rem;
+        }
+
+        .action-btn {
+          min-width: 80px;
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+
+        .quick-action-card {
+          min-height: 100px;
+          padding: 1rem !important;
+        }
+
+        .quick-action-card i {
+          font-size: 2rem !important;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .header-actions {
+          flex-direction: column;
+          gap: 0.5rem !important;
+        }
+
+        .action-btn {
+          width: 100%;
+          max-width: 200px;
+        }
+      }

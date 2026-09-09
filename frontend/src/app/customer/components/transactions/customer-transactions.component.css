@@ -25,3 +25,7 @@
           font-size: 0.875rem;
         }
       }
+
+.transaction-dialog { width: min(480px,calc(100% - 32px)); margin: auto; border: 1px solid var(--eb-border); border-radius: 8px; padding: 24px; color: var(--eb-ink); }
+.transaction-dialog::backdrop { background: #092c6880; }
+.transaction-dialog dd { overflow-wrap: anywhere; }

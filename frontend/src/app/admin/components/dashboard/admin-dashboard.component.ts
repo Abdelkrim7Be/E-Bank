@@ -69,7 +69,7 @@ export class AdminDashboardComponent
       this.initializeCharts();
       // Ensure charts have some data even if backend is not available
       setTimeout(() => {
-        this.ensureChartsHaveData();
+        
       }, 500);
     }, 100);
   }
@@ -322,28 +322,6 @@ export class AdminDashboardComponent
       this.transactionVolumeChart.update("active");
     } else {
       console.warn("Transaction volume chart not initialized");
-    }
-  }
-
-  private ensureChartsHaveData(): void {
-    // Ensure transaction volume chart has some data to display
-    if (this.transactionVolumeChart) {
-      const currentData = this.transactionVolumeChart.data.datasets[0]
-        .data as number[];
-      const hasData = currentData.some((value) => value > 0);
-
-      if (!hasData) {
-        console.log("No data in transaction chart, adding sample data");
-        // Add some sample data for demonstration
-        const sampleData = [
-          Math.floor(Math.random() * 100) + 50, // Add Money
-          Math.floor(Math.random() * 80) + 30, // Debit
-          Math.floor(Math.random() * 60) + 20, // Transfer
-        ];
-        this.transactionVolumeChart.data.datasets[0].data = sampleData;
-        this.transactionVolumeChart.update("active");
-        console.log("Sample data added to chart:", sampleData);
-      }
     }
   }
 

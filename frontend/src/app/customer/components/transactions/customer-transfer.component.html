@@ -41,7 +41,9 @@
               </h5>
             </div>
             <div class="card-body">
-              <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+              <p *ngIf="receiptId" role="status">Référence du virement : <strong>{{ receiptId }}</strong></p>
+<form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+<fieldset [disabled]="reviewing || loading">
                 <!-- From Account Selection -->
                 <div class="mb-3">
                   <label for="fromAccountId" class="form-label"
@@ -209,6 +211,7 @@
                   </div>
                 </div>
 
+</fieldset>
                 <!-- Submit Button -->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                   <button
@@ -232,10 +235,10 @@
                       aria-hidden="true"
                     ></span>
                     <i *ngIf="!loading" class="bi bi-arrow-left-right me-2"></i>
-                    {{ loading ? 'Processing...' : 'Transfer Funds' }}
+                    {{ loading ? 'Processing...' : (reviewing ? 'Confirm transfer' : 'Review transfer') }}
                   </button>
                 </div>
-              </form>
+              <button *ngIf="reviewing" type="button" class="btn btn-link" (click)="reviewing = false" [disabled]="loading">Edit transfer</button></form>
             </div>
           </div>
         </div>

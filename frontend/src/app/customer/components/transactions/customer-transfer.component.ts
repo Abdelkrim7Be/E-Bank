@@ -212,7 +212,15 @@ export class CustomerTransferComponent implements OnInit {
     );
   }
 
+  reviewing = false;
+  receiptId = '';
+
   onSubmit(): void {
+    if (this.loading) return;
+    if (this.transferForm.valid && !this.reviewing) {
+      this.reviewing = true;
+      return;
+    }
     if (this.transferForm.invalid || this.hasInsufficientFunds()) {
       this.transferForm.markAllAsTouched();
       return;
@@ -230,15 +238,13 @@ export class CustomerTransferComponent implements OnInit {
     };
 
     this.bankingApiService.transfer(transferRequest).subscribe({
-      next: () => {
+      next: (receipt) => {
         this.loading = false;
         this.successMessage = `Transfer completed successfully!`;
         this.transferForm.reset();
 
-        // Redirect to accounts page after 3 seconds
-        setTimeout(() => {
-          this.router.navigate(['/customer/accounts']);
-        }, 3000);
+        this.receiptId = receipt.id;
+        this.reviewing = false;
       },
       error: (error) => {
         this.loading = false;

@@ -1,0 +1,24 @@
+:root {
+  --eb-navy: #092c68;
+  --eb-blue: #154da8;
+  --eb-yellow: #ffd447;
+  --eb-ink: #172b45;
+  --eb-muted: #536277;
+  --eb-background: #f4f6f9;
+  --eb-border: #d8e0ea;
+  --primary-red: var(--eb-blue);
+  --primary-white: #fff;
+  --dark-gray: var(--eb-ink);
+  --light-gray: var(--eb-background);
+  --border-color: var(--eb-border);
+  --success-green: #177451;
+  --warning-yellow: #ffd447;
+  --danger-red: #b32937;
+  --danger-orange: #b32937;
+  --bs-primary: var(--eb-blue);
+  --bs-primary-rgb: 21, 77, 168;
+  --bs-body-color: var(--eb-ink);
+  --bs-body-font-family: "Segoe UI", Arial, sans-serif;
+  --bs-link-color: var(--eb-blue);
+  --bs-link-hover-color: var(--eb-navy);
+}

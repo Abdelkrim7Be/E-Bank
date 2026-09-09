@@ -1,4 +1,5 @@
 package com.bellagnech.account.controllers;
+import java.math.BigDecimal;
 
 import com.bellagnech.account.dtos.*;
 import com.bellagnech.account.enums.AccountStatus;
@@ -22,9 +23,11 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+    private com.bellagnech.account.security.ApiIdentity identity() { return com.bellagnech.account.security.ApiIdentity.current(); }
 
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getAccountStats() {
+        identity().requireAdmin();
         log.info("Retrieving global account statistics");
         return ResponseEntity.ok(accountService.getAccountStats());
     }
@@ -32,17 +35,18 @@ public class AccountController {
     @GetMapping("/selection/list")
     public ResponseEntity<List<Map<String, Object>>> getAccountsForSelection() {
         log.info("Retrieving accounts for selection dropdown");
-        return ResponseEntity.ok(accountService.getAccountsForSelection(false));
+        return ResponseEntity.ok(accountService.getAccountsForSelection(false).stream().filter(a -> identity().admin() || java.util.Objects.equals(a.get("customerId"), identity().customerId())).toList());
     }
 
     @GetMapping("/selection/list/active")
     public ResponseEntity<List<Map<String, Object>>> getActiveAccountsForSelection() {
         log.info("Retrieving active accounts for selection dropdown");
-        return ResponseEntity.ok(accountService.getAccountsForSelection(true));
+        return ResponseEntity.ok(accountService.getAccountsForSelection(true).stream().filter(a -> identity().admin() || java.util.Objects.equals(a.get("customerId"), identity().customerId())).toList());
     }
 
     @GetMapping
     public ResponseEntity<List<BankAccountDTO>> getAllAccounts() {
+        identity().requireAdmin();
         log.info("Retrieving all accounts");
         return ResponseEntity.ok(accountService.bankAccountList());
     }
@@ -50,20 +54,24 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<BankAccountDTO> getAccount(@PathVariable String id) throws BankAccountNotFoundException {
         log.info("Retrieving account with ID: {}", id);
-        return ResponseEntity.ok(accountService.getBankAccount(id));
+        var account = accountService.getBankAccount(id);
+        identity().requireOwner(account.getCustomerId());
+        return ResponseEntity.ok(account);
     }
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<BankAccountDTO>> getCustomerAccounts(@PathVariable Long customerId) {
         log.info("Retrieving accounts for customer ID: {}", customerId);
+        identity().requireOwner(customerId);
         return ResponseEntity.ok(accountService.getCustomerAccounts(customerId));
     }
 
     @PostMapping("/current")
     public ResponseEntity<CurrentBankAccountDTO> createCurrentAccount(
-            @RequestParam double initialBalance,
-            @RequestParam double overDraft,
+            @RequestParam BigDecimal initialBalance,
+            @RequestParam BigDecimal overDraft,
             @RequestParam Long customerId) throws CustomerNotFoundException {
+        identity().requireAdmin();
         log.info("Creating current account for customer ID: {}", customerId);
         CurrentBankAccountDTO account = accountService.saveCurrentBankAccount(initialBalance, overDraft, customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
@@ -71,30 +79,36 @@ public class AccountController {
 
     @PostMapping("/saving")
     public ResponseEntity<SavingBankAccountDTO> createSavingAccount(
-            @RequestParam double initialBalance,
+            @RequestParam BigDecimal initialBalance,
             @RequestParam double interestRate,
             @RequestParam Long customerId) throws CustomerNotFoundException {
+        identity().requireAdmin();
         log.info("Creating saving account for customer ID: {}", customerId);
         SavingBankAccountDTO account = accountService.saveSavingBankAccount(initialBalance, interestRate, customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
     @PostMapping
-    public ResponseEntity<BankAccountDTO> createAccount(@Valid @RequestBody CreateAccountRequest request) 
+    public ResponseEntity<BankAccountDTO> createAccount(@Valid @RequestBody CreateAccountRequest request)
             throws CustomerNotFoundException {
+        identity().requireOwner(request.getCustomerId());
+        if (!identity().admin() && (request.getInitialBalance() == null || request.getInitialBalance().signum() != 0 ||
+            (request.getOverdraft() != null && request.getOverdraft().signum() != 0))) {
+            throw new org.springframework.web.server.ResponseStatusException(HttpStatus.FORBIDDEN, "New customer accounts must start at zero without overdraft");
+        }
         log.info("Creating {} account for customer ID: {}", request.getAccountType(), request.getCustomerId());
-        
+
         BankAccountDTO account;
         if ("CURRENT".equalsIgnoreCase(request.getAccountType())) {
             CurrentBankAccountDTO currentAccount = accountService.saveCurrentBankAccount(
-                request.getInitialBalance(), 
-                request.getOverdraft() != null ? request.getOverdraft() : 0.0, 
+                request.getInitialBalance(),
+                request.getOverdraft() != null ? request.getOverdraft() : BigDecimal.ZERO,
                 request.getCustomerId());
             account = currentAccount;
         } else if ("SAVING".equalsIgnoreCase(request.getAccountType())) {
             SavingBankAccountDTO savingAccount = accountService.saveSavingBankAccount(
-                request.getInitialBalance(), 
-                request.getInterestRate() != null ? request.getInterestRate() : 0.0, 
+                request.getInitialBalance(),
+                request.getInterestRate() != null ? request.getInterestRate() : 0.0,
                 request.getCustomerId());
             account = savingAccount;
         } else {
@@ -108,6 +122,7 @@ public class AccountController {
     public ResponseEntity<BankAccountDTO> updateAccountStatus(
             @PathVariable String id,
             @RequestBody Map<String, String> statusUpdate) throws BankAccountNotFoundException {
+        identity().requireAdmin();
         log.info("Updating account {} status", id);
         String statusStr = statusUpdate.get("status");
         if (statusStr != null) {
@@ -120,10 +135,11 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/balance")
-    public ResponseEntity<Map<String, Object>> getAccountBalance(@PathVariable String id) 
+    public ResponseEntity<Map<String, Object>> getAccountBalance(@PathVariable String id)
             throws BankAccountNotFoundException {
         log.info("Retrieving balance for account ID: {}", id);
         BankAccountDTO account = accountService.getBankAccount(id);
+        identity().requireOwner(account.getCustomerId());
         return ResponseEntity.ok(Map.of(
             "accountId", account.getId(),
             "balance", account.getBalance(),
@@ -131,17 +147,5 @@ public class AccountController {
         ));
     }
 
-    @PutMapping("/{id}/balance")
-    public ResponseEntity<Void> updateBalance(
-            @PathVariable String id,
-            @RequestBody Map<String, Double> balanceUpdate) throws BankAccountNotFoundException {
-        log.info("Updating balance for account ID: {}", id);
-        Double newBalance = balanceUpdate.get("balance");
-        if (newBalance != null) {
-            accountService.updateBalance(id, newBalance);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
-    }
+    // Absolute balance writes are deliberately unavailable; all mutations use commands.
 }
-

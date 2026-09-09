@@ -1,4 +1,5 @@
 package com.bellagnech.account.dtos;
+import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,9 +18,9 @@ public class CreateAccountRequest {
     private Long customerId;
 
     @Positive(message = "Initial balance must be positive")
-    private double initialBalance;
+    private BigDecimal initialBalance;
 
-    private Double overdraft; // For current accounts
+    private BigDecimal overdraft; // For current accounts
     private Double interestRate; // For saving accounts
 }
 

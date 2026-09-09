@@ -23,6 +23,9 @@ public class JwtService {
     @Value("${jwt.secret:5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437}")
     private String secretKey;
 
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.bellagnech.customer.repositories.CustomerRepository customers;
+
     @Value("${jwt.expiration:86400000}")
     private long jwtExpiration;
 
@@ -49,6 +52,7 @@ public class JwtService {
             User user = (User) userDetails;
             extraClaims.put("role", user.getRole().name());
             extraClaims.put("userId", user.getId());
+            customers.findByUser_Username(user.getUsername()).ifPresent(c -> extraClaims.put("customerId", c.getId()));
         }
         return generateToken(extraClaims, userDetails);
     }

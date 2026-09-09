@@ -1,42 +1,34 @@
 package com.bellagnech.transaction.messaging;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.bellagnech.transaction.messaging.outbox.OutboxEvent;
+import com.bellagnech.transaction.messaging.outbox.OutboxRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.Instant;
+import java.util.UUID;
 
 @Service
-@Slf4j
+@RequiredArgsConstructor
 public class TransactionEventProducer {
-
-    private static final String TOPIC = "transaction-events";
-
-    @Autowired(required = false)
-    private KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
+    private final OutboxRepository repository;
+    @Value("${app.kafka.enabled:false}") private boolean kafkaEnabled;
 
-    @Value("${app.kafka.enabled:false}")
-    private boolean kafkaEnabled;
-
-    public TransactionEventProducer(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
+    @Transactional
     public void sendTransactionEvent(String key, TransactionEvent event) {
-        if (!kafkaEnabled || kafkaTemplate == null) {
-            log.debug("Kafka disabled or not available, skipping event for key={}", key);
-            return;
-        }
-        try {
-            String payloadJson = objectMapper.writeValueAsString(event);
-            log.info("Publishing transaction event to Kafka. key={}, payload={}", key, payloadJson);
-            kafkaTemplate.send(TOPIC, key, payloadJson);
-        } catch (JsonProcessingException e) {
-            log.error("Failed to serialize TransactionEvent for Kafka: {}", e.getMessage(), e);
-        }
+        String eventId = UUID.randomUUID().toString();
+        ObjectNode payload = objectMapper.valueToTree(java.util.Map.of("type",event.getType(),"accountId",event.getAccountId(),"amount",event.getAmount()));
+        payload.put("eventId", eventId);
+        payload.put("schemaVersion", 1);
+        payload.put("occurredAt", (event.getOccurredAt() == null ? Instant.now() : event.getOccurredAt()).toString());
+        payload.put("aggregateId",key);
+        payload.put("eventType","TRANSACTION_RECORDED");
+        payload.put("aggregateVersion",1);
+        payload.put("correlationId",event.getCorrelationId() == null ? eventId : event.getCorrelationId());
+        payload.set("payload",payload.deepCopy());
+        repository.save(new OutboxEvent(eventId, key, payload.toString()));
     }
 }
-

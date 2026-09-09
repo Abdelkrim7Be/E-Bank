@@ -28,6 +28,7 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @customerOwnership.canRead(#id, authentication.name)")
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) throws CustomerNotFoundException {
         log.info("Retrieving customer with ID: {}", id);

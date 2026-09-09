@@ -1,4 +1,5 @@
 package com.bellagnech.account.entities;
+import java.math.BigDecimal;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CurrentAccount extends BankAccount {
-    private double overDraft;
+    @jakarta.persistence.Column(precision = 19, scale = 2)
+    private BigDecimal overDraft = BigDecimal.ZERO;
 }
 

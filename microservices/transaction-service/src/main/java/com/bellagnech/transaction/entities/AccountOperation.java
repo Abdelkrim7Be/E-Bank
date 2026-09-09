@@ -1,4 +1,5 @@
 package com.bellagnech.transaction.entities;
+import java.math.BigDecimal;
 
 import com.bellagnech.transaction.enums.OperationType;
 import jakarta.persistence.*;
@@ -29,7 +30,8 @@ public class AccountOperation {
     private Date operationDate;
 
     @DecimalMin(value = "0.0", message = "Amount must be positive")
-    private double amount;
+    @Column(precision = 19, scale = 2, nullable = false)
+    private BigDecimal amount;
 
     @NotBlank(message = "Description is required")
     private String description;

@@ -155,27 +155,8 @@ public class CustomerPortalController {
             @RequestParam(name = "accountId", required = false) String accountIdFilter,
             @RequestParam(name = "type", required = false) String typeFilter,
             HttpServletRequest request) {
-        String username = getCurrentUsername(request);
-        if (username == null) {
-            log.warn("GET /api/customer/transactions: not authenticated (no username from JWT or X-User-Name)");
-            return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
-        }
-        Customer customer = customerRepository.findByUser_Username(username).orElse(null);
-        if (customer == null) {
-            log.warn("GET /api/customer/transactions: no customer for username={}", username);
-            return pageResponse(List.of(), 0, page, size);
-        }
-        try {
-            List<Map<String, Object>> all = fetchMergedTransactions(customer.getId(), -1, -1, accountIdFilter, typeFilter);
-            int total = all.size();
-            int from = Math.min(page * size, total);
-            int to = Math.min(from + size, total);
-            List<Map<String, Object>> content = from < total ? all.subList(from, to) : List.of();
-            return ResponseEntity.ok(pageResponse(content, total, page, size));
-        } catch (Exception e) {
-            log.error("Failed to fetch transactions for customer {}: {}", customer.getId(), e.getMessage(), e);
-            return pageResponse(List.of(), 0, page, size);
-        }
+        if (page < 0 || size < 1 || size > 100) return ResponseEntity.badRequest().body(Map.of("message","Invalid page size"));
+        return ResponseEntity.ok(transactionServiceClient.getCustomerHistory(page,size,accountIdFilter,typeFilter));
     }
 
     private List<Map<String, Object>> fetchMergedTransactions(Long customerId, int page, int size) {

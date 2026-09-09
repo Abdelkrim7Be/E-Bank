@@ -1,4 +1,5 @@
 package com.bellagnech.transaction.messaging;
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,8 +35,8 @@ public class AccountEventListener {
         try {
             JsonNode node = objectMapper.readTree(payload);
             String accountId = node.has("accountId") ? node.get("accountId").asText() : "?";
-            Double previousBalance = node.has("previousBalance") ? node.get("previousBalance").asDouble() : null;
-            Double newBalance = node.has("newBalance") ? node.get("newBalance").asDouble() : null;
+            BigDecimal previousBalance = node.has("previousBalance") ? node.get("previousBalance").decimalValue() : null;
+            BigDecimal newBalance = node.has("newBalance") ? node.get("newBalance").decimalValue() : null;
             String reason = node.has("reason") ? node.get("reason").asText() : "?";
             log.info("Transaction-service received balance update: accountId={}, {} -> {}, reason={}", accountId, previousBalance, newBalance, reason);
         } catch (Exception e) {

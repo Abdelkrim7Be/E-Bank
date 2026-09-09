@@ -1,24 +1,47 @@
 package com.bellagnech.reporting.services;
-import com.bellagnech.reporting.clients.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
+import java.math.BigDecimal;
 import java.util.Map;
-import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
+
+@JdbcTest
+@Import({ProjectionStore.class, ReportingService.class, ObjectMapper.class})
 class ReportingServiceTest {
-    @Test void analysisUsesOneAggregateRequestAndNoAccountHistoryCalls() {
-        var customers = mock(CustomerServiceClient.class);
-        var accounts = mock(AccountServiceClient.class);
-        var transactions = mock(TransactionServiceClient.class);
-        var row = new TransactionServiceClient.TypeSummary();
-        row.type = "CREDIT"; row.total = 2; row.volume = 150;
-        when(transactions.getTypeSummary(30)).thenReturn(List.of(row));
-        var service = new ReportingService(customers, accounts, transactions);
-        var report = service.getTransactionAnalysisReport(30);
-        assertThat((Map<?,?>)report.get("summary")).isEqualTo(Map.of("totalTransactions",2L,"totalVolume",150d,"averageAmount",75d));
-        verify(transactions).getTypeSummary(30);
-        verifyNoMoreInteractions(transactions);
-        verifyNoInteractions(customers, accounts);
-        assertThatThrownBy(() -> service.getTransactionAnalysisReport(-1)).isInstanceOf(IllegalArgumentException.class);
+    @Autowired ProjectionStore projections;
+    @Autowired ReportingService reports;
+    @Autowired JdbcTemplate sql;
+    private String account(String id, int version, String balance) {
+        return "{\"schemaVersion\":1,\"eventId\":\""+id+"\",\"aggregateId\":\"a\",\"aggregateVersion\":"+version+",\"occurredAt\":\"2026-09-09T00:00:00Z\",\"customerId\":1,\"accountType\":\"CurrentAccount\",\"status\":\"ACTIVATED\",\"balance\":"+balance+"}";
+    }
+    @Test void snapshotsIgnoreDuplicatesAndOldVersionsAcrossTopics() throws Exception {
+        projections.accept("account-balance-updates",account("new",2,"120.25"));
+        projections.accept("account-events",account("old",1,"100.00"));
+        projections.accept("account-balance-updates",account("new",2,"120.25"));
+        assertThat(reports.getDashboardStats().get("totalAccounts")).isEqualTo(1L);
+        assertThat((BigDecimal)reports.getDashboardStats().get("totalBalance")).isEqualByComparingTo("120.25");
+        assertThat(sql.queryForObject("select count(*) from projection_events",Long.class)).isEqualTo(2);
+    }
+    @Test void transactionReplayDoesNotDoubleCountAndPeriodIsFilteredLocally() throws Exception {
+        String event="{\"schemaVersion\":1,\"eventId\":\"tx1\",\"aggregateId\":\"a\",\"accountId\":\"a\",\"type\":\"CREDIT\",\"amount\":12.25,\"occurredAt\":\""+java.time.Instant.now()+"\"}";
+        projections.accept("transaction-events",event); projections.accept("transaction-events",event);
+        var summary=(Map<?,?>) reports.getTransactionAnalysisReport(30).get("summary");
+        assertThat(summary.get("totalTransactions")).isEqualTo(1L);
+        assertThat((BigDecimal)summary.get("totalVolume")).isEqualByComparingTo("12.25");
+        assertThatThrownBy(() -> reports.getTransactionAnalysisReport(0)).isInstanceOf(IllegalArgumentException.class);
+    }
+    @Test void invalidSchemaIsRejectedWithoutRecordingSuccess() {
+        assertThatThrownBy(() -> projections.accept("account-events","{\"schemaVersion\":99,\"eventId\":\"bad\"}"))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThat(sql.queryForObject("select count(*) from projection_events",Long.class)).isZero();
+    }
+    @Test void emptyProjectionExplicitlySignalsWaiting() {
+        assertThat(reports.getDashboardStats().get("projectionStatus")).isEqualTo("WAITING_FOR_EVENTS");
+        assertThat(reports.getDashboardStats().get("projectionUpdatedAt")).isNull();
     }
 }

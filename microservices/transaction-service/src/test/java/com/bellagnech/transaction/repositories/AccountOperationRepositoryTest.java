@@ -13,7 +13,7 @@ class AccountOperationRepositoryTest {
     @Autowired AccountOperationRepository repository;
     private AccountOperation operation(String account, OperationType type, double amount, long date) {
         var operation = new AccountOperation();
-        operation.setBankAccountId(account); operation.setType(type); operation.setAmount(amount);
+        operation.setBankAccountId(account); operation.setType(type); operation.setAmount(java.math.BigDecimal.valueOf(amount));
         operation.setDescription("Test operation"); operation.setOperationDate(new Date(date));
         return repository.saveAndFlush(operation);
     }
@@ -25,7 +25,7 @@ class AccountOperationRepositoryTest {
         var summaries = repository.summarizeSince(new Date(1500));
         assertThat(summaries).hasSize(2);
         assertThat(summaries).filteredOn(row -> row.getType().equals("CREDIT"))
-            .extracting(AccountOperationRepository.TypeSummary::getVolume).containsExactly(50d);
+            .extracting(AccountOperationRepository.TypeSummary::getVolume).containsExactly(new java.math.BigDecimal("50.00"));
     }
     @Test void paginationHasStableOrderWhenDatesTie() {
         var first = operation("a", OperationType.CREDIT, 1, 2000);

@@ -15,13 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** Seeds demo bank accounts for kafka/default profile. */
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="app.demo.enabled", havingValue="true")
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile({"kafka", "default"})
+
 public class AccountDemoDataLoader implements ApplicationRunner {
 
     private final BankAccountRepository bankAccountRepository;
+    private final com.bellagnech.account.messaging.AccountEventProducer events;
 
     @Override
     @Transactional
@@ -34,7 +36,7 @@ public class AccountDemoDataLoader implements ApplicationRunner {
         log.info("Seeding demo bank accounts for French customers...");
         long[] customerIds = new long[50];
         for (int k = 0; k < 50; k++) {
-            customerIds[k] = 2L + k; // 2, 3, ..., 51
+            customerIds[k] = 1L + k; // 2, 3, ..., 51
         }
 
         // Create 25 current accounts with IDs ACC-CA-001 .. ACC-CA-025
@@ -60,26 +62,32 @@ public class AccountDemoDataLoader implements ApplicationRunner {
     private void createCurrentAccount(String id, Long customerId, double balance, double overdraft) {
         CurrentAccount account = new CurrentAccount();
         account.setId(id);
-        account.setBalance(balance);
+        account.setBalance(java.math.BigDecimal.valueOf(balance));
         account.setStatus(AccountStatus.ACTIVATED);
         account.setCustomerId(customerId);
-        account.setOverDraft(overdraft);
+        account.setOverDraft(java.math.BigDecimal.valueOf(overdraft));
         bankAccountRepository.save(account);
+        events.publishAccountCreated(com.bellagnech.account.events.AccountCreatedEvent.builder()
+            .eventType("ACCOUNT_CREATED").accountId(id).aggregateId(id).customerId(customerId)
+            .initialBalance(account.getBalance()).status("ACTIVATED").build());
     }
 
     private void createSavingAccount(String id, Long customerId, double balance, double interestRate) {
         SavingAccount account = new SavingAccount();
         account.setId(id);
-        account.setBalance(balance);
+        account.setBalance(java.math.BigDecimal.valueOf(balance));
         account.setStatus(AccountStatus.ACTIVATED);
         account.setCustomerId(customerId);
         account.setInterestRate(interestRate);
         bankAccountRepository.save(account);
+        events.publishAccountCreated(com.bellagnech.account.events.AccountCreatedEvent.builder()
+            .eventType("ACCOUNT_CREATED").accountId(id).aggregateId(id).customerId(customerId)
+            .initialBalance(account.getBalance()).status("ACTIVATED").build());
     }
 
     private double randomAmount(double min, double max) {
         return Math.round(
-                ThreadLocalRandom.current().nextDouble(min, max) * 100.0
+                new java.util.Random(42L + (long) min + (long) max).nextDouble(min, max) * 100.0
         ) / 100.0;
     }
 }

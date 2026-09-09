@@ -1,4 +1,5 @@
 package com.bellagnech.account.events;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +14,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class AccountBalanceUpdatedEvent extends BaseEvent {
     private String accountId;
-    private Double previousBalance;
-    private Double newBalance;
+    private BigDecimal previousBalance;
+    private BigDecimal newBalance;
     private String reason;
     private String initiatedBy;
 }

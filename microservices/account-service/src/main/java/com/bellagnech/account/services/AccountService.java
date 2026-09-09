@@ -1,4 +1,5 @@
 package com.bellagnech.account.services;
+import java.math.BigDecimal;
 
 import com.bellagnech.account.clients.CustomerServiceClient;
 import com.bellagnech.account.dtos.*;
@@ -37,7 +38,7 @@ public class AccountService {
     private final AccountEventProducer eventProducer;
 
     @Transactional
-    public CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, double overDraft, Long customerId)
+    public CurrentBankAccountDTO saveCurrentBankAccount(BigDecimal initialBalance, BigDecimal overDraft, Long customerId)
             throws CustomerNotFoundException {
         log.info("Creating current account for customer ID: {} with balance: {} and overdraft: {}",
                 customerId, initialBalance, overDraft);
@@ -62,7 +63,7 @@ public class AccountService {
     }
 
     @Transactional
-    public SavingBankAccountDTO saveSavingBankAccount(double initialBalance, double interestRate, Long customerId)
+    public SavingBankAccountDTO saveSavingBankAccount(BigDecimal initialBalance, double interestRate, Long customerId)
             throws CustomerNotFoundException {
         log.info("Creating saving account for customer ID: {} with balance: {} and interest rate: {}",
                 customerId, initialBalance, interestRate);
@@ -119,9 +120,7 @@ public class AccountService {
         List<BankAccount> accounts = bankAccountRepository.findAll();
 
         int totalAccounts = accounts.size();
-        double totalBalance = accounts.stream()
-                .mapToDouble(BankAccount::getBalance)
-                .sum();
+        BigDecimal totalBalance = accounts.stream().map(BankAccount::getBalance).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Map<String, Long> accountsByType = accounts.stream()
                 .collect(Collectors.groupingBy(
@@ -132,7 +131,7 @@ public class AccountService {
         Map<String, Object> stats = new HashMap<>();
         stats.put("totalAccounts", totalAccounts);
         stats.put("totalBalance", totalBalance);
-        stats.put("averageBalance", totalAccounts == 0 ? 0.0 : totalBalance / totalAccounts);
+        stats.put("averageBalance", totalAccounts == 0 ? BigDecimal.ZERO : totalBalance.divide(BigDecimal.valueOf(totalAccounts), 2, java.math.RoundingMode.HALF_EVEN));
         stats.put("accountsByType", accountsByType);
         return stats;
     }
@@ -209,17 +208,17 @@ public class AccountService {
                     .build();
             eventProducer.publishAccountStatusChanged(event);
         } catch (Exception e) {
-            log.warn("Failed to publish account status changed event: {}", e.getMessage());
+            throw new IllegalStateException("Could not persist domain event", e);
         }
     }
 
     @Transactional
-    public void updateBalance(String accountId, double newBalance) throws BankAccountNotFoundException {
+    public void updateBalance(String accountId, BigDecimal newBalance) throws BankAccountNotFoundException {
         log.info("Updating account {} balance to {}", accountId, newBalance);
         BankAccount account = bankAccountRepository.findById(accountId)
                 .orElseThrow(() -> new BankAccountNotFoundException("Account not found with ID: " + accountId));
 
-        double previousBalance = account.getBalance();
+        BigDecimal previousBalance = account.getBalance();
         account.setBalance(newBalance);
         bankAccountRepository.save(account);
 
@@ -235,11 +234,11 @@ public class AccountService {
                     .build();
             eventProducer.publishBalanceUpdated(event);
         } catch (Exception e) {
-            log.warn("Failed to publish balance updated event for account {} (balance was updated): {}", accountId, e.getMessage());
+            throw new IllegalStateException("Could not persist domain event", e);
         }
     }
 
-    private void publishAccountCreatedEvent(String accountId, Long customerId, String accountType, double initialBalance, String status) {
+    private void publishAccountCreatedEvent(String accountId, Long customerId, String accountType, BigDecimal initialBalance, String status) {
         String customerEmail = null;
         String customerName = null;
         try {

@@ -63,6 +63,11 @@ public class GlobalExceptionHandler {
                 .body(Map.of("message", errors));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleOther(Exception ex) {
         log.error("Transaction operation failed", ex);

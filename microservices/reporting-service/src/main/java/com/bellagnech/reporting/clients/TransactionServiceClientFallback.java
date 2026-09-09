@@ -10,6 +10,16 @@ import java.util.List;
 @Slf4j
 public class TransactionServiceClientFallback implements TransactionServiceClient {
     @Override
+    public java.util.Map<String, Long> getAccountCounts() {
+        throw new IllegalStateException("Transaction statistics are unavailable");
+    }
+
+    @Override
+    public List<TypeSummary> getTypeSummary(int days) {
+        throw new IllegalStateException("Transaction statistics are unavailable");
+    }
+
+    @Override
     public List<TransactionDTO> getAccountTransactions(String accountId) {
         log.warn("Fallback: Transaction service unavailable for account ID: {}", accountId);
         return Collections.emptyList();

@@ -105,7 +105,7 @@ public class CustomerService {
                     .build();
             eventProducer.publishCustomerUpdated(event);
         } catch (Exception e) {
-            log.warn("Failed to publish customer updated event: {}", e.getMessage());
+            throw new IllegalStateException("Could not persist domain event", e);
         }
 
         return toDTO(updated);
@@ -129,7 +129,7 @@ public class CustomerService {
                     .build();
             eventProducer.publishCustomerDeleted(event);
         } catch (Exception e) {
-            log.warn("Failed to publish customer deleted event: {}", e.getMessage());
+            throw new IllegalStateException("Could not persist domain event", e);
         }
     }
 

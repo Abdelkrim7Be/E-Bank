@@ -15,13 +15,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 /** Seeds demo account operations for kafka/default profile. */
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="app.demo.enabled", havingValue="true")
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile({"kafka", "default"})
+
 public class TransactionDemoDataLoader implements ApplicationRunner {
 
     private final AccountOperationRepository operationRepository;
+    private final com.bellagnech.transaction.messaging.TransactionEventProducer events;
 
     @Override
     @Transactional
@@ -85,12 +87,14 @@ public class TransactionDemoDataLoader implements ApplicationRunner {
                                  String description, Date date) {
         AccountOperation op = new AccountOperation();
         op.setOperationDate(date);
-        op.setAmount(amount);
+        op.setAmount(java.math.BigDecimal.valueOf(amount));
         op.setDescription(description);
         op.setType(type);
         op.setBankAccountId(accountId);
         op.setPerformedBy("system-demo");
         operationRepository.save(op);
+        events.sendTransactionEvent(accountId, com.bellagnech.transaction.messaging.TransactionEvent.builder()
+            .type(type.name()).accountId(accountId).amount(op.getAmount()).description(description).occurredAt(date.toInstant()).build());
     }
 
     private Date daysAgo(int days) {

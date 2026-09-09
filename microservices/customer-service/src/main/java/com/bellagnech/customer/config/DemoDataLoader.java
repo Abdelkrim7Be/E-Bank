@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /** Seeds demo users (admin + customers) with password "password". */
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="app.demo.enabled", havingValue="true")
 @Component
 @RequiredArgsConstructor
 @Slf4j

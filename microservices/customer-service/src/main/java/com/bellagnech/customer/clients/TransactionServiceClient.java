@@ -12,6 +12,12 @@ public interface TransactionServiceClient {
     @GetMapping("/api/transactions/account/{accountId}")
     List<TransactionDTO> getAccountTransactions(@PathVariable String accountId);
 
+    @GetMapping("/api/transactions/customer/history")
+    java.util.Map<String,Object> getCustomerHistory(@org.springframework.web.bind.annotation.RequestParam("page") int page,
+        @org.springframework.web.bind.annotation.RequestParam("size") int size,
+        @org.springframework.web.bind.annotation.RequestParam("accountId") String accountId,
+        @org.springframework.web.bind.annotation.RequestParam("type") String type);
+
     class TransactionDTO {
         private String id;
         private java.util.Date operationDate;

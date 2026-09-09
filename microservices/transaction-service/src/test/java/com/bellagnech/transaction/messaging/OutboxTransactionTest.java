@@ -26,9 +26,9 @@ class OutboxTransactionTest {
     void businessRollbackAlsoRemovesTheEvent() {
         assertThatThrownBy(() -> new TransactionTemplate(manager).execute(status -> {
             var operation = new AccountOperation();
-            operation.setBankAccountId("a"); operation.setAmount(10); operation.setDescription("Rollback test");
+            operation.setBankAccountId("a"); operation.setAmount(new java.math.BigDecimal("10")); operation.setDescription("Rollback test");
             operation.setType(OperationType.CREDIT); operations.saveAndFlush(operation);
-            producer.sendTransactionEvent("a", TransactionEvent.builder().type("CREDIT").accountId("a").amount(10).build());
+            producer.sendTransactionEvent("a", TransactionEvent.builder().type("CREDIT").accountId("a").amount(java.math.BigDecimal.TEN).build());
             throw new IllegalStateException("Simulated business failure");
         })).isInstanceOf(IllegalStateException.class);
         assertThat(operations.count()).isZero();

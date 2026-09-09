@@ -34,12 +34,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(
+                        req.requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
+                            .requestMatchers(
                                         "/api/auth/login",
                                         "/api/auth/register",
-                                        "/h2-console/**",
-                                        "/api/customers/**"
+                                        "/h2-console/**"
                                 ).permitAll()
+                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/customers/{id:[0-9]+}").authenticated()
+                                .requestMatchers("/api/customers/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

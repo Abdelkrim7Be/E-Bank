@@ -1,4 +1,5 @@
 package com.bellagnech.account.events;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,9 @@ public class AccountCreatedEvent extends BaseEvent {
     private String accountId;
     private Long customerId;
     private String accountType;
-    private Double initialBalance;
+    private BigDecimal initialBalance;
     private String status;
     private String customerEmail;
     private String customerName;
-} 
+}
 

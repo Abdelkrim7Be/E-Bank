@@ -1,4 +1,5 @@
 package com.bellagnech.account.entities;
+import java.math.BigDecimal;
 
 import com.bellagnech.account.enums.AccountStatus;
 import jakarta.persistence.*;
@@ -21,7 +22,8 @@ public abstract class BankAccount {
     private String id;
 
     @DecimalMin(value = "0.0", message = "Balance cannot be negative")
-    private double balance;
+    @Column(precision = 19, scale = 2, nullable = false)
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;

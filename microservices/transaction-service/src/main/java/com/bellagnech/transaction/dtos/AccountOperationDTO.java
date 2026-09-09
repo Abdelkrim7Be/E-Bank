@@ -1,4 +1,5 @@
 package com.bellagnech.transaction.dtos;
+import java.math.BigDecimal;
 
 import com.bellagnech.transaction.enums.OperationType;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Date;
 public class AccountOperationDTO {
     private Long id;
     private Date operationDate;
-    private double amount;
+    private BigDecimal amount;
     private String description;
     private OperationType type;
     private String bankAccountId;

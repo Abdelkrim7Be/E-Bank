@@ -19,12 +19,16 @@ public class TransactionEventProducer {
 
     @Transactional
     public void sendTransactionEvent(String key, TransactionEvent event) {
-        if (!kafkaEnabled) return;
         String eventId = UUID.randomUUID().toString();
-        ObjectNode payload = objectMapper.valueToTree(event);
+        ObjectNode payload = objectMapper.valueToTree(java.util.Map.of("type",event.getType(),"accountId",event.getAccountId(),"amount",event.getAmount()));
         payload.put("eventId", eventId);
         payload.put("schemaVersion", 1);
-        payload.put("occurredAt", Instant.now().toString());
+        payload.put("occurredAt", (event.getOccurredAt() == null ? Instant.now() : event.getOccurredAt()).toString());
+        payload.put("aggregateId",key);
+        payload.put("eventType","TRANSACTION_RECORDED");
+        payload.put("aggregateVersion",1);
+        payload.put("correlationId",event.getCorrelationId() == null ? eventId : event.getCorrelationId());
+        payload.set("payload",payload.deepCopy());
         repository.save(new OutboxEvent(eventId, key, payload.toString()));
     }
 }

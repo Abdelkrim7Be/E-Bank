@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  testCredentials: { customers: [] as { username: string; password: string }[] },
   // In Docker, Nginx proxies /api/ to the gateway service
   apiUrl: "/api",
   useMockApi: false,
@@ -19,6 +20,7 @@ export const environment = {
     // Admin only endpoints
     admin: {
       users: "/admin/users",
+      accounts: "/admin/accounts",
       customers: "/admin/customers",
       usersByRole: "/admin/users/role",
       userStatus: "/admin/users",

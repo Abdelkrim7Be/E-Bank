@@ -41,3 +41,8 @@ logs/
 
 # Local E-Bank implementation roadmap
 /E-BANK-REFACTOR-PLAN.local.md
+
+# Local runtime and browser artifacts
+.env
+frontend/playwright-report/
+frontend/test-results/

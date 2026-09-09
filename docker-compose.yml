@@ -4,7 +4,7 @@
 # Usage:
 #   docker compose up -d --build      # Build & start everything
 #   docker compose logs -f            # Follow all logs
-#   docker compose down -v            # Stop & remove volumes
+#   docker compose down               # Stop while preserving volumes
 # ============================================================================
 
 services:
@@ -14,30 +14,29 @@ services:
   # ──────────────────────────────────────────────────────────
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: zookeeper
     ports:
-      - "2181:2181"
+      - "127.0.0.1:${ZOOKEEPER_PORT:-22181}:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - banking-net
     healthcheck:
-      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      test: ["CMD-SHELL", "echo srvr | nc localhost 2181 | grep Mode"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: kafka
     ports:
-      - "9092:9092"
+      - "127.0.0.1:${KAFKA_PORT:-29092}:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:${KAFKA_PORT:-29092}
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
@@ -60,9 +59,8 @@ services:
     build:
       context: ./microservices
       dockerfile: discovery-service/Dockerfile
-    container_name: discovery-service
     ports:
-      - "8761:8761"
+      - "127.0.0.1:${DISCOVERY_PORT:-18761}:8761"
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
     networks:
@@ -81,11 +79,12 @@ services:
     build:
       context: ./microservices
       dockerfile: gateway-service/Dockerfile
-    container_name: gateway-service
     ports:
-      - "8080:8080"
+      - "127.0.0.1:${GATEWAY_PORT:-18080}:8080"
     environment:
       SPRING_PROFILES_ACTIVE: kafka
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       # Disable Redis (rate limiting) — not needed in this compose setup
@@ -96,6 +95,8 @@ services:
       SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_HEADERS: "*"
       SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOW_CREDENTIALS: "true"
     depends_on:
+      kafka:
+        condition: service_healthy
       discovery-service:
         condition: service_healthy
     networks:
@@ -114,9 +115,8 @@ services:
     build:
       context: ./microservices
       dockerfile: customer-service/Dockerfile
-    container_name: customer-service
     ports:
-      - "8081:8081"
+      - "127.0.0.1:${CUSTOMER_PORT:-18081}:8081"
     environment:
       SPRING_PROFILES_ACTIVE: kafka
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
@@ -145,9 +145,8 @@ services:
     build:
       context: ./microservices
       dockerfile: account-service/Dockerfile
-    container_name: account-service
     ports:
-      - "8082:8082"
+      - "127.0.0.1:${ACCOUNT_PORT:-18082}:8082"
     environment:
       SPRING_PROFILES_ACTIVE: kafka
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
@@ -178,9 +177,8 @@ services:
     build:
       context: ./microservices
       dockerfile: transaction-service/Dockerfile
-    container_name: transaction-service
     ports:
-      - "8083:8083"
+      - "127.0.0.1:${TRANSACTION_PORT:-18083}:8083"
     environment:
       SPRING_PROFILES_ACTIVE: kafka
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
@@ -211,9 +209,8 @@ services:
     build:
       context: ./microservices
       dockerfile: reporting-service/Dockerfile
-    container_name: reporting-service
     ports:
-      - "8084:8084"
+      - "127.0.0.1:${REPORTING_PORT:-18084}:8084"
     environment:
       SPRING_PROFILES_ACTIVE: kafka
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
@@ -242,9 +239,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: frontend
     ports:
-      - "4200:80"
+      - "127.0.0.1:${FRONTEND_PORT:-4200}:80"
     depends_on:
       gateway-service:
         condition: service_healthy
@@ -255,10 +251,9 @@ services:
   #  Kafka UI — Visualize topics, messages, consumer groups
   # ──────────────────────────────────────────────────────────
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:v0.7.2
     ports:
-      - "9090:8080"
+      - "127.0.0.1:${KAFKA_UI_PORT:-19090}:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: digital-banking
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
@@ -276,4 +271,3 @@ services:
 networks:
   banking-net:
     driver: bridge
-

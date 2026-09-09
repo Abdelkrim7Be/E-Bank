@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule, Router } from "@angular/router";
+import { RouterModule, Router, NavigationEnd } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { AuthService } from "../../../auth/services/auth.service";
 import { User, UserRole } from "../../../auth/models/auth.model";
@@ -26,6 +26,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
+      if (event instanceof NavigationEnd) this.closeMenus();
+    });
     this.authService.currentUser$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
@@ -52,6 +55,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .filter((v) => !!v && v.trim().length > 0)
       .join(" ");
     return name || this.currentUser.username;
+  }
+
+  closeMenus(): void {
+    this.showMobileMenu = false;
+    this.showUserDropdown = false;
+    this.showTransactionsDropdown = false;
   }
 
   toggleMobileMenu(): void {

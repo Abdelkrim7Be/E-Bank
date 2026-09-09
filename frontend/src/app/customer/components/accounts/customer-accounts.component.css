@@ -8,7 +8,7 @@
       }
 
       .account-card:hover {
-        transform: translateY(-4px);
+        transform: none;
       }
 
       .balance-amount {

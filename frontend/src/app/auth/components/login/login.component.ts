@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.loading) return;
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -70,9 +71,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         this.loading = false;
         this.successMessage = "Login successful! Redirecting...";
-        setTimeout(() => {
-          this.redirectUser();
-        }, 1000);
+        this.redirectUser();
       },
       error: (error) => {
         this.loading = false;

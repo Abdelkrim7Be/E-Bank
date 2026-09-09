@@ -2,18 +2,14 @@
         min-height: 100vh;
         display: flex;
         align-items: center;
-        background: linear-gradient(
-          135deg,
-          var(--primary-white) 0%,
-          #f8f9fa 100%
-        );
+        background: var(--eb-navy);
         padding: 2rem 0;
       }
 
       .error-content {
         padding: 3rem 2rem;
         background: white;
-        border-radius: 12px;
+        border-radius: 6px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       }
 
@@ -62,7 +58,7 @@
       }
 
       .contact-info .btn-link:hover {
-        color: #d62d3a;
+        color: var(--eb-navy);
         text-decoration: underline;
       }
 

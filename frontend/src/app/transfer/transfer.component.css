@@ -6,7 +6,7 @@
       .form-control:focus,
       .form-select:focus {
         border-color: var(--primary-red);
-        box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(21, 77, 168, 0.25);
       }
 
       .btn-primary {
@@ -15,8 +15,8 @@
       }
 
       .btn-primary:hover {
-        background-color: #d62d3a;
-        border-color: #d62d3a;
+        background-color: var(--eb-navy);
+        border-color: var(--eb-navy);
       }
 
       .bg-light {

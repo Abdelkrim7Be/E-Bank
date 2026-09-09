@@ -1,11 +1,11 @@
 .admin-dashboard {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .stat-icon {
         width: 48px;
         height: 48px;
-        border-radius: 12px;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -17,7 +17,7 @@
       }
 
       .card:hover {
-        transform: translateY(-2px);
+        transform: none;
       }
 
       .user-avatar {
@@ -37,7 +37,7 @@
 
       @media (max-width: 768px) {
         .admin-dashboard {
-          padding: 1rem;
+          padding: 0;
         }
 
         .d-flex.justify-content-between {

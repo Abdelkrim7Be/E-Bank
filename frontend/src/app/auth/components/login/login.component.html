@@ -1,42 +1,26 @@
 <div class="auth-container">
-      <div class="container-fluid vh-100">
-        <div class="row h-100">
-          <!-- Left Side - Branding -->
-          <div
-            class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-primary"
-          >
-            <div class="text-center text-white">
-              <i class="bi bi-bank display-1 mb-4"></i>
-              <h1 class="display-4 fw-bold mb-3">E-Bank</h1>
-              <p class="lead">Secure, Fast, and Reliable Banking Solutions</p>
-              <div class="mt-5">
-                <div class="row text-center">
-                  <div class="col-4">
-                    <i class="bi bi-shield-check display-6 mb-2"></i>
-                    <p class="small">Secure</p>
-                  </div>
-                  <div class="col-4">
-                    <i class="bi bi-lightning-charge display-6 mb-2"></i>
-                    <p class="small">Fast</p>
-                  </div>
-                  <div class="col-4">
-                    <i class="bi bi-clock display-6 mb-2"></i>
-                    <p class="small">24/7</p>
-                  </div>
-                </div>
-              </div>
+      <div class="container-fluid">
+        <div class="row auth-grid">
+          <aside class="col-lg-6 auth-story">
+            <a routerLink="/auth/login" class="auth-brand"><img src="brand/e-bank-mark-light.svg" width="48" height="48" alt="" /> E-Bank</a>
+            <div class="auth-story-copy">
+              <span class="auth-eyebrow">YOUR EVERYDAY BANK</span>
+              <h1>Your money.<br>Your plans.<br><span>Your next chapter.</span></h1>
+              <p>A clear view of your accounts.<br>A little more room for what matters.</p>
             </div>
-          </div>
+            <div class="brand-art" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="auth-story-footer">Closer to your everyday.</div>
+          </aside>
 
           <!-- Right Side - Login Form -->
           <div
-            class="col-lg-6 d-flex align-items-center justify-content-center"
+            class="col-lg-6 auth-form-side d-flex align-items-center justify-content-center"
           >
             <div class="auth-form-container w-100" style="max-width: 400px;">
-              <div class="text-center mb-5">
-                <i class="bi bi-bank text-primary display-4 mb-3"></i>
-                <h2 class="fw-bold text-dark">Welcome Back</h2>
-                <p class="text-muted">Sign in to your account</p>
+              <div class="text-start mb-4">
+                <img src="brand/e-bank-mark.svg" width="48" height="48" alt="E-Bank" class="mb-3" />
+                <h2 class="fw-bold text-dark">Your personal space</h2>
+                <p class="text-muted">Welcome back. Let’s pick up where you left off.</p>
               </div>
 
               <!-- Alert Messages -->
@@ -49,7 +33,7 @@
                 {{ errorMessage }}
                 <button
                   type="button"
-                  class="btn-close"
+                  class="btn-close" aria-label="Dismiss message"
                   (click)="errorMessage = ''"
                 ></button>
               </div>
@@ -63,11 +47,12 @@
                 {{ successMessage }}
                 <button
                   type="button"
-                  class="btn-close"
+                  class="btn-close" aria-label="Dismiss message"
                   (click)="successMessage = ''"
                 ></button>
               </div>
 
+              <div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
               <!-- Login Form -->
               <form
                 [formGroup]="loginForm"
@@ -93,7 +78,7 @@
                     autocomplete="username"
                   />
                   <div
-                    class="invalid-feedback"
+                    class="invalid-feedback d-block"
                     *ngIf="
                       username?.invalid &&
                       (username?.dirty || username?.touched)
@@ -129,7 +114,7 @@
                     <button
                       type="button"
                       class="btn btn-outline-secondary"
-                      (click)="togglePasswordVisibility()"
+                      (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showPassword"
                     >
                       <i
                         class="bi"
@@ -139,7 +124,7 @@
                     </button>
                   </div>
                   <div
-                    class="invalid-feedback"
+                    class="invalid-feedback d-block"
                     *ngIf="
                       password?.invalid &&
                       (password?.dirty || password?.touched)
@@ -198,13 +183,13 @@
 
               <!-- Demo Accounts -->
               <div class="mt-4">
-                <h6 class="text-muted mb-2">Demo Accounts:</h6>
+                <h6 class="text-muted mb-2">Try E-Bank</h6>
                 <div class="row">
                   <div class="col-6">
                     <button
                       type="button"
                       class="btn btn-outline-primary btn-sm w-100 mb-2"
-                      (click)="loginAsAdmin()"
+                      (click)="loginAsAdmin()" [disabled]="loading"
                     >
                       <i class="bi bi-shield-check me-1"></i>Admin
                     </button>
@@ -213,14 +198,14 @@
                     <button
                       type="button"
                       class="btn btn-outline-success btn-sm w-100 mb-2"
-                      (click)="loginAsCustomer()"
+                      (click)="loginAsCustomer()" [disabled]="loading"
                     >
                       <i class="bi bi-person me-1"></i>Customer
                     </button>
                   </div>
                 </div>
                 <small class="text-muted"
-                  >Click to auto-fill demo credentials</small
+                  >Explore with a demonstration account</small
                 >
               </div>
             </div>

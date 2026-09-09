@@ -249,14 +249,14 @@ export class BankingApiService {
     );
   }
 
-  transfer(transferRequest: TransferRequest): Observable<void> {
+  transfer(transferRequest: TransferRequest): Observable<{ id: string; status: string }> {
     const body = {
       sourceAccountId: transferRequest.sourceAccountId,
       destinationAccountId: transferRequest.destinationAccountId,
       amount: transferRequest.amount,
       description: transferRequest.description,
     };
-    return this.http.post<void>(
+    return this.http.post<{ id: string; status: string }>(
       `${this.apiUrl}${environment.endpoints.transactions}/transfer`,
       body,
     );

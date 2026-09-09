@@ -1,4 +1,4 @@
-<header class="bank-header" (keydown.escape)="closeMenus()">
+<header class="bank-header" (keydown.escape)="closeMenus(true)">
   <div class="bank-topbar">
     <a class="bank-brand" [routerLink]="isAdmin ? '/admin/dashboard' : '/customer/dashboard'" aria-label="E-Bank home">
       <img src="brand/e-bank-mark-light.svg" width="42" height="42" alt="" /> <span>E-Bank</span>

@@ -1,3 +1,4 @@
+import { idempotencyInterceptor } from './core/interceptors/idempotency.interceptor';
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import {
@@ -35,7 +36,7 @@ if (environment.useMockApi) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([tokenInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([tokenInterceptor, idempotencyInterceptor])),
     // Class-based interceptors
     ...interceptors,
   ],

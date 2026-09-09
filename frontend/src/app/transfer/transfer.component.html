@@ -51,7 +51,9 @@
               >
               </app-inline-alert>
 
-              <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+              <p *ngIf="receiptId" role="status">Référence du virement : <strong>{{ receiptId }}</strong></p>
+<form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+<fieldset [disabled]="reviewing || loading">
                 <div class="row">
                   <!-- From Account -->
                   <div class="col-md-6 mb-3">
@@ -278,7 +280,7 @@
                     {{ loading ? "Processing..." : "Transfer Money" }}
                   </button>
                 </div>
-              </form>
+              </fieldset><button *ngIf="reviewing" type="button" class="btn btn-link" (click)="reviewing = false" [disabled]="loading">Edit transfer</button></form>
             </div>
           </div>
         </div>

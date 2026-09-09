@@ -1,30 +1,8 @@
+@import "./tokens.css";
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-:root {
-  --eb-navy: #092c68;
-  --eb-blue: #154da8;
-  --eb-yellow: #ffd447;
-  --eb-ink: #172b45;
-  --eb-muted: #536277;
-  --eb-background: #f4f6f9;
-  --eb-border: #d8e0ea;
-  --primary-red: var(--eb-blue);
-  --primary-white: #fff;
-  --dark-gray: var(--eb-ink);
-  --light-gray: var(--eb-background);
-  --border-color: var(--eb-border);
-  --success-green: #177451;
-  --warning-yellow: #ffd447;
-  --danger-red: #b32937;
-  --danger-orange: #b32937;
-  --bs-primary: var(--eb-blue);
-  --bs-primary-rgb: 21, 77, 168;
-  --bs-body-color: var(--eb-ink);
-  --bs-body-font-family: "Segoe UI", Arial, sans-serif;
-  --bs-link-color: var(--eb-blue);
-  --bs-link-hover-color: var(--eb-navy);
-}
+
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--eb-background); color: var(--eb-ink); line-height: 1.55; }
 h1,h2,h3,h4,h5,h6 { color: var(--eb-navy); letter-spacing: -.025em; }

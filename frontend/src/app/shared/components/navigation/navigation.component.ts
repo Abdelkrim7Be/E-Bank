@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ElementRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule, Router, NavigationEnd } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
@@ -23,6 +23,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private element: ElementRef<HTMLElement>,
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
     return name || this.currentUser.username;
   }
 
-  closeMenus(): void {
+  closeMenus(restoreFocus = false): void {
+    if (restoreFocus && this.showMobileMenu) this.element.nativeElement.querySelector<HTMLButtonElement>('.menu-toggle')?.focus();
     this.showMobileMenu = false;
     this.showUserDropdown = false;
     this.showTransactionsDropdown = false;

@@ -22,6 +22,21 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
+    private final com.bellagnech.transaction.repositories.AccountOperationRepository operationRepository;
+
+    @GetMapping("/statistics/accounts")
+    public java.util.Map<String, Long> getAccountCounts() {
+        return operationRepository.countByAccount().stream().collect(java.util.stream.Collectors.toMap(
+                com.bellagnech.transaction.repositories.AccountOperationRepository.AccountCount::getAccountId,
+                com.bellagnech.transaction.repositories.AccountOperationRepository.AccountCount::getTotal));
+    }
+
+    @GetMapping("/statistics/types")
+    public java.util.List<com.bellagnech.transaction.repositories.AccountOperationRepository.TypeSummary> getTypeSummary(
+            @RequestParam(defaultValue = "30") int days) {
+        if (days < 1 || days > 3650) throw new IllegalArgumentException("Days must be between 1 and 3650");
+        return operationRepository.summarizeSince(java.util.Date.from(java.time.Instant.now().minus(days, java.time.temporal.ChronoUnit.DAYS)));
+    }
 
     @PostMapping("/credit")
     public ResponseEntity<Void> credit(@Valid @RequestBody TransactionRequest request) 

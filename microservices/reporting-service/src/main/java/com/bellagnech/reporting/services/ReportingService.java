@@ -72,6 +72,10 @@ public class ReportingService {
         List<CustomerServiceClient.CustomerDTO> customers = customerServiceClient.getAllCustomers();
         List<AccountServiceClient.AccountDTO> allAccounts = accountServiceClient.getAllAccounts();
         
+        Map<Long, List<AccountServiceClient.AccountDTO>> accountsByCustomer = allAccounts.stream()
+            .filter(account -> account.customerId != null)
+            .collect(Collectors.groupingBy(account -> account.customerId));
+        Map<String, Long> transactionCounts = transactionServiceClient.getAccountCounts();
         List<Map<String, Object>> customerSummaries = new ArrayList<>();
         
         for (CustomerServiceClient.CustomerDTO customer : customers) {
@@ -82,9 +86,7 @@ public class ReportingService {
             summary.put("phone", customer.phone);
             summary.put("createdDate", customer.createdDate);
             
-            List<AccountServiceClient.AccountDTO> customerAccounts = allAccounts.stream()
-                .filter(acc -> customer.id.equals(acc.customerId))
-                .collect(Collectors.toList());
+            List<AccountServiceClient.AccountDTO> customerAccounts = accountsByCustomer.getOrDefault(customer.id, Collections.emptyList());
             
             summary.put("totalAccounts", customerAccounts.size());
             
@@ -94,15 +96,7 @@ public class ReportingService {
             summary.put("totalBalance", totalBalance);
             
             long transactionCount = customerAccounts.stream()
-                .mapToLong(acc -> {
-                    try {
-                        return transactionServiceClient.getAccountTransactions(acc.id).size();
-                    } catch (Exception e) {
-                        log.warn("Failed to get transactions for account {}: {}", acc.id, e.getMessage());
-                        return 0;
-                    }
-                })
-                .sum();
+                .mapToLong(acc -> transactionCounts.getOrDefault(acc.id, 0L)).sum();
             summary.put("transactionCount", transactionCount);
             
             customerSummaries.add(summary);
@@ -187,58 +181,22 @@ public class ReportingService {
     }
 
     public Map<String, Object> getTransactionAnalysisReport(int days) {
-        log.info("Generating transaction analysis report for {} days", days);
-        
-        List<AccountServiceClient.AccountDTO> accounts = accountServiceClient.getAllAccounts();
-        List<TransactionServiceClient.TransactionDTO> allTransactions = new ArrayList<>();
-        
-        for (AccountServiceClient.AccountDTO account : accounts) {
-            try {
-                List<TransactionServiceClient.TransactionDTO> transactions = 
-                    transactionServiceClient.getAccountTransactions(account.id);
-                allTransactions.addAll(transactions);
-            } catch (Exception e) {
-                log.warn("Failed to get transactions for account {}: {}", account.id, e.getMessage());
-            }
+        if (days < 1 || days > 3650) throw new IllegalArgumentException("Days must be between 1 and 3650");
+        List<TransactionServiceClient.TypeSummary> rows = transactionServiceClient.getTypeSummary(days);
+        Map<String, Long> counts = new HashMap<>();
+        Map<String, Double> volumes = new HashMap<>();
+        long total = 0;
+        double volume = 0;
+        for (var row : rows) {
+            counts.put(row.type, row.total);
+            volumes.put(row.type, row.volume);
+            total += row.total;
+            volume += row.volume;
         }
-        
-        Date cutoffDate = new Date(System.currentTimeMillis() - (days * 24L * 60 * 60 * 1000));
-        List<TransactionServiceClient.TransactionDTO> recentTransactions = allTransactions.stream()
-            .filter(tx -> tx.operationDate != null && tx.operationDate.after(cutoffDate))
-            .collect(Collectors.toList());
-        
-        Map<String, Object> report = new HashMap<>();
-        report.put("reportType", "Transaction Analysis");
-        report.put("generatedDate", new Date());
-        report.put("periodDays", days);
-        
-        Map<String, Long> transactionsByType = recentTransactions.stream()
-            .collect(Collectors.groupingBy(
-                tx -> tx.type != null ? tx.type : "UNKNOWN",
-                Collectors.counting()
-            ));
-        report.put("transactionsByType", transactionsByType);
-        
-        Map<String, Double> volumeByType = recentTransactions.stream()
-            .collect(Collectors.groupingBy(
-                tx -> tx.type != null ? tx.type : "UNKNOWN",
-                Collectors.summingDouble(tx -> tx.amount != null ? tx.amount : 0.0)
-            ));
-        report.put("volumeByType", volumeByType);
-        
-        double totalVolume = recentTransactions.stream()
-            .mapToDouble(tx -> tx.amount != null ? tx.amount : 0.0)
-            .sum();
-        double averageAmount = recentTransactions.isEmpty() ? 0.0 : totalVolume / recentTransactions.size();
-        
-        Map<String, Object> summary = new HashMap<>();
-        summary.put("totalTransactions", recentTransactions.size());
-        summary.put("totalVolume", totalVolume);
-        summary.put("averageAmount", averageAmount);
-        
-        report.put("summary", summary);
-        
-        return report;
+        return Map.of("reportType", "Transaction Analysis", "generatedDate", new Date(),
+            "periodDays", days, "transactionsByType", counts, "volumeByType", volumes,
+            "summary", Map.of("totalTransactions", total, "totalVolume", volume,
+                "averageAmount", total == 0 ? 0 : volume / total));
     }
 
     public Map<String, Object> getTransactionsSummary() {

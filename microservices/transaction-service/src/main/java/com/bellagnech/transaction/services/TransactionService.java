@@ -105,7 +105,7 @@ public class TransactionService {
 
     public List<AccountOperationDTO> getAccountHistory(String accountId) {
         log.info("Retrieving transaction history for account {}", accountId);
-        List<AccountOperationDTO> list = operationRepository.findByBankAccountIdOrderByOperationDateDesc(accountId).stream()
+        List<AccountOperationDTO> list = operationRepository.findByBankAccountIdOrderByOperationDateDescIdDesc(accountId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
         enrichWithCustomerNames(list);
@@ -114,8 +114,8 @@ public class TransactionService {
 
     public Page<AccountOperationDTO> getAccountHistoryPaginated(String accountId, int page, int size) {
         log.info("Retrieving paginated transaction history for account {} (page: {}, size: {})", accountId, page, size);
-        Pageable pageable = PageRequest.of(page, size);
-        Page<AccountOperationDTO> result = operationRepository.findByBankAccountIdOrderByOperationDateDesc(accountId, pageable)
+        Pageable pageable = validatedPage(page, size);
+        Page<AccountOperationDTO> result = operationRepository.findByBankAccountIdOrderByOperationDateDescIdDesc(accountId, pageable)
                 .map(this::toDTO);
         enrichWithCustomerNames(result.getContent());
         return result;
@@ -123,11 +123,18 @@ public class TransactionService {
 
     public Page<AccountOperationDTO> getAllTransactionsPaginated(int page, int size) {
         log.info("Retrieving paginated list of all transactions (page: {}, size: {})", page, size);
-        Pageable pageable = PageRequest.of(page, size);
-        Page<AccountOperationDTO> result = operationRepository.findAllByOrderByOperationDateDesc(pageable)
+        Pageable pageable = validatedPage(page, size);
+        Page<AccountOperationDTO> result = operationRepository.findAllByOrderByOperationDateDescIdDesc(pageable)
                 .map(this::toDTO);
         enrichWithCustomerNames(result.getContent());
         return result;
+    }
+
+    private Pageable validatedPage(int page, int size) {
+        if (page < 0 || size < 1 || size > 100) {
+            throw new IllegalArgumentException("Page must be nonnegative and size between 1 and 100");
+        }
+        return PageRequest.of(page, size);
     }
 
     /**

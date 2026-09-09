@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "account_operations")
+@Table(name = "account_operations", indexes = {
+    @Index(name = "idx_operation_account_date", columnList = "bankAccountId,operationDate,id"),
+    @Index(name = "idx_operation_date", columnList = "operationDate,id")
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

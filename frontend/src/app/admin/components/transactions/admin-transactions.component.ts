@@ -551,10 +551,10 @@ export class AdminTransactionsComponent implements OnInit {
       transaction.performedBy === "system-demo" ||
       transaction.performedBy === "system"
     ) {
-      return "—";
+      return "Not available";
     }
     if (transaction.performedBy) return transaction.performedBy;
-    return "—";
+    return "Not available";
   }
 
   getAccountDisplayName(accountId: string): string {
@@ -568,7 +568,7 @@ export class AdminTransactionsComponent implements OnInit {
         right &&
         right.trim().length > 0 &&
         right.trim().toLowerCase() !== left.trim().toLowerCase();
-      const label = showRight ? `${left} - ${right}` : left || right || "";
+      const label = showRight ? `${left}: ${right}` : left || right || "";
       return `${label} (${account.accountType})`;
     }
     return `Account ${accountId}`;

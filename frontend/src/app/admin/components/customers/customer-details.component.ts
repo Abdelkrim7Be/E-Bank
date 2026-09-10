@@ -217,7 +217,7 @@ export class AdminCustomerDetailsComponent implements OnInit {
     const first = (customer.firstName || "").trim();
     const last = (customer.lastName || "").trim();
     if (first || last) return `${first} ${last}`.trim();
-    return (customer as { name?: string }).name || "—";
+    return (customer as { name?: string }).name || "Not provided";
   }
 
   getStatusBadge(status: string): string {

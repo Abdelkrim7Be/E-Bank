@@ -74,7 +74,7 @@
                         *ngFor="let account of accounts"
                         [value]="account.accountId"
                       >
-                        {{ account.accountId }} —
+                        {{ account.accountId }}:
                         {{ account.customerName || account.accountId }} ({{
                           account.accountType
                         }}:
@@ -116,7 +116,7 @@
                         *ngFor="let account of getAvailableToAccounts()"
                         [value]="account.accountId"
                       >
-                        {{ account.accountId }} —
+                        {{ account.accountId }}:
                         {{ account.customerName || account.accountId }} ({{
                           account.accountType
                         }}:

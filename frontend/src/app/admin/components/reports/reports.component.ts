@@ -51,7 +51,7 @@ export class AdminReportsComponent {
   }
 
   formatValue(value: unknown): string {
-    return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value ?? '—');
+    return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value ?? 'Not available');
   }
 
   download(): void {

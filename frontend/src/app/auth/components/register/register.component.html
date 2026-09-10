@@ -406,18 +406,6 @@
                   </div>
                 </div>
 
-                <!-- Debug Info (only in development) -->
-                <div
-                  *ngIf="showDebugInfo()"
-                  class="alert alert-info small mb-3"
-                >
-                  <strong>Debug Info:</strong><br />
-                  Form Valid: {{ registerForm.valid }}<br />
-                  <div *ngFor="let control of getInvalidControls()">
-                    {{ control.name }}: {{ control.errors | json }}
-                  </div>
-                </div>
-
                 <!-- Submit Button -->
                 <button
                   type="submit"

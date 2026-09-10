@@ -131,7 +131,7 @@ export class AdminDashboardComponent
               const name =
                 (acc as any).customerName ||
                 (acc as any).customerDTO?.name ||
-                "—";
+                "Not available";
               this.accountIdToCustomerName[acc.id] = name;
             }
           }
@@ -283,12 +283,12 @@ export class AdminDashboardComponent
       transaction.performedBy === "system-demo" ||
       transaction.performedBy === "system"
     ) {
-      return "—";
+      return "Not available";
     }
     if (transaction.performedBy) {
       return transaction.performedBy;
     }
-    return "—";
+    return "Not available";
   }
 
   // Chart initialization methods

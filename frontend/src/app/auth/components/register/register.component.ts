@@ -151,28 +151,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get("acceptTerms");
   }
 
-  // Debug methods to help identify validation issues
-  showDebugInfo(): boolean {
-    // Show debug info in development or when form is invalid
-    return !this.registerForm.valid;
-  }
-
-  getInvalidControls(): Array<{ name: string; errors: any }> {
-    const invalidControls: Array<{ name: string; errors: any }> = [];
-
-    Object.keys(this.registerForm.controls).forEach((key) => {
-      const control = this.registerForm.get(key);
-      if (control && control.invalid) {
-        invalidControls.push({
-          name: key,
-          errors: control.errors,
-        });
-      }
-    });
-
-    return invalidControls;
-  }
-
   // Password strength helper methods
   checkPasswordRequirement(requirement: string): boolean {
     const password = this.password?.value || "";

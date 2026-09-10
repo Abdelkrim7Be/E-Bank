@@ -6,12 +6,18 @@
             <div class="profile-header">
               <div class="d-flex align-items-center">
                 <div class="profile-avatar me-4">
-                  <i class="bi bi-person-circle"></i>
+                  <img *ngIf="currentUser?.avatarUrl" [src]="currentUser?.avatarUrl" alt="Profile photo" />
+                  <i *ngIf="!currentUser?.avatarUrl" class="bi bi-person-circle"></i>
                 </div>
                 <div>
                   <h1 class="h3 mb-1">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</h1>
                   <p class="text-muted mb-0">{{ currentUser?.email }}</p>
                   <span class="badge bg-primary">{{ currentUser?.role }}</span>
+                  <label class="btn btn-sm btn-outline-primary ms-3 mb-0" for="avatar-upload">
+                    <i class="bi bi-camera me-1"></i>{{ avatarUploading ? 'Uploading…' : 'Change photo' }}
+                  </label>
+                  <input id="avatar-upload" type="file" accept="image/png,image/jpeg,image/webp" class="visually-hidden" (change)="uploadAvatar($event)" [disabled]="avatarUploading" />
+                  <div *ngIf="avatarError" class="small text-danger mt-2">{{ avatarError }}</div>
                 </div>
               </div>
             </div>

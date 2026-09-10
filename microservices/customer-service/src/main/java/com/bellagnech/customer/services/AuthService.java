@@ -119,6 +119,7 @@ public class AuthService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
+        user.setAvatarUrl(request.getAvatarUrl());
 
         User saved = userRepository.save(user);
         return mapToUserProfileDTO(saved);
@@ -132,6 +133,7 @@ public class AuthService {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .avatarUrl(user.getAvatarUrl())
                 .role(user.getRole())
                 .status(status)
                 .enabled(user.isEnabled())

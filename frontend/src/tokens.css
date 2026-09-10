@@ -1,6 +1,6 @@
 :root {
-  --eb-navy: #1f368b;
-  --eb-blue: #3b51d5;
+  --eb-navy: #003b7a;
+  --eb-blue: #164fa3;
   --eb-yellow: #ffcc00;
   --eb-ink: #30313a;
   --eb-muted: #62636b;
@@ -13,7 +13,7 @@
   --border-color: var(--eb-border);
   --success-green: #177451;
   --warning-yellow: #ffcc00;
-  --danger-red: #b32937;
+  --danger-red: #c82032;
   --danger-orange: #b32937;
   --bs-primary: var(--eb-blue);
   --bs-primary-rgb: 59, 81, 213;

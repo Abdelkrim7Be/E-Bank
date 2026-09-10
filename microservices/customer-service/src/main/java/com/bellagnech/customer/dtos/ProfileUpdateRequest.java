@@ -19,5 +19,7 @@ public class ProfileUpdateRequest {
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
-}
 
+    @Size(max = 1024, message = "Profile photo URL is too long")
+    private String avatarUrl;
+}

@@ -17,10 +17,10 @@ public class UserProfileDTO {
     private String email;
     private String firstName;
     private String lastName;
+    private String avatarUrl;
     private Role role;
     private String status;
     private boolean enabled;
     private String createdAt;
     private String updatedAt;
 }
-

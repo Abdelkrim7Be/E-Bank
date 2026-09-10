@@ -180,6 +180,11 @@ password `password`). Account, customer, transaction, reporting and Kafka data
 are stored in named volumes. `docker compose -p e-bank down` preserves them;
 `down -v` removes them and resets the demo.
 
+Profile photos use direct unsigned uploads to Cloudinary. Set the Cloudinary
+cloud name and unsigned upload preset in the Angular environment files before
+enabling the photo picker; the returned HTTPS URL is persisted on the user
+profile, so the banking services never store image binaries.
+
 Money commands accept an `Idempotency-Key`. Reuse the same key and request after
 an uncertain response; a changed request with the same key is rejected. The UI
 retains pending keys in session storage. Account balance changes and their outbox

@@ -6,6 +6,7 @@ export const environment = {
   useMockApi: false,
   appName: "E-Bank",
   version: "1.0.0",
+  cloudinary: { cloudName: "", uploadPreset: "" },
   tokenKey: "digital-banking-token",
   // Backend endpoint configuration matching TODO.md specifications
   endpoints: {

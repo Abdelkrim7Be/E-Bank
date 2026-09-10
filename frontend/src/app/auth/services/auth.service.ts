@@ -72,6 +72,7 @@ export class AuthService {
             email: response.email,
             firstName: (response as any).firstName ?? response.username ?? "",
             lastName: (response as any).lastName ?? "",
+            avatarUrl: (response as any).avatarUrl,
             role: response.role as UserRole,
             status: UserStatus.ACTIVE,
             enabled: true,
@@ -221,8 +222,8 @@ export class AuthService {
 
   getToken(): string | null {
     return (
-      sessionStorage.getItem(this.TOKEN_KEY) ||
-      localStorage.getItem(this.TOKEN_KEY)
+      localStorage.getItem(this.TOKEN_KEY) ||
+      sessionStorage.getItem(this.TOKEN_KEY)
     );
   }
 
@@ -238,8 +239,8 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     const userStr =
-      sessionStorage.getItem(this.USER_KEY) ||
-      localStorage.getItem(this.USER_KEY);
+      localStorage.getItem(this.USER_KEY) ||
+      sessionStorage.getItem(this.USER_KEY);
     if (!userStr || userStr === "undefined" || userStr === "null") {
       return null;
     }

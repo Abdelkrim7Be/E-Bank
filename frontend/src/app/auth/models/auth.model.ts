@@ -4,6 +4,7 @@ export interface User {
   email: string;
   firstName?: string;
   lastName?: string;
+  avatarUrl?: string;
   role: UserRole;
   status: UserStatus;
   enabled: boolean;
@@ -69,6 +70,7 @@ export interface ProfileUpdateRequest {
   firstName: string;
   lastName: string;
   email: string;
+  avatarUrl?: string;
 }
 
 export interface CustomerUpdateRequest {

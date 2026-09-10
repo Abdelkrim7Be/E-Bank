@@ -5,7 +5,7 @@
     </a>
     <span class="bank-space">{{ isAdmin ? 'Administration' : 'Your personal space' }}</span>
     <div class="bank-profile" *ngIf="currentUser">
-      <a routerLink="/profile" aria-label="My profile"><i class="bi bi-person" aria-hidden="true"></i> <span>{{ displayName }}</span></a>
+      <a routerLink="/profile" aria-label="My profile"><span class="nav-avatar"><img *ngIf="currentUser.avatarUrl" [src]="currentUser.avatarUrl" alt="" /><i *ngIf="!currentUser.avatarUrl" class="bi bi-person" aria-hidden="true"></i></span> <span>{{ displayName }}</span></a>
       <button type="button" (click)="logout($event)" aria-label="Log out"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span class="logout-label">Log out</span></button>
     </div>
     <button class="menu-toggle" type="button" (click)="toggleMobileMenu()" aria-controls="bank-navigation" [attr.aria-expanded]="showMobileMenu" aria-label="Toggle navigation"><i class="bi" [class.bi-list]="!showMobileMenu" [class.bi-x-lg]="showMobileMenu" aria-hidden="true"></i></button>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../auth/services/auth.service';
 import { User, PasswordChangeRequest, ProfileUpdateRequest } from '../../../auth/models/auth.model';
 
@@ -27,10 +30,13 @@ export class ProfileComponent implements OnInit {
   
   showCurrentPassword = false;
   showNewPassword = false;
+  avatarUploading = false;
+  avatarError = '';
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +90,8 @@ export class ProfileComponent implements OnInit {
     const profileData: ProfileUpdateRequest = {
       firstName: this.profileForm.value.firstName,
       lastName: this.profileForm.value.lastName,
-      email: this.profileForm.value.email
+      email: this.profileForm.value.email,
+      avatarUrl: this.currentUser?.avatarUrl,
     };
 
     this.authService.updateProfile(profileData).subscribe({
@@ -104,6 +111,38 @@ export class ProfileComponent implements OnInit {
         this.profileMessageType = 'error';
       }
     });
+  }
+
+  uploadAvatar(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/') || file.size > 5 * 1024 * 1024) {
+      this.avatarError = 'Choose an image smaller than 5 MB.';
+      return;
+    }
+    const config = environment.cloudinary;
+    if (!config.cloudName || !config.uploadPreset) {
+      this.avatarError = 'Profile photo storage is not configured yet.';
+      return;
+    }
+    const form = new FormData();
+    form.append('file', file);
+    form.append('upload_preset', config.uploadPreset);
+    form.append('folder', 'e-bank/profiles');
+    this.avatarUploading = true;
+    this.avatarError = '';
+    this.http.post<{ secure_url: string }>(`https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`, form)
+      .pipe(finalize(() => this.avatarUploading = false))
+      .subscribe({
+        next: ({ secure_url }) => {
+          this.currentUser = { ...this.currentUser!, avatarUrl: secure_url };
+          this.profileForm.markAsDirty();
+          this.updateProfile();
+        },
+        error: () => this.avatarError = 'The photo could not be uploaded. Try again.'
+      });
   }
 
   changePassword(): void {

@@ -47,6 +47,10 @@ public class User implements UserDetails {
     @Size(max = 50, message = "Last name must not exceed 50 characters")
     private String lastName;
 
+    /** URL returned by the configured profile-image provider (Cloudinary, S3, etc.). */
+    @Column(name = "avatar_url", length = 1024)
+    private String avatarUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -124,4 +128,3 @@ public class User implements UserDetails {
         return enabled;
     }
 }
-

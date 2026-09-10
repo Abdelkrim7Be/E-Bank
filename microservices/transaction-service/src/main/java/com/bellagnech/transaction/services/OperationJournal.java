@@ -17,6 +17,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class OperationJournal {
+    @jakarta.persistence.PersistenceContext
+    private jakarta.persistence.EntityManager entityManager;
     private final OperationRequestRepository requests;
     private final AccountOperationRepository history;
     private final AccountServiceClient accounts;
@@ -51,19 +53,26 @@ public class OperationJournal {
     @Transactional
     public OperationRequest complete(String id) {
         var o = requests.lockById(id).orElseThrow();
+        // prepare() may have cached PENDING in a request-scoped persistence context.
+        // Re-read after acquiring the lock so a concurrent completion cannot be repeated.
+        entityManager.refresh(o);
         if ("COMPLETED".equals(o.getStatus())) return o;
         Map<String,Object> command = new HashMap<>();
         command.put("operationId", id); command.put("accountId", o.getAccountId());
         command.put("destinationId", o.getDestinationId()); command.put("amount", o.getAmount());
         accounts.applyOperation(o.getType().toLowerCase(Locale.ROOT), command);
         if ("TRANSFER".equals(o.getType())) {
-            leg(o, o.getAccountId(), OperationType.DEBIT, "Transfer to " + o.getDestinationId());
-            leg(o, o.getDestinationId(), OperationType.CREDIT, "Transfer from " + o.getAccountId());
+            leg(o, o.getAccountId(), OperationType.DEBIT, "Transfer to " + o.getDestinationId() + transferNote(o));
+            leg(o, o.getDestinationId(), OperationType.CREDIT, "Transfer from " + o.getAccountId() + transferNote(o));
         } else {
             leg(o, o.getAccountId(), OperationType.valueOf(o.getType()), o.getDescription());
         }
-        o.setStatus("COMPLETED"); o.setCompletedAt(Instant.now());
+        o.setStatus("COMPLETED"); o.setCompletedAt(Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MICROS));
         return o;
+    }
+
+    private String transferNote(OperationRequest request) {
+        return request.getDescription() == null || request.getDescription().isBlank() ? "" : ": " + request.getDescription();
     }
 
     private void leg(OperationRequest request, String account, OperationType type, String description) {

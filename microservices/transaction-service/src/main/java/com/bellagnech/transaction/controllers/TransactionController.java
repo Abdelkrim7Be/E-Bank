@@ -65,7 +65,7 @@ public class TransactionController {
     public ResponseEntity<?> transfer(@RequestHeader(value = "Idempotency-Key", required = false) String key,
             @Valid @RequestBody TransferRequest request) {
         owner(request.getSourceAccountId());
-        return ResponseEntity.ok(transactionService.execute(key(key), "TRANSFER", request.getSourceAccountId(), request.getDestinationAccountId(), request.getAmount(), "Transfer"));
+        return ResponseEntity.ok(transactionService.execute(key(key), "TRANSFER", request.getSourceAccountId(), request.getDestinationAccountId(), request.getAmount(), request.getDescription() == null || request.getDescription().isBlank() ? "Transfer" : request.getDescription()));
     }
 
     private String key(String key) { return key == null ? java.util.UUID.randomUUID().toString() : key; }
@@ -85,7 +85,7 @@ public class TransactionController {
         com.bellagnech.transaction.enums.OperationType operationType = null;
         if (type != null && !type.isBlank()) operationType = com.bellagnech.transaction.enums.OperationType.valueOf(
             "DEPOSIT".equals(type) ? "CREDIT" : "WITHDRAWAL".equals(type) ? "DEBIT" : type);
-        return owned.isEmpty() ? Page.empty() : operationRepository.customerHistory(owned,operationType,org.springframework.data.domain.PageRequest.of(page,size));
+        return owned.isEmpty() ? Page.empty(org.springframework.data.domain.PageRequest.of(page,size)) : operationRepository.customerHistory(owned,operationType,org.springframework.data.domain.PageRequest.of(page,size));
     }
 
     @GetMapping("/account/{accountId}")

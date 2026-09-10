@@ -89,6 +89,8 @@ services:
       SPRING_PROFILES_ACTIVE: kafka
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       # Disable Redis (rate limiting) — not needed in this compose setup
@@ -131,6 +133,8 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       discovery-service:
@@ -165,6 +169,8 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       discovery-service:
@@ -201,6 +207,8 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       discovery-service:
@@ -227,12 +235,17 @@ services:
       dockerfile: reporting-service/Dockerfile
     ports:
       - "127.0.0.1:${REPORTING_PORT:-18084}:8084"
+    volumes:
+      - reporting-data:/app/data
     environment:
+      REPORTING_DATABASE_URL: jdbc:h2:file:/app/data/reportingdb;DB_CLOSE_ON_EXIT=FALSE
       SPRING_PROFILES_ACTIVE: kafka
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       discovery-service:
@@ -262,6 +275,11 @@ services:
         condition: service_healthy
     networks:
       - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # ──────────────────────────────────────────────────────────
   #  Kafka UI — Visualize topics, messages, consumer groups
@@ -294,3 +312,4 @@ volumes:
   transaction-data:
   kafka-data:
   zookeeper-data:
+  reporting-data:

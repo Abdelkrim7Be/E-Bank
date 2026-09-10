@@ -14,6 +14,8 @@ import { AdminAccountService } from "../../services/account.service";
 import { AccountService } from "../../../shared/services/account.service";
 
 Chart.register(...registerables);
+Chart.defaults.font.family = "Montserrat, Arial, sans-serif";
+Chart.defaults.color = "#62636b";
 
 @Component({
   selector: "app-admin-dashboard",
@@ -337,7 +339,7 @@ export class AdminDashboardComponent
           datasets: [
             {
               data: [45, 30, 15, 10],
-              backgroundColor: ["#e63946", "#2a9d8f", "#e9c46a", "#f4a261"],
+              backgroundColor: ["#1f368b", "#3b51d5", "#98a4df", "#c6ccec"],
               borderWidth: 2,
               borderColor: "#fff",
             },
@@ -369,8 +371,8 @@ export class AdminDashboardComponent
             {
               label: "Transaction Count",
               data: [0, 0, 0], // Start with zeros, will be updated with real data
-              backgroundColor: ["#2a9d8f", "#e63946", "#f4a261"],
-              borderColor: ["#2a9d8f", "#e63946", "#f4a261"],
+              backgroundColor: ["#3b51d5", "#1f368b", "#c6ccec"],
+              borderColor: ["#3b51d5", "#1f368b", "#c6ccec"],
               borderWidth: 1,
             },
           ],
@@ -416,15 +418,15 @@ export class AdminDashboardComponent
             {
               label: "Customers",
               data: [100, 120, 140, 160, 180, 200],
-              borderColor: "#2a9d8f",
-              backgroundColor: "rgba(42, 157, 143, 0.1)",
+              borderColor: "#3b51d5",
+              backgroundColor: "rgba(59, 81, 213, 0.08)",
               tension: 0.4,
             },
             {
               label: "Accounts",
               data: [80, 95, 110, 125, 140, 155],
-              borderColor: "#e63946",
-              backgroundColor: "rgba(230, 57, 70, 0.1)",
+              borderColor: "#1f368b",
+              backgroundColor: "rgba(31, 54, 139, 0.08)",
               tension: 0.4,
             },
           ],

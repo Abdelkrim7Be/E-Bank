@@ -1,9 +1,9 @@
 .alert {
-      font-family: 'Courier New', monospace;
+      font-family: inherit; font-variant-numeric: tabular-nums;
       font-size: 0.9rem;
     }
     code {
-      background-color: #f8f9fa;
+      background-color: var(--eb-background);
       padding: 2px 4px;
       border-radius: 3px;
     }

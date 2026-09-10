@@ -1,5 +1,5 @@
 .customer-list {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .user-avatar {
@@ -33,7 +33,7 @@
 
       @media (max-width: 768px) {
         .customer-list {
-          padding: 1rem;
+          padding: 0;
         }
 
         .d-flex.justify-content-between {

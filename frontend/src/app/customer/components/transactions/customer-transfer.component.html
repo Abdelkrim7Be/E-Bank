@@ -234,7 +234,7 @@
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    <i *ngIf="!loading" class="bi bi-arrow-left-right me-2"></i>
+                    <i *ngIf="!loading" class="bi bi-arrow-left-right me-2" aria-hidden="true"></i>
                     {{ loading ? 'Processing...' : (reviewing ? 'Confirm transfer' : 'Review transfer') }}
                   </button>
                 </div>

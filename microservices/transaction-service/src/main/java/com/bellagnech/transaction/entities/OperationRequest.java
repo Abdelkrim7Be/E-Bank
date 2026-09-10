@@ -17,6 +17,7 @@ public class OperationRequest {
     @Column(precision = 19, scale = 2, nullable = false) private BigDecimal amount;
     @Column(length = 1000) private String description;
     @Column(nullable = false) private String status = "PENDING";
-    @Column(nullable = false) private Instant createdAt = Instant.now();
+    // Match the database timestamp precision so the first receipt equals later replays.
+    @Column(nullable = false) private Instant createdAt = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MICROS);
     private Instant completedAt;
 }

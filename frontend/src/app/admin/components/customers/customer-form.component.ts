@@ -159,6 +159,7 @@ export class AdminCustomerFormComponent implements OnInit {
     } else {
       // Build CustomerDTO payload for customer-service
       const customerData: CustomerCreateDTO = {
+        password: formData.password,
         username: formData.username,
         email: formData.email,
         name:

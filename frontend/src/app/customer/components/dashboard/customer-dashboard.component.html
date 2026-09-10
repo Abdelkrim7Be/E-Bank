@@ -13,13 +13,13 @@
               class="header-actions d-flex flex-wrap justify-content-md-end justify-content-center gap-2 mt-3 mt-md-0"
             >
               <button
-                class="btn btn-success action-btn"
+                class="btn btn-outline-primary action-btn"
                 routerLink="/customer/deposit"
               >
                 <i class="bi bi-plus-circle me-1"></i>Credit
               </button>
               <button
-                class="btn btn-warning action-btn"
+                class="btn btn-outline-primary action-btn"
                 routerLink="/customer/debit"
               >
                 <i class="bi bi-dash-circle me-1"></i>Debit
@@ -35,9 +35,21 @@
         </div>
       </div>
 
+      <div *ngIf="loading" role="status" class="py-4">Loading your accounts…</div>
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{ error }}
+        <button type="button" class="btn btn-outline-primary ms-2" (click)="loadDashboardData()">Try again</button>
+      </div>
+      <ng-container *ngIf="!loading && !error">
       <!-- Account Cards -->
       <div class="row mb-4">
         <div class="col-lg-8">
+          <div *ngIf="!loading && !accounts.length" class="card empty-state mb-4">
+            <i class="bi bi-wallet2" aria-hidden="true"></i>
+            <h2 class="h5">Your everyday banking starts here</h2>
+            <p>Find your accounts and balances in one place. Open an account to get started.</p>
+            <a class="btn btn-primary align-self-center" routerLink="/customer/accounts/new">Open an account <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></a>
+          </div>
           <div class="row">
             <div class="col-md-6 mb-4" *ngFor="let account of accounts">
               <div class="card account-card border-0 shadow-sm h-100">
@@ -103,8 +115,8 @@
               </div>
               <div class="stat-item mb-3">
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="text-muted">This Month</span>
-                  <span class="fw-bold text-success">+$2,450</span>
+                  <span class="text-muted">Total Accounts</span>
+                  <span class="fw-bold">{{ accounts.length }}</span>
                 </div>
               </div>
               <hr />
@@ -124,10 +136,13 @@
         <div class="col-lg-6 mb-4">
           <div class="card border-0 shadow-sm h-100">
             <div class="card-header bg-white">
-              <h5 class="card-title mb-0">Spending Overview</h5>
+              <h5 class="card-title mb-0">Recent activity breakdown</h5>
             </div>
             <div class="card-body">
-              <canvas id="spendingChart" width="400" height="300"></canvas>
+              <p class="text-muted">Amounts across your latest five transactions.</p>
+              <p *ngIf="transactionError" role="alert">Recent activity could not be loaded.</p>
+              <p *ngIf="!transactionError && !recentTransactions.length" class="text-muted">No activity to display yet.</p>
+              <div *ngIf="recentTransactions.length" class="activity-chart"><canvas id="spendingChart" width="400" height="300" role="img" aria-label="Amounts grouped by transaction type; individual transactions are listed alongside"></canvas></div>
             </div>
           </div>
         </div>
@@ -147,6 +162,12 @@
               </a>
             </div>
             <div class="card-body p-0">
+              <p *ngIf="transactionError" role="alert" class="p-3">Recent transactions could not be loaded. <button class="btn btn-link" (click)="loadDashboardData()">Try again</button></p>
+              <div *ngIf="!transactionError && !recentTransactions.length" class="empty-state">
+                <i class="bi bi-receipt" aria-hidden="true"></i>
+                <h3 class="h6">No transactions yet</h3>
+                <p>Your latest account activity will appear here.</p>
+              </div>
               <div class="transaction-list">
                 <div
                   class="transaction-item"
@@ -242,4 +263,5 @@
           </div>
         </div>
       </div>
+    </ng-container>
     </div>

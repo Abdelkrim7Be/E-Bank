@@ -49,7 +49,7 @@ export class AdminTransactionsComponent implements OnInit {
   accountsForSelection: AccountSelectionDTO[] = [];
 
   // Client-side pagination
-  pageSize = 20;
+  pageSize = 10;
   currentPage = 0;
 
   // Quick search & filters (header bar)
@@ -161,7 +161,7 @@ export class AdminTransactionsComponent implements OnInit {
 
     const fetchFilter: TransactionFilter = {
       page: 0,
-      size: 500,
+      size: 100,
       sortBy: this.filter.sortBy || "operationDate",
       sortDirection: (this.filter.sortDirection as "desc") || "desc",
     };
@@ -191,7 +191,7 @@ export class AdminTransactionsComponent implements OnInit {
           err.status === 500
             ? "Server error while loading transactions. Please try again."
             : err.status === 400
-              ? "Invalid request. Please check your connection."
+              ? "The transaction list request was invalid. Please refresh and try again."
               : "Failed to load transactions. Please try again.";
         this.loading = false;
       },
@@ -328,8 +328,7 @@ export class AdminTransactionsComponent implements OnInit {
   }
 
   showBackendTroubleshooting(): void {
-    const msg = `Backend: ${window.location.origin}/api/admin/transactions\nFilters are now applied in the browser. If the list is empty, use "Try Loading Without Filters" to refresh data.`;
-    alert(msg);
+    this.error = "Transactions are loaded from the gateway. If this persists, check the gateway and transaction-service health checks.";
   }
 
   goToPage(page: number): void {

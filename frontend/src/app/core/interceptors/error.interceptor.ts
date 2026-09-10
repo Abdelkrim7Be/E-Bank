@@ -57,6 +57,8 @@ export class ErrorInterceptor implements HttpInterceptor {
               // Clear stored tokens as per TODO.md specifications
               localStorage.removeItem(environment.tokenKey);
               localStorage.removeItem('current_user');
+              sessionStorage.removeItem(environment.tokenKey);
+              sessionStorage.removeItem('current_user');
               break;
             case 403:
               errorMessage = 'Access forbidden - You do not have permission';

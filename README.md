@@ -1,4 +1,4 @@
-# Digital Banking – Microservices
+# E-Bank – Microservices
 
 Full-stack digital banking with **Spring Boot** microservices, **Angular** frontend, **Kafka** for events, and **Eureka** for service discovery.
 
@@ -84,7 +84,7 @@ flowchart TB
 | **reporting-service**   | 8084 | Dashboards, stats. **Consumes** all Kafka topics (customer, account, balance, transaction).              |
 
 **Flow in short:**  
-Frontend → Gateway → Eureka (resolve) → one of the services. Customer/Account/Transaction services publish events to Kafka; Reporting service subscribes and reacts (e.g. logging, future analytics).
+Frontend → Gateway → Eureka (resolve) → one of the services. Customer/Account/Transaction services publish events to Kafka; Reporting service subscribes and maintains database projections for dashboards and reports.
 
 ---
 
@@ -112,8 +112,8 @@ You don’t write Zookeeper code; it’s infrastructure for Kafka.
 | **Producer** | transaction-service | `transaction-events`                        |
 | **Consumer** | reporting-service   | All four topics above                       |
 
-- **Producers:** `CustomerEventProducer`, `AccountEventProducer`, `TransactionEventProducer` use `KafkaTemplate` to send JSON to the topics.
-- **Consumer:** `DomainEventListeners` in reporting-service uses `@KafkaListener` on each topic and processes messages (e.g. log, future aggregation).
+- **Producers:** domain producers write durable outbox records; relays send their JSON payloads to Kafka and retry failed deliveries.
+- **Consumer:** `DomainEventListeners` uses `@KafkaListener` to update SQL projections, deduplicating event IDs and rejecting stale snapshots.
 
 Kafka is **optional**: if `app.kafka.enabled=false` (default in many profiles), producers no-op and the app works without Kafka.
 
@@ -166,7 +166,30 @@ So: **Eureka implemented** = one discovery-service (Eureka server) + all other s
 
 ## Docker (Kafka)
 
-Only Kafka (and its dependency) are run with Docker in this repo:
+The full application runs with `docker-compose.yml`:
+
+```bash
+docker compose -p e-bank up -d --build
+```
+
+Open http://localhost:4200. The gateway is at http://localhost:18080,
+Eureka at http://localhost:18761 and Kafka UI at http://localhost:19090.
+Ports bind to loopback and can be overridden using the variables in Compose.
+The full Compose setup enables demo accounts (`admin` and `marie.dupont`,
+password `password`). Account, customer, transaction, reporting and Kafka data
+are stored in named volumes. `docker compose -p e-bank down` preserves them;
+`down -v` removes them and resets the demo.
+
+Money commands accept an `Idempotency-Key`. Reuse the same key and request after
+an uncertain response; a changed request with the same key is rejected. The UI
+retains pending keys in session storage. Account balance changes and their outbox
+events commit together. Reporting consumes events into its own persistent database
+and exposes `projectionUpdatedAt` and `projectionStatus` to describe freshness.
+
+See [integration validation](docs/testing/integration-validation.md) for the
+isolated desktop/mobile browser suite and Kafka outage recovery check.
+
+For the Kafka infrastructure alone:
 
 **File:** `docker-compose-kafka.yml`
 

@@ -1,5 +1,5 @@
 <section aria-labelledby="reports-title">
-  <div class="report-heading"><div><p class="eyebrow">E-BANK / ADMINISTRATION</p><h1 id="reports-title">Reports & analysis</h1><p class="text-muted">A clearer picture of your banking activity.</p></div></div>
+  <div class="report-heading"><div><p class="eyebrow">E-BANK / ADMINISTRATION</p><h1 id="reports-title">Reports &amp; analysis</h1><p class="text-muted">Export a clean PDF snapshot of your banking activity.</p></div><div class="report-heading-mark" aria-hidden="true"><i class="bi bi-file-earmark-pdf"></i></div></div>
   <div class="report-layout">
     <form class="card report-controls" (ngSubmit)="generate()">
       <div class="card-body">
@@ -22,7 +22,7 @@
     <div class="card report-result" [attr.aria-busy]="loading" aria-live="polite">
       <div *ngIf="!result" class="empty-report"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i><h2 class="h5">{{ loading ? 'Preparing your report' : 'Your report appears here' }}</h2><p class="text-muted">Select a report and generate it to view the latest available data.</p></div>
       <ng-container *ngIf="result">
-        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3"><h2 class="h5 mb-0">{{ generatedTitle }}</h2><button type="button" class="btn btn-outline-primary" (click)="download()"><i class="bi bi-download me-2" aria-hidden="true"></i>Download JSON</button></div>
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3"><div><p class="result-kicker mb-1">E-BANK REPORT</p><h2 class="h5 mb-0">{{ generatedTitle }}</h2></div><button type="button" class="btn btn-primary" (click)="download()"><i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>Download PDF</button></div>
         <dl class="card-body mb-0"><div *ngFor="let entry of entries" class="report-field"><dt>{{ formatLabel(entry[0]) }}</dt><dd><pre>{{ formatValue(entry[1]) }}</pre></dd></div></dl>
       </ng-container>
     </div>

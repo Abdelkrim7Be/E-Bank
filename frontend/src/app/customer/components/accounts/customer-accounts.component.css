@@ -1,10 +1,10 @@
 .customer-accounts {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .account-card {
         transition: transform 0.2s ease-in-out;
-        border-left: 4px solid var(--primary-red);
+        border: 1px solid var(--eb-border);
       }
 
       .account-card:hover {
@@ -17,7 +17,7 @@
       }
 
       .account-details {
-        background-color: #f8f9fa;
+        background-color: var(--eb-background);
         border-radius: 8px;
         padding: 1rem;
       }
@@ -33,6 +33,6 @@
 
       @media (max-width: 768px) {
         .customer-accounts {
-          padding: 1rem;
+          padding: 0;
         }
       }

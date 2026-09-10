@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
+    @com.fasterxml.jackson.annotation.JsonProperty(access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
+    @jakarta.validation.constraints.Size(min = 6, max = 72)
+    @lombok.ToString.Exclude
+    private String password;
     private Long id;
     private String username;
     private String name;

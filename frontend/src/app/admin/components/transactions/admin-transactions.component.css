@@ -18,10 +18,29 @@
       }
 
       .pagination .page-link {
-        color: var(--bs-primary);
+        color: var(--eb-navy);
+        border: 0;
+        border-radius: 7px;
+        min-width: 38px;
+        min-height: 38px;
+        margin: 0 2px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
       }
 
       .pagination .page-item.active .page-link {
-        background-color: var(--bs-primary);
-        border-color: var(--bs-primary);
+        background-color: var(--eb-blue);
+        color: #fff;
+      }
+
+      .pagination .page-link:hover:not(:disabled) {
+        background: #eef1fb;
+      }
+
+      .transaction-retry {
+        text-align: center;
+        padding: 28px 20px 32px;
+        border-top: 1px solid var(--eb-border);
       }

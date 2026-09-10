@@ -1,31 +1,31 @@
 <header class="bank-header" (keydown.escape)="closeMenus(true)">
   <div class="bank-topbar">
     <a class="bank-brand" [routerLink]="isAdmin ? '/admin/dashboard' : '/customer/dashboard'" aria-label="E-Bank home">
-      <img src="brand/e-bank-mark-light.svg" width="42" height="42" alt="" /> <span>E-Bank</span>
+      <img src="brand/e-bank-mark.svg" width="42" height="42" alt="" /> <span>E-Bank</span>
     </a>
     <span class="bank-space">{{ isAdmin ? 'Administration' : 'Your personal space' }}</span>
     <div class="bank-profile" *ngIf="currentUser">
-      <a routerLink="/profile"><i class="bi bi-person" aria-hidden="true"></i> <span>{{ displayName }}</span></a>
+      <a routerLink="/profile" aria-label="My profile"><i class="bi bi-person" aria-hidden="true"></i> <span>{{ displayName }}</span></a>
       <button type="button" (click)="logout($event)" aria-label="Log out"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span class="logout-label">Log out</span></button>
     </div>
     <button class="menu-toggle" type="button" (click)="toggleMobileMenu()" aria-controls="bank-navigation" [attr.aria-expanded]="showMobileMenu" aria-label="Toggle navigation"><i class="bi" [class.bi-list]="!showMobileMenu" [class.bi-x-lg]="showMobileMenu" aria-hidden="true"></i></button>
   </div>
   <nav id="bank-navigation" aria-label="Main navigation" [class.is-open]="showMobileMenu">
     <ng-container *ngIf="isAdmin">
-      <a routerLink="/admin/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Overview</a>
-      <a routerLink="/admin/customers" routerLinkActive="active" ariaCurrentWhenActive="page">Customers</a>
-      <a routerLink="/admin/accounts" routerLinkActive="active" ariaCurrentWhenActive="page">Accounts</a>
-      <a routerLink="/admin/transactions" routerLinkActive="active" ariaCurrentWhenActive="page">Transactions</a>
-      <a routerLink="/admin/transfer" routerLinkActive="active" ariaCurrentWhenActive="page">Transfers</a>
-      <a routerLink="/admin/reports" routerLinkActive="active" ariaCurrentWhenActive="page">Reports</a>
+      <a routerLink="/admin/dashboard" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Overview</a>
+      <a routerLink="/admin/customers" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Customers</a>
+      <a routerLink="/admin/accounts" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Accounts</a>
+      <a routerLink="/admin/transactions" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Transactions</a>
+      <a routerLink="/admin/transfer" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Transfers</a>
+      <a routerLink="/admin/reports" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Reports</a>
     </ng-container>
     <ng-container *ngIf="isCustomer">
-      <a routerLink="/customer/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Overview</a>
-      <a routerLink="/customer/accounts" routerLinkActive="active" ariaCurrentWhenActive="page">My accounts</a>
-      <a routerLink="/customer/transaction-history" routerLinkActive="active" ariaCurrentWhenActive="page">Activity</a>
-      <a routerLink="/customer/transfer" routerLinkActive="active" ariaCurrentWhenActive="page">Transfers</a>
-      <a routerLink="/customer/deposit" routerLinkActive="active" ariaCurrentWhenActive="page">Add money</a>
-      <a routerLink="/customer/debit" routerLinkActive="active" ariaCurrentWhenActive="page">Withdraw</a>
+      <a routerLink="/customer/dashboard" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Overview</a>
+      <a routerLink="/customer/accounts" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">My accounts</a>
+      <a routerLink="/customer/transaction-history" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Activity</a>
+      <a routerLink="/customer/transfer" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Transfers</a>
+      <a routerLink="/customer/deposit" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Add money</a>
+      <a routerLink="/customer/debit" (click)="closeMenus()" routerLinkActive="active" ariaCurrentWhenActive="page">Withdraw</a>
     </ng-container>
   </nav>
 </header>

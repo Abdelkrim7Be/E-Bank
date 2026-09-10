@@ -33,6 +33,7 @@ export interface CustomerStats {
 
 // Create payload for POST /api/admin/customers
 export interface CustomerCreateDTO {
+  password: string;
   username: string;
   name?: string;
   email: string;

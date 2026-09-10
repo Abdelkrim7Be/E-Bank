@@ -4,40 +4,40 @@
       right: 20px;
       z-index: 1050;
       max-width: 400px;
-      width: 100%;
+      width: calc(100% - 40px);
     }
 
     .notification-alert {
       margin-bottom: 10px;
       border: none;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: none;
       animation: slideIn 0.3s ease-out;
       position: relative;
       overflow: hidden;
     }
 
     .notification-alert.alert-success {
-      background-color: rgba(42, 157, 143, 0.1);
-      border-left: 4px solid var(--success-green);
+      background-color: #edf6f0;
+      border: 1px solid var(--eb-border);
       color: var(--success-green);
     }
 
     .notification-alert.alert-danger {
-      background-color: rgba(231, 111, 81, 0.1);
-      border-left: 4px solid var(--danger-orange);
+      background-color: #fff0f1;
+      border: 1px solid var(--eb-border);
       color: var(--danger-orange);
     }
 
     .notification-alert.alert-warning {
-      background-color: rgba(233, 196, 106, 0.1);
-      border-left: 4px solid var(--warning-yellow);
+      background-color: #fff8e5;
+      border: 1px solid var(--eb-border);
       color: var(--dark-gray);
     }
 
     .notification-alert.alert-info {
-      background-color: rgba(21, 77, 168, 0.1);
-      border-left: 4px solid var(--primary-red);
+      background-color: #eff1fa;
+      border: 1px solid var(--eb-border);
       color: var(--primary-red);
     }
 
@@ -91,7 +91,7 @@
 
     .progress-bar {
       height: 100%;
-      background-color: currentColor;
+      background-color: var(--eb-border);
       opacity: 0.7;
       animation: progressBar linear forwards;
       transform-origin: left;
@@ -124,5 +124,6 @@
         right: 10px;
         left: 10px;
         max-width: none;
+        width: auto;
       }
     }

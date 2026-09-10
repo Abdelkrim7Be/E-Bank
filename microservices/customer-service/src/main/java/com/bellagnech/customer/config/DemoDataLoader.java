@@ -115,6 +115,12 @@ public class DemoDataLoader implements ApplicationRunner {
                             customer.setAddress("123 Rue Example, Paris");
                         }
                         customerRepository.save(customer);
+                        // Republish current demo state when upgrading retained volumes from
+                        // the legacy event format; reporting upserts these versioned snapshots.
+                        eventProducer.publishCustomerCreated(CustomerCreatedEvent.builder()
+                                .eventType(CustomerCreatedEvent.EVENT_TYPE)
+                                .customerId(customer.getId()).name(customer.getName())
+                                .email(customer.getEmail()).username(user.getUsername()).build());
                     });
                     log.debug("Updated password for demo user: {}", username);
                 },
@@ -140,6 +146,7 @@ public class DemoDataLoader implements ApplicationRunner {
                         customer.setUser(saved);
                         Customer savedCustomer = customerRepository.save(customer);
                         eventProducer.publishCustomerCreated(CustomerCreatedEvent.builder()
+                                .eventType(CustomerCreatedEvent.EVENT_TYPE)
                                 .customerId(savedCustomer.getId())
                                 .name(savedCustomer.getName())
                                 .email(savedCustomer.getEmail())

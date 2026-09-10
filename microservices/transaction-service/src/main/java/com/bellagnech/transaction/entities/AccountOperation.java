@@ -34,6 +34,7 @@ public class AccountOperation {
     private BigDecimal amount;
 
     @NotBlank(message = "Description is required")
+    @Column(length = 1200)
     private String description;
 
     @Enumerated(EnumType.STRING)

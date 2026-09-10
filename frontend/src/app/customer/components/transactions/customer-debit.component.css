@@ -1,10 +1,10 @@
 .customer-debit {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .card {
-        border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: 1px solid var(--eb-border);
+        box-shadow: none;
       }
 
       .form-label {
@@ -13,16 +13,16 @@
       }
 
       .btn {
-        border-radius: 0.375rem;
+        border-radius: var(--bs-btn-border-radius);
       }
 
       .input-group-text {
-        background-color: #f8f9fa;
+        background-color: var(--eb-background);
         border-color: #dee2e6;
       }
 
       @media (max-width: 768px) {
         .customer-debit {
-          padding: 1rem;
+          padding: 0;
         }
       }

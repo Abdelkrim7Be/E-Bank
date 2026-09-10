@@ -1,5 +1,5 @@
 .customer-account-details {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .transaction-icon {
@@ -24,15 +24,15 @@
 
       .transaction-icon.transfer {
         background-color: rgba(13, 110, 253, 0.1);
-        color: #0d6efd;
+        color: var(--eb-blue);
       }
 
       .transaction-item:hover {
-        background-color: #f8f9fa;
+        background-color: var(--eb-background);
       }
 
       @media (max-width: 768px) {
         .customer-account-details {
-          padding: 1rem;
+          padding: 0;
         }
       }

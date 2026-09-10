@@ -29,6 +29,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
     private final CustomerEventProducer eventProducer;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public record CustomerStats(
             long totalCustomers,
@@ -42,6 +43,23 @@ public class CustomerService {
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         log.info("Saving customer: {}", customerDTO.getName());
         Customer customer = toEntity(customerDTO);
+        // A customer created with login details must have a linked identity.
+        if (customerDTO.getUsername() != null && !customerDTO.getUsername().isBlank()) {
+            if (customerDTO.getPassword() == null || customerDTO.getPassword().length() < 6)
+                throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST, "Password must be at least 6 characters");
+            String username = customerDTO.getUsername().trim();
+            if (userRepository.existsByUsername(username) || userRepository.existsByEmail(customerDTO.getEmail()))
+                throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT, "Username or email already exists");
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(customerDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
+            user.setFirstName(customerDTO.getFirstName());
+            user.setLastName(customerDTO.getLastName());
+            user.setRole(com.bellagnech.customer.enums.Role.CUSTOMER);
+            user.setEnabled(customerDTO.isEnabled());
+            customer.setUser(userRepository.save(user));
+        }
         Customer saved = customerRepository.save(customer);
         publishCustomerCreated(saved, null);
         return toDTO(saved);
@@ -90,7 +108,12 @@ public class CustomerService {
 
         Customer updated = customerRepository.save(existing);
 
-        // Publish Kafka event
+        publishCustomerUpdated(updated);
+        return toDTO(updated);
+    }
+
+    private void publishCustomerUpdated(Customer updated) {
+        User user = updated.getUser();
         try {
             CustomerUpdatedEvent event = CustomerUpdatedEvent.builder()
                     .eventId(java.util.UUID.randomUUID().toString())
@@ -108,7 +131,6 @@ public class CustomerService {
             throw new IllegalStateException("Could not persist domain event", e);
         }
 
-        return toDTO(updated);
     }
 
     @Transactional
@@ -172,6 +194,7 @@ public class CustomerService {
             log.warn("No user entity found for customer ID {}. Status toggle will not affect login.", customerId);
         }
 
+        publishCustomerUpdated(customer);
         return toDTO(customer);
     }
 
@@ -196,7 +219,11 @@ public class CustomerService {
         log.info("Bulk deleting {} customers", customerIds.size());
         customerIds.forEach(id -> {
             if (customerRepository.existsById(id)) {
-                customerRepository.deleteById(id);
+                try {
+                    deleteCustomer(id);
+                } catch (CustomerNotFoundException e) {
+                    throw new IllegalStateException(e);
+                }
             } else {
                 log.warn("Customer not found during bulk delete: {}", id);
             }

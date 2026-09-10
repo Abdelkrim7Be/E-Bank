@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../../environments/environment';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-admin-reports', standalone: true,
@@ -55,11 +56,43 @@ export class AdminReportsComponent {
 
   download(): void {
     if (!this.result) return;
-    const url = URL.createObjectURL(new Blob([JSON.stringify(this.result, null, 2)], { type: 'application/json' }));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `e-bank-${this.generatedId}.json`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
+    const margin = 18;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    let y = 20;
+    pdf.setFillColor(31, 54, 139);
+    pdf.rect(0, 0, pageWidth, 12, 'F');
+    pdf.setTextColor(31, 54, 139);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(20);
+    pdf.text('E-Bank', margin, y + 8);
+    pdf.setFontSize(14);
+    pdf.text(this.generatedTitle, margin, y + 20);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(9);
+    pdf.setTextColor(98, 99, 107);
+    pdf.text(`Generated ${new Date().toLocaleString()}`, margin, y + 27);
+    y += 40;
+
+    for (const [key, value] of this.entries) {
+      const label = this.formatLabel(key);
+      const lines = pdf.splitTextToSize(this.formatValue(value), pageWidth - margin * 2 - 4);
+      if (y > 275) { pdf.addPage(); y = 20; }
+      pdf.setTextColor(31, 54, 139);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.text(label, margin, y);
+      y += 6;
+      pdf.setTextColor(48, 49, 58);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      for (const line of lines) {
+        if (y > 285) { pdf.addPage(); y = 20; }
+        pdf.text(line, margin + 2, y);
+        y += 4.5;
+      }
+      y += 4;
+    }
+    pdf.save(`e-bank-${this.generatedId}.pdf`);
   }
 }

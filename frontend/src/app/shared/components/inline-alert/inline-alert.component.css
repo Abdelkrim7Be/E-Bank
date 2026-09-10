@@ -6,25 +6,25 @@
 
     .alert-success {
       background-color: rgba(42, 157, 143, 0.1);
-      border-left: 4px solid var(--success-green);
+      border: 1px solid var(--eb-border);
       color: var(--success-green);
     }
 
     .alert-danger {
       background-color: rgba(231, 111, 81, 0.1);
-      border-left: 4px solid var(--danger-orange);
+      border: 1px solid var(--eb-border);
       color: var(--danger-orange);
     }
 
     .alert-warning {
       background-color: rgba(233, 196, 106, 0.1);
-      border-left: 4px solid var(--warning-yellow);
+      border: 1px solid var(--eb-border);
       color: var(--dark-gray);
     }
 
     .alert-info {
       background-color: rgba(21, 77, 168, 0.1);
-      border-left: 4px solid var(--primary-red);
+      border: 1px solid var(--eb-border);
       color: var(--primary-red);
     }
 

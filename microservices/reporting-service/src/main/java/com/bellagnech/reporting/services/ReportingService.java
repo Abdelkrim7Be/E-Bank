@@ -99,23 +99,24 @@ public class ReportingService {
             customerId, OffsetDateTime.ofInstant(since, ZoneOffset.UTC));
     }
 
+    /** Every account's balance must equal the sum of its own ledger entries: opening deposits and every
+     *  credit/debit/transfer leg are all recorded as transactions, so there is no separate opening-balance term. */
     public Map<String,Object> getReconciliationReport() {
         var result = metadata("Ledger Reconciliation");
         var rows = sql.query("""
-            select a.id,a.initial_balance,a.balance,
-              a.initial_balance + coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0) expected
+            select a.id,a.balance,
+              coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0) expected
             from projected_accounts a left join projected_transactions t on t.account_id=a.id
-            where a.initial_balance is not null
-            group by a.id,a.initial_balance,a.balance
-            having abs(a.balance - (a.initial_balance + coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0))) > 0.01
+            group by a.id,a.balance
+            having abs(a.balance - coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0)) > 0.01
             order by a.id
             """, (rs,n) -> Map.<String,Object>of("accountId",rs.getString("id"),
                 "expectedBalance",rs.getBigDecimal("expected"),"actualBalance",rs.getBigDecimal("balance"),
                 "difference",rs.getBigDecimal("balance").subtract(rs.getBigDecimal("expected"))));
-        long reconcilable = count("select count(*) from projected_accounts where initial_balance is not null");
+        long checked = count("select count(*) from projected_accounts");
         long unreconciled = rows.size();
-        result.put("accountsChecked", reconcilable);
-        result.put("accountsBalanced", reconcilable - unreconciled);
+        result.put("accountsChecked", checked);
+        result.put("accountsBalanced", checked - unreconciled);
         result.put("mismatches", rows);
         result.put("status", unreconciled == 0 ? "BALANCED" : "MISMATCH");
         return result;

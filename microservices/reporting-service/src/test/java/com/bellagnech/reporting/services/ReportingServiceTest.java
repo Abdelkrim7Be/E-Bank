@@ -42,10 +42,11 @@ class ReportingServiceTest {
     }
     @Test void reconciliationFlagsAccountsWhoseLedgerDoesNotMatchBalance() throws Exception {
         projections.accept("account-events", account("bal1", 1, "100.00"));
-        projections.accept("account-events", account("bal2", 2, "150.00"));
         sql.update("update projected_accounts set id='b1' where id='a'");
-        String credit = "{\"schemaVersion\":1,\"eventId\":\"tx1\",\"aggregateId\":\"b1\",\"accountId\":\"b1\",\"type\":\"CREDIT\",\"amount\":50.00,\"occurredAt\":\"2026-09-09T00:00:00Z\"}";
-        projections.accept("transaction-events", credit);
+        String opening = "{\"schemaVersion\":1,\"eventId\":\"tx1\",\"aggregateId\":\"b1\",\"accountId\":\"b1\",\"type\":\"CREDIT\",\"amount\":60.00,\"occurredAt\":\"2026-09-09T00:00:00Z\"}";
+        String topUp = "{\"schemaVersion\":1,\"eventId\":\"tx2\",\"aggregateId\":\"b1\",\"accountId\":\"b1\",\"type\":\"CREDIT\",\"amount\":40.00,\"occurredAt\":\"2026-09-09T00:00:00Z\"}";
+        projections.accept("transaction-events", opening);
+        projections.accept("transaction-events", topUp);
         var balanced = reports.getReconciliationReport();
         assertThat(balanced.get("status")).isEqualTo("BALANCED");
         assertThat(balanced.get("accountsChecked")).isEqualTo(1L);

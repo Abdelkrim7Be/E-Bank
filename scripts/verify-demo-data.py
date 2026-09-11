@@ -25,7 +25,7 @@ def main():
 
     token = request('auth/login', {'username': 'admin', 'password': 'password'})['token']
     customers = request('customers')
-    accounts = request('accounts?size=100')['content']
+    accounts = request('accounts?size=100')
     customer_ids = {customer['id'] for customer in customers}
     assert len(customers) == 50, 'Expected 50 fictional customers'
     assert len(accounts) == 50, 'Expected 50 demo accounts'

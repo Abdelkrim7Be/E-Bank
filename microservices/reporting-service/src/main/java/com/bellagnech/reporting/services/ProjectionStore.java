@@ -28,7 +28,7 @@ public class ProjectionStore {
                 throw new IllegalArgumentException("Missing account snapshot");
             var versions = sql.queryForList("select version from projected_accounts where id=?", Long.class, aggregate);
             if (versions.isEmpty()) {
-                sql.update("insert into projected_accounts values(?,?,?,?,?,?,?)", aggregate, e.get("customerId").asLong(), e.path("accountType").asText(), e.get("balance").decimalValue(), e.path("status").asText(), version, e.get("balance").decimalValue());
+                sql.update("insert into projected_accounts values(?,?,?,?,?,?)", aggregate, e.get("customerId").asLong(), e.path("accountType").asText(), e.get("balance").decimalValue(), e.path("status").asText(), version);
             } else if (version > versions.get(0)) {
                 sql.update("update projected_accounts set customer_id=?, account_type=?, balance=?, status=?, version=? where id=?", e.get("customerId").asLong(), e.path("accountType").asText(), e.get("balance").decimalValue(), e.path("status").asText(), version, aggregate);
             }

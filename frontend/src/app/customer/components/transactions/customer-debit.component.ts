@@ -55,7 +55,6 @@ export class CustomerDebitComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(3)]],
     });
 
-    // Add custom validator for insufficient funds
     form.get('amount')?.valueChanges.subscribe(() => {
       this.validateAmount();
     });
@@ -77,7 +76,6 @@ export class CustomerDebitComponent implements OnInit {
       if (selectedAccount && amount > selectedAccount.balance) {
         amountControl.setErrors({ insufficientFunds: true });
       } else if (amountControl.errors?.['insufficientFunds']) {
-        // Remove insufficient funds error if amount is now valid
         const errors = { ...amountControl.errors };
         delete errors['insufficientFunds'];
         amountControl.setErrors(Object.keys(errors).length ? errors : null);
@@ -117,7 +115,6 @@ export class CustomerDebitComponent implements OnInit {
             'No active accounts found. Please contact support to create an account.';
         }
 
-        // Pre-select account if provided in route
         if (this.preSelectedAccountId && this.accounts.length > 0) {
           const account = this.accounts.find(
             (acc) => acc.id === this.preSelectedAccountId
@@ -216,7 +213,6 @@ export class CustomerDebitComponent implements OnInit {
           this.successMessage = `Debit completed successfully!`;
           this.debitForm.reset();
 
-          // Redirect to accounts page after 3 seconds
           setTimeout(() => {
             this.router.navigate(['/customer/accounts']);
           }, 3000);
@@ -234,7 +230,6 @@ export class CustomerDebitComponent implements OnInit {
     this.router.navigate(['/customer/dashboard']);
   }
 
-  // Getter methods for form controls
   get accountId() {
     return this.debitForm.get('accountId');
   }

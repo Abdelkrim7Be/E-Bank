@@ -1,9 +1,4 @@
-/**
- * Data Transfer Objects (DTOs) matching the Spring Boot backend
- * Based on TODO.md specifications
- */
 
-// Authentication DTOs
 export interface LoginRequest {
   username: string;
   password: string;
@@ -26,7 +21,6 @@ export interface AuthResponse {
   message?: string;
 }
 
-// Core Business DTOs
 export interface CustomerDTO {
   id?: number;
   name: string;
@@ -64,7 +58,6 @@ export interface AccountOperationDTO {
   type: "CREDIT" | "DEBIT";
 }
 
-// Banking Operation Request DTOs
 export interface DebitRequest {
   amount: number;
   description: string;
@@ -75,7 +68,6 @@ export interface CreditRequest {
   description: string;
 }
 
-// Account Selection DTO for dropdowns
 export interface AccountSelectionDTO {
   accountId: string;
   customerUsername: string;
@@ -86,7 +78,6 @@ export interface AccountSelectionDTO {
   displayText?: string; // Computed display format
 }
 
-// Transfer Request DTO
 export interface TransferRequestDTO {
   sourceAccountId: string;
   destinationAccountId: string;
@@ -101,7 +92,6 @@ export interface TransferRequest {
   description: string;
 }
 
-// Dashboard DTOs
 export interface BankingStatsDTO {
   totalCustomers: number;
   totalAccounts: number;
@@ -126,7 +116,6 @@ export interface CustomersSummaryDTO {
   customersWithAccounts: number;
 }
 
-// Pagination DTOs
 export interface PageRequest {
   page: number;
   size: number;
@@ -145,7 +134,6 @@ export interface PageResponse<T> {
   numberOfElements: number;
 }
 
-// Search DTOs
 export interface CustomerSearchRequest {
   name?: string;
   email?: string;
@@ -164,7 +152,6 @@ export interface AccountSearchRequest {
   size?: number;
 }
 
-// User Management DTOs (Admin only)
 export interface UserDTO {
   id: number;
   username: string;
@@ -179,7 +166,6 @@ export interface UserStatusUpdateRequest {
   enabled: boolean;
 }
 
-// Account Creation DTOs
 export interface CreateCurrentAccountRequest {
   initialBalance: number;
   overDraft: number;
@@ -192,7 +178,6 @@ export interface CreateSavingAccountRequest {
   customerId: number;
 }
 
-// Transaction History DTOs
 export interface TransactionHistoryRequest {
   accountId: string;
   page?: number;
@@ -211,7 +196,6 @@ export interface TransactionHistoryResponse {
   currentPage: number;
 }
 
-// Health Check DTO
 export interface HealthCheckResponse {
   status: "UP" | "DOWN";
   database: "UP" | "DOWN";
@@ -219,7 +203,6 @@ export interface HealthCheckResponse {
   timestamp: Date;
 }
 
-// Error Response DTO
 export interface ErrorResponse {
   timestamp: Date;
   status: number;
@@ -228,7 +211,6 @@ export interface ErrorResponse {
   path: string;
 }
 
-// Export DTOs
 export interface ExportRequest {
   format: "CSV" | "PDF" | "EXCEL";
   startDate?: Date;
@@ -237,7 +219,6 @@ export interface ExportRequest {
   customerId?: number;
 }
 
-// Notification DTOs
 export interface NotificationDTO {
   id: number;
   title: string;
@@ -248,7 +229,6 @@ export interface NotificationDTO {
   userId: number;
 }
 
-// Dashboard Chart Data DTOs
 export interface ChartDataDTO {
   labels: string[];
   datasets: {
@@ -275,7 +255,6 @@ export interface MonthlyTransactionVolumeDTO {
   debitTransactions: number;
 }
 
-// Form Validation DTOs
 export interface ValidationErrorDTO {
   field: string;
   message: string;

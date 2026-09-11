@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
           return false;
         }
 
-        // Check for role-based access
         const requiredRoles = route.data['roles'] as UserRole[];
         if (requiredRoles && requiredRoles.length > 0) {
           const user = this.authService.getCurrentUser();

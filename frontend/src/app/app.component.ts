@@ -28,19 +28,16 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Listen to route changes to determine when to show navigation
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.updateNavigationVisibility(event.url);
       });
 
-    // Listen to authentication state changes
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.updateNavigationVisibility(this.router.url);
     });
 
-    // Initial check
     this.updateNavigationVisibility(this.router.url);
   }
 

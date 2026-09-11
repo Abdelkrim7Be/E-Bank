@@ -1,14 +1,11 @@
 <div class="app-container">
       <a class="skip-link" href="#main-content">Skip to content</a>
-      <!-- Navigation (only show when authenticated and not on auth pages) -->
       <app-navigation *ngIf="showNavigation"></app-navigation>
 
-      <!-- Main Content -->
       <main id="main-content" tabindex="-1" class="main-content" [class.with-nav]="showNavigation">
         <router-outlet></router-outlet>
       </main>
 
-      <!-- Global Components -->
       <app-loader></app-loader>
       <app-notifications></app-notifications>
     </div>

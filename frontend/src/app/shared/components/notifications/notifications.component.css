@@ -117,7 +117,6 @@
       }
     }
 
-    /* Mobile responsiveness */
     @media (max-width: 768px) {
       .notification-container {
         top: 10px;

@@ -31,7 +31,6 @@ export interface CustomerStats {
   totalBalance: number;
 }
 
-// Create payload for POST /api/admin/customers
 export interface CustomerCreateDTO {
   password: string;
   username: string;
@@ -48,7 +47,6 @@ export interface CustomerCreateDTO {
 @Injectable({
   providedIn: "root",
 })
-/** Admin customer CRUD and list/export; normalizes backend array to CustomerResponse. */
 export class AdminCustomerService {
   private readonly API_URL = `${environment.apiUrl}${environment.endpoints.admin.customers}`;
 
@@ -258,9 +256,6 @@ export class AdminCustomerService {
     );
   }
 
-  /**
-   * Bulk update customer status
-   */
   bulkUpdateStatus(
     customerIds: number[],
     enabled: boolean,
@@ -302,9 +297,6 @@ export class AdminCustomerService {
       );
   }
 
-  /**
-   * Get customer statistics
-   */
   getCustomerStats(): Observable<CustomerStats> {
     return this.http.get<CustomerStats>(`${this.API_URL}/stats`);
   }
@@ -313,9 +305,6 @@ export class AdminCustomerService {
     return this.http.get<any[]>(`${this.API_URL}/${customerId}/accounts`);
   }
 
-  /**
-   * Get customer transactions
-   */
   getCustomerTransactions(customerId: number, params?: any): Observable<any> {
     let httpParams = new HttpParams();
 
@@ -368,9 +357,6 @@ export class AdminCustomerService {
     }).pipe(map((response) => response.content));
   }
 
-  /**
-   * Validate customer data
-   */
   validateCustomerData(data: Partial<User>): { [key: string]: string } {
     const errors: { [key: string]: string } = {};
 
@@ -398,9 +384,6 @@ export class AdminCustomerService {
     return emailRegex.test(email);
   }
 
-  /**
-   * Get current customers from subject
-   */
   getCurrentCustomers(): User[] {
     return this.customersSubject.value;
   }
@@ -409,20 +392,13 @@ export class AdminCustomerService {
     this.customersSubject.next([]);
   }
 
-  /**
-   * Clean malformed JSON response
-   */
   private cleanMalformedJSON(jsonString: string): string {
     let cleaned = jsonString.trim();
 
     console.log("Cleaning JSON, original length:", cleaned.length);
 
-    // Remove any extra closing braces at the end
-    // Look for patterns like }}}}}}}}} and replace with single }
     cleaned = cleaned.replace(/}+$/, "}");
 
-    // Try to find the actual end of the JSON object
-    // Count opening and closing braces to find where the JSON should end
     let openBraces = 0;
     let closeBraces = 0;
     let validEndIndex = -1;
@@ -433,7 +409,6 @@ export class AdminCustomerService {
       } else if (cleaned[i] === "}") {
         closeBraces++;
 
-        // If we have equal braces and we're at a valid JSON end
         if (openBraces === closeBraces && openBraces > 0) {
           validEndIndex = i;
           break;

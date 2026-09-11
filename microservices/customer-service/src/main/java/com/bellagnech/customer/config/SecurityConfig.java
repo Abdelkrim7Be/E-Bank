@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/** Stateless JWT + permit public and internal customer API. */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

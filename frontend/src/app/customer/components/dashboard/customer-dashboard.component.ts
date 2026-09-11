@@ -7,7 +7,6 @@ import { User } from '../../../auth/models/auth.model';
 import { AccountService } from '../../../shared/services/account.service';
 import { BankAccount, Transaction } from '../../../shared/models/account.model';
 
-
 Chart.register(...registerables);
 Chart.defaults.font.family = "Montserrat, Arial, sans-serif";
 Chart.defaults.color = "#62636b";

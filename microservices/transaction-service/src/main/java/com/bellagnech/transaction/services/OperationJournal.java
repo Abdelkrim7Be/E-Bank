@@ -48,13 +48,11 @@ public class OperationJournal {
         return requests.saveAndFlush(o);
     }
 
-    // A failed/lost HTTP response rolls this transaction back, retaining the previously committed
-    // PENDING request. Retrying the account command uses its original ID and cannot move money twice.
+    // Retrying a pending request reuses the account command ID after a lost response.
     @Transactional
     public OperationRequest complete(String id) {
         var o = requests.lockById(id).orElseThrow();
-        // prepare() may have cached PENDING in a request-scoped persistence context.
-        // Re-read after acquiring the lock so a concurrent completion cannot be repeated.
+        // Refresh cached state after locking to prevent concurrent completion from being repeated.
         entityManager.refresh(o);
         if ("COMPLETED".equals(o.getStatus())) return o;
         Map<String,Object> command = new HashMap<>();

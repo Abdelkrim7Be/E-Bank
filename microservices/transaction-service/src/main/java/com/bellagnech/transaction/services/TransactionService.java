@@ -39,7 +39,6 @@ public class TransactionService {
 
     public com.bellagnech.transaction.entities.OperationRequest execute(String key, String type, String accountId,
             String destinationId, BigDecimal amount, String description) {
-        // The unique key arbitrates simultaneous first submissions before any remote mutation.
         try { journal.prepare(key, type, accountId, destinationId, amount, description); }
         catch (org.springframework.dao.DataIntegrityViolationException duplicate) {
             journal.prepare(key, type, accountId, destinationId, amount, description);
@@ -81,10 +80,7 @@ public class TransactionService {
         return PageRequest.of(page, size);
     }
 
-    /**
-     * Resolve and set customerName for each DTO from account-service (cached per request to avoid N+1).
-     * Falls back to customer-service by customerId when account does not include customerName.
-     */
+    /** Resolve and set customerName for each DTO from account-service (cached per request to avoid N+1). */
     private void enrichWithCustomerNames(List<AccountOperationDTO> dtos) {
         if (dtos == null || dtos.isEmpty()) return;
         Map<String, String> cache = new ConcurrentHashMap<>();

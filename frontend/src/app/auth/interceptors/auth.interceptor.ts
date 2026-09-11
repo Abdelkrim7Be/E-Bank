@@ -23,7 +23,6 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // Add auth token to request if available
     const authToken = this.authService.getToken();
     console.log('AuthInterceptor - URL:', request.url);
     console.log('AuthInterceptor - Token available:', !!authToken);

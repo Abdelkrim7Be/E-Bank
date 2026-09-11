@@ -36,7 +36,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
 
-    // Check if user is already logged in
     if (this.authService.isAuthenticated()) {
       this.redirectUser();
     }
@@ -85,12 +84,10 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.errorMessage = "";
 
-    // Updated to match TODO.md RegisterRequest DTO
     const registerData: RegisterRequest = {
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
-      // Sign up is only for CUSTOMER accounts
       role: UserRole.CUSTOMER,
       name: `${this.registerForm.value.firstName} ${this.registerForm.value.lastName}`, // Combined name as per DTO
       phone: this.registerForm.value.phone || undefined, // Optional phone
@@ -125,7 +122,6 @@ export class RegisterComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  // Getter methods for form controls
   get firstName() {
     return this.registerForm.get("firstName");
   }
@@ -151,7 +147,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get("acceptTerms");
   }
 
-  // Password strength helper methods
   checkPasswordRequirement(requirement: string): boolean {
     const password = this.password?.value || "";
 

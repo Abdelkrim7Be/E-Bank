@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/** Customer portal API: /api/customer/** (JWT). */
 @RestController
 @RequestMapping("/api/customer")
 @RequiredArgsConstructor

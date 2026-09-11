@@ -32,7 +32,6 @@ export class NotificationService {
     const currentNotifications = this.notificationsSubject.value;
     this.notificationsSubject.next([...currentNotifications, newNotification]);
 
-    // Auto-dismiss after duration
     if (newNotification.duration && newNotification.duration > 0) {
       setTimeout(() => {
         this.dismiss(newNotification.id);
@@ -86,7 +85,6 @@ export class NotificationService {
     this.notificationsSubject.next([]);
   }
 
-  // Banking-specific convenience methods
   transactionSuccess(transactionId: string, amount: number, type: string): void {
     this.success(
       `${type} of ${amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} completed successfully!`,

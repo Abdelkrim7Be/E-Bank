@@ -36,7 +36,6 @@ public interface AccountServiceClient {
         public String status;
         public Long customerId;
         public String type;
-        /** Populated by account-service when enriching with customer */
         public String customerName;
     }
 }

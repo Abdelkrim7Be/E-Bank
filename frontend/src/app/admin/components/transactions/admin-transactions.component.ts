@@ -48,16 +48,13 @@ export class AdminTransactionsComponent implements OnInit {
   errorMessage = "";
   accountsForSelection: AccountSelectionDTO[] = [];
 
-  // Client-side pagination
   pageSize = 10;
   currentPage = 0;
 
-  // Quick search & filters (header bar)
   searchTerm = "";
   selectedStatus = "";
   selectedType = "";
 
-  // Operation modal
   currentOperation: "credit" | "debit" = "credit";
   operationLoading = false;
   operationForm: FormGroup;
@@ -169,7 +166,6 @@ export class AdminTransactionsComponent implements OnInit {
     this.accountService.getTransactions(fetchFilter).subscribe({
       next: (response) => {
         const raw = response.content ?? [];
-        // Sort by operationDate desc so newest records appear first (before any filter)
         this.allTransactions = raw.slice().sort((a, b) => {
           const aDate = a.operationDate
             ? new Date(a.operationDate).getTime()
@@ -202,7 +198,6 @@ export class AdminTransactionsComponent implements OnInit {
     this.currentPage = 0;
     let list = [...this.allTransactions];
 
-    // If we are in a specific customer context, keep only that customer's accounts
     if (this.customerAccountIds && this.customerAccountIds.size > 0) {
       list = list.filter((t) =>
         this.customerAccountIds!.has(
@@ -359,19 +354,16 @@ export class AdminTransactionsComponent implements OnInit {
     const visiblePages: (number | string)[] = [];
 
     if (totalPages <= 7) {
-      // Show all pages if 7 or fewer
       for (let i = 1; i <= totalPages; i++) {
         visiblePages.push(i);
       }
     } else {
-      // Always show first page
       visiblePages.push(1);
 
       if (currentPage > 4) {
         visiblePages.push("...");
       }
 
-      // Show pages around current page
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -383,7 +375,6 @@ export class AdminTransactionsComponent implements OnInit {
         visiblePages.push("...");
       }
 
-      // Always show last page
       if (totalPages > 1) {
         visiblePages.push(totalPages);
       }
@@ -419,7 +410,6 @@ export class AdminTransactionsComponent implements OnInit {
     const currentPage = this.pagedResponse.number;
     const pages: number[] = [];
 
-    // Show max 5 pages around current page
     const start = Math.max(0, currentPage - 2);
     const end = Math.min(totalPages - 1, currentPage + 2);
 
@@ -430,7 +420,6 @@ export class AdminTransactionsComponent implements OnInit {
     return pages;
   }
 
-  // Banking Operations
   openOperationModal(operation: "credit" | "debit"): void {
     this.currentOperation = operation;
     this.operationForm.reset();
@@ -480,10 +469,8 @@ export class AdminTransactionsComponent implements OnInit {
         this.operationLoading = false;
         this.successMessage = `${this.getOperationTitle()} completed successfully!`;
 
-        // Close modal
         this.closeModal();
 
-        // Reload transactions
         this.loadTransactions();
       },
       error: (error) => {
@@ -532,7 +519,6 @@ export class AdminTransactionsComponent implements OnInit {
     }
   }
 
-  // Helper methods for display
   getCustomerName(transaction: any): string {
     if (transaction.customerName) return transaction.customerName;
     if (transaction.customer && transaction.customer.username) {

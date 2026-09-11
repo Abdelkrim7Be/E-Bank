@@ -113,19 +113,16 @@ export class CustomerTransactionsComponent implements OnInit {
     const visiblePages: (number | string)[] = [];
 
     if (totalPages <= 7) {
-      // Show all pages if 7 or fewer
       for (let i = 1; i <= totalPages; i++) {
         visiblePages.push(i);
       }
     } else {
-      // Always show first page
       visiblePages.push(1);
 
       if (currentPage > 4) {
         visiblePages.push("...");
       }
 
-      // Show pages around current page
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -137,7 +134,6 @@ export class CustomerTransactionsComponent implements OnInit {
         visiblePages.push("...");
       }
 
-      // Always show last page
       if (totalPages > 1) {
         visiblePages.push(totalPages);
       }

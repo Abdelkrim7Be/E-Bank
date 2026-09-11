@@ -1,7 +1,6 @@
 <div class="container-fluid mt-4">
       <div class="row">
         <div class="col-12">
-          <!-- Header -->
           <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
               <h1 class="h3 mb-0">Customer Details</h1>
@@ -43,7 +42,6 @@
             </div>
           </div>
 
-          <!-- Error Alert -->
           @if (error) {
             <div
               class="alert alert-danger alert-dismissible fade show"
@@ -58,7 +56,6 @@
             </div>
           }
 
-          <!-- Loading Spinner -->
           @if (loading) {
             <div class="text-center py-5">
               <div class="spinner-border text-primary" role="status">
@@ -68,10 +65,8 @@
             </div>
           }
 
-          <!-- Customer Details -->
           @if (customer && !loading) {
             <div class="row">
-              <!-- Customer Information Card -->
               <div class="col-lg-8 mb-4">
                 <div class="card border-0 shadow-sm">
                   <div class="card-header bg-white">
@@ -130,7 +125,6 @@
                 </div>
               </div>
 
-              <!-- Quick Stats Card -->
               <div class="col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm">
                   <div class="card-header bg-white">
@@ -180,7 +174,6 @@
               </div>
             </div>
 
-            <!-- Account Information -->
             <div class="row">
               <div class="col-12">
                 <div class="card border-0 shadow-sm">

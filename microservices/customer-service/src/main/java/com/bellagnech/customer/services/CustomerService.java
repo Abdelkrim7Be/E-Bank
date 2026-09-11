@@ -43,7 +43,6 @@ public class CustomerService {
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         log.info("Saving customer: {}", customerDTO.getName());
         Customer customer = toEntity(customerDTO);
-        // A customer created with login details must have a linked identity.
         if (customerDTO.getUsername() != null && !customerDTO.getUsername().isBlank()) {
             if (customerDTO.getPassword() == null || customerDTO.getPassword().length() < 6)
                 throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST, "Password must be at least 6 characters");
@@ -141,7 +140,6 @@ public class CustomerService {
         }
         customerRepository.deleteById(customerId);
 
-        // Publish Kafka event
         try {
             CustomerDeletedEvent event = CustomerDeletedEvent.builder()
                     .eventId(java.util.UUID.randomUUID().toString())
@@ -235,10 +233,8 @@ public class CustomerService {
         long total = customerRepository.count();
         long active = userRepository.countByEnabledTrue();
         long inactive = userRepository.countByEnabledFalse();
-        // For now, treat locked accounts as suspended
         long suspended = userRepository.countByAccountNonLockedFalse();
 
-        // Simple approximation for "new this month" using createdDate
         long newThisMonth = userRepository.countCreatedThisMonth();
 
         return new CustomerStats(

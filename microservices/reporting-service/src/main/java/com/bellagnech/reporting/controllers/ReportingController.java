@@ -22,10 +22,6 @@ public class ReportingController {
         return ResponseEntity.ok(reportingService.getDashboardStats());
     }
 
-    /**
-     * Dedicated stats endpoint used by the admin dashboard widget.
-     * Returns the same payload as /dashboard for backward compatibility.
-     */
     @GetMapping("/dashboard/stats")
     public ResponseEntity<Map<String, Object>> getDashboardStatsForAdmin() {
         log.info("Dashboard stats requested (admin widget)");

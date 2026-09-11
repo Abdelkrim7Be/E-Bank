@@ -55,7 +55,6 @@ export class CustomerTransferComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(3)]],
     });
 
-    // Add custom validators
     form.get('amount')?.valueChanges.subscribe(() => {
       this.validateAmount();
     });
@@ -259,7 +258,6 @@ export class CustomerTransferComponent implements OnInit {
     this.router.navigate(['/customer/dashboard']);
   }
 
-  // Getter methods for form controls
   get fromAccountId() {
     return this.transferForm.get('fromAccountId');
   }

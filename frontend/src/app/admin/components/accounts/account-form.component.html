@@ -18,7 +18,6 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- Error Alert -->
               @if (error) {
                 <div
                   class="alert alert-danger alert-dismissible fade show"
@@ -33,7 +32,6 @@
                 </div>
               }
 
-              <!-- Success Alert -->
               @if (success) {
                 <div
                   class="alert alert-success alert-dismissible fade show"
@@ -48,7 +46,6 @@
                 </div>
               }
 
-              <!-- Loading Spinner -->
               @if (loading) {
                 <div class="text-center py-4">
                   <div class="spinner-border text-primary" role="status">
@@ -57,10 +54,8 @@
                 </div>
               }
 
-              <!-- Account Form -->
               @if (!loading) {
                 <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-                  <!-- Customer Selection -->
                   <div class="mb-3">
                     <label for="customerId" class="form-label"
                       >Customer *</label
@@ -94,7 +89,6 @@
                     }
                   </div>
 
-                  <!-- Account Type -->
                   <div class="mb-3">
                     <label for="accountType" class="form-label"
                       >Account Type *</label
@@ -123,7 +117,6 @@
                     }
                   </div>
 
-                  <!-- Initial Balance -->
                   <div class="mb-3">
                     <label for="initialBalance" class="form-label"
                       >Initial Balance *</label
@@ -165,7 +158,6 @@
                     }
                   </div>
 
-                  <!-- Current Account Specific Fields -->
                   @if (accountForm.get("accountType")?.value === "CURRENT") {
                     <div class="mb-3">
                       <label for="overdraft" class="form-label"
@@ -190,7 +182,6 @@
                     </div>
                   }
 
-                  <!-- Savings Account Specific Fields -->
                   @if (accountForm.get("accountType")?.value === "SAVING") {
                     <div class="mb-3">
                       <label for="interestRate" class="form-label"
@@ -215,7 +206,6 @@
                     </div>
                   }
 
-                  <!-- Description -->
                   <div class="mb-3">
                     <label for="description" class="form-label"
                       >Description</label
@@ -229,7 +219,6 @@
                     ></textarea>
                   </div>
 
-                  <!-- Form Actions -->
                   <div class="d-flex justify-content-end gap-2">
                     <button
                       type="button"

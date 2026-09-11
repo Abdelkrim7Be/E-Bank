@@ -9,7 +9,6 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-/** CORS for Angular frontend. */
 @Configuration
 public class CorsConfig {
 

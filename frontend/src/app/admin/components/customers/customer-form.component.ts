@@ -105,7 +105,6 @@ export class AdminCustomerFormComponent implements OnInit {
           message: err.message,
         });
 
-        // Try to extract useful error information
         let errorMessage = "Failed to load customer details";
 
         if (err.status === 0) {
@@ -143,7 +142,6 @@ export class AdminCustomerFormComponent implements OnInit {
     const formData = this.customerForm.value;
 
     if (this.isEditMode) {
-      // Use CustomerUpdateRequest for updates (password optional)
       const customerData: CustomerUpdateRequest = {
         username: formData.username,
         email: formData.email,
@@ -157,7 +155,6 @@ export class AdminCustomerFormComponent implements OnInit {
 
       this.updateCustomer(customerData);
     } else {
-      // Build CustomerDTO payload for customer-service
       const customerData: CustomerCreateDTO = {
         password: formData.password,
         username: formData.username,
@@ -220,12 +217,10 @@ export class AdminCustomerFormComponent implements OnInit {
   private formatErrorMessage(err: any, operation: "create" | "update"): string {
     console.log("Formatting error message for:", operation, err);
 
-    // Handle validation errors
     if (err.status === 400 && err.error && err.error.errors) {
       const validationErrors = err.error.errors;
       let errorMessages: string[] = [];
 
-      // Extract field-specific errors
       Object.keys(validationErrors).forEach((field) => {
         const fieldErrors = validationErrors[field];
         if (Array.isArray(fieldErrors)) {
@@ -244,7 +239,6 @@ export class AdminCustomerFormComponent implements OnInit {
       }
     }
 
-    // Handle other error types
     if (err.status === 400) {
       return (
         err.error?.message || `Invalid data provided. Please check your input.`
@@ -263,7 +257,6 @@ export class AdminCustomerFormComponent implements OnInit {
   }
 
   private formatFieldName(field: string): string {
-    // Convert camelCase to readable format
     return field
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase())
@@ -280,7 +273,6 @@ export class AdminCustomerFormComponent implements OnInit {
         console.log("Debug: Response length:", response.length);
         console.log("Debug: Response type:", typeof response);
 
-        // Show first and last 100 characters
         if (response.length > 200) {
           console.log("Debug: First 100 chars:", response.substring(0, 100));
           console.log(

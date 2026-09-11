@@ -33,7 +33,6 @@ export class CustomerListComponent implements OnInit {
   }
 
   loadCustomers(): void {
-    // Load all customers; backend returns full list and does not filter by params
     this.customerService.getCustomers({ size: 10000 }).subscribe({
       next: (response) => {
         this.customers = response.content.map((customer) => ({
@@ -44,7 +43,6 @@ export class CustomerListComponent implements OnInit {
           selected: false,
         }));
 
-        // Apply client-side filter and sort (newest first by default)
         this.filterCustomers();
         this.totalPages = Math.ceil(
           this.filteredCustomers.length / this.pageSize,
@@ -60,7 +58,6 @@ export class CustomerListComponent implements OnInit {
   }
 
   private loadCustomerAccountInfo(): void {
-    // Load only for currently visible page to avoid rate limit (429)
     this.loadCustomerAccountInfoFor(this.paginatedCustomers);
   }
 
@@ -123,7 +120,6 @@ export class CustomerListComponent implements OnInit {
         const aDate = aValue ? new Date(aValue as string).getTime() : 0;
         const bDate = bValue ? new Date(bValue as string).getTime() : 0;
         comparison = aDate - bDate;
-        // If both dates missing, fallback to id (higher id = newer)
         if (comparison === 0 && (a.id != null || b.id != null)) {
           comparison = (a.id ?? 0) - (b.id ?? 0);
         }
@@ -157,7 +153,6 @@ export class CustomerListComponent implements OnInit {
       startIndex,
       endIndex,
     );
-    // Load account counts only for visible page (avoids rate limit)
     this.loadCustomerAccountInfoFor(this.paginatedCustomers);
   }
 
@@ -266,7 +261,6 @@ export class CustomerListComponent implements OnInit {
         },
         error: (err) => {
           console.error("Error exporting customers:", err);
-          // You could show a notification here
         },
       });
   }

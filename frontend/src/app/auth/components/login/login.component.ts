@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     this.initializeForm();
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "";
 
-    // Check if user is already logged in
     if (this.authService.isAuthenticated()) {
       this.redirectUser();
     }
@@ -107,14 +106,12 @@ export class LoginComponent implements OnInit {
 
   loginAsCustomer(): void {
     this.loginForm.patchValue({
-      // Use a demo customer that is guaranteed to have seeded accounts
       username: "jean.martin",
       password: "password",
     });
     this.onSubmit();
   }
 
-  // Getter methods for form controls
   get username() {
     return this.loginForm.get("username");
   }

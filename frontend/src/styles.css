@@ -3,7 +3,6 @@
 @import "./fonts.css";
 @import "./tokens.css";
 
-
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--eb-background); color: var(--eb-ink); line-height: 1.55; border-top: 4px solid var(--eb-navy); }
 h1,h2,h3,h4,h5,h6 { color: var(--eb-navy); letter-spacing: -.015em; }
@@ -63,7 +62,6 @@ button,input,select,textarea { font: inherit; }
   *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
 
-/* Shared banking surfaces: neutral panels and one consistent action palette. */
 body { font-family: var(--bs-body-font-family); font-size: 14px; }
 h1.h3 { color: var(--eb-navy); font-size: clamp(26px, 2.5vw, 34px); font-weight: 600; margin-bottom: 12px !important; }
 h2,.h2 { font-weight: 600; }

@@ -1,0 +1,1101 @@
+accountId,type,amount,daysAgo,description,reference
+ACC-CA-001,CREDIT,1285.00,181,Opening deposit,opening-ACC-CA-001
+SA_001,CREDIT,2670.00,181,Opening savings deposit,opening-SA_001
+ACC-CA-001,CREDIT,2145.00,178,Monthly salary - Atelier Demo,salary-1-0
+ACC-CA-001,DEBIT,728.00,175,Monthly rent,rent-1-0
+ACC-CA-001,DEBIT,90.40,170,Electricity and internet,bills-1-0
+ACC-CA-001,DEBIT,147.65,162,Groceries - Marche Demo,groceries-1-0
+ACC-CA-001,DEBIT,12.99,157,Music subscription,music-1-0
+ACC-CA-001,DEBIT,205.00,151,Savings transfer to SA_001,demo-savings-001-0
+SA_001,CREDIT,205.00,151,Savings transfer from ACC-CA-001,demo-savings-001-0
+ACC-CA-001,CREDIT,2145.00,148,Monthly salary - Atelier Demo,salary-1-1
+ACC-CA-001,DEBIT,728.00,145,Monthly rent,rent-1-1
+ACC-CA-001,DEBIT,90.40,140,Electricity and internet,bills-1-1
+ACC-CA-001,DEBIT,150.65,132,Groceries - Marche Demo,groceries-1-1
+ACC-CA-001,DEBIT,12.99,127,Music subscription,music-1-1
+ACC-CA-001,DEBIT,205.00,121,Savings transfer to SA_001,demo-savings-001-1
+SA_001,CREDIT,205.00,121,Savings transfer from ACC-CA-001,demo-savings-001-1
+ACC-CA-001,CREDIT,2145.00,118,Monthly salary - Atelier Demo,salary-1-2
+ACC-CA-001,DEBIT,728.00,115,Monthly rent,rent-1-2
+ACC-CA-001,DEBIT,90.40,110,Electricity and internet,bills-1-2
+ACC-CA-001,DEBIT,153.65,102,Groceries - Marche Demo,groceries-1-2
+ACC-CA-001,DEBIT,12.99,97,Music subscription,music-1-2
+ACC-CA-001,DEBIT,205.00,91,Savings transfer to SA_001,demo-savings-001-2
+SA_001,CREDIT,205.00,91,Savings transfer from ACC-CA-001,demo-savings-001-2
+ACC-CA-001,CREDIT,2145.00,88,Monthly salary - Atelier Demo,salary-1-3
+ACC-CA-001,DEBIT,728.00,85,Monthly rent,rent-1-3
+ACC-CA-001,DEBIT,90.40,80,Electricity and internet,bills-1-3
+ACC-CA-001,DEBIT,156.65,72,Groceries - Marche Demo,groceries-1-3
+ACC-CA-001,DEBIT,12.99,67,Music subscription,music-1-3
+ACC-CA-001,DEBIT,205.00,61,Savings transfer to SA_001,demo-savings-001-3
+SA_001,CREDIT,205.00,61,Savings transfer from ACC-CA-001,demo-savings-001-3
+ACC-CA-001,CREDIT,2145.00,58,Monthly salary - Atelier Demo,salary-1-4
+ACC-CA-001,DEBIT,728.00,55,Monthly rent,rent-1-4
+ACC-CA-001,DEBIT,90.40,50,Electricity and internet,bills-1-4
+ACC-CA-001,DEBIT,159.65,42,Groceries - Marche Demo,groceries-1-4
+ACC-CA-001,DEBIT,12.99,37,Music subscription,music-1-4
+ACC-CA-001,DEBIT,205.00,31,Savings transfer to SA_001,demo-savings-001-4
+SA_001,CREDIT,205.00,31,Savings transfer from ACC-CA-001,demo-savings-001-4
+ACC-CA-001,CREDIT,2145.00,28,Monthly salary - Atelier Demo,salary-1-5
+ACC-CA-001,DEBIT,728.00,25,Monthly rent,rent-1-5
+ACC-CA-001,DEBIT,90.40,20,Electricity and internet,bills-1-5
+ACC-CA-001,DEBIT,162.65,12,Groceries - Marche Demo,groceries-1-5
+ACC-CA-001,DEBIT,12.99,7,Music subscription,music-1-5
+ACC-CA-001,DEBIT,205.00,1,Savings transfer to SA_001,demo-savings-001-5
+SA_001,CREDIT,205.00,1,Savings transfer from ACC-CA-001,demo-savings-001-5
+ACC-CA-002,CREDIT,1370.00,181,Opening deposit,opening-ACC-CA-002
+SA_002,CREDIT,2840.00,181,Opening savings deposit,opening-SA_002
+ACC-CA-002,CREDIT,2190.00,178,Monthly salary - Atelier Demo,salary-2-0
+ACC-CA-002,DEBIT,736.00,175,Monthly rent,rent-2-0
+ACC-CA-002,DEBIT,91.40,170,Electricity and internet,bills-2-0
+ACC-CA-002,DEBIT,149.65,162,Groceries - Marche Demo,groceries-2-0
+ACC-CA-002,DEBIT,12.99,157,Music subscription,music-2-0
+ACC-CA-002,DEBIT,210.00,151,Savings transfer to SA_002,demo-savings-002-0
+SA_002,CREDIT,210.00,151,Savings transfer from ACC-CA-002,demo-savings-002-0
+ACC-CA-002,CREDIT,2190.00,148,Monthly salary - Atelier Demo,salary-2-1
+ACC-CA-002,DEBIT,736.00,145,Monthly rent,rent-2-1
+ACC-CA-002,DEBIT,91.40,140,Electricity and internet,bills-2-1
+ACC-CA-002,DEBIT,152.65,132,Groceries - Marche Demo,groceries-2-1
+ACC-CA-002,DEBIT,12.99,127,Music subscription,music-2-1
+ACC-CA-002,DEBIT,210.00,121,Savings transfer to SA_002,demo-savings-002-1
+SA_002,CREDIT,210.00,121,Savings transfer from ACC-CA-002,demo-savings-002-1
+ACC-CA-002,CREDIT,2190.00,118,Monthly salary - Atelier Demo,salary-2-2
+ACC-CA-002,DEBIT,736.00,115,Monthly rent,rent-2-2
+ACC-CA-002,DEBIT,91.40,110,Electricity and internet,bills-2-2
+ACC-CA-002,DEBIT,155.65,102,Groceries - Marche Demo,groceries-2-2
+ACC-CA-002,DEBIT,12.99,97,Music subscription,music-2-2
+ACC-CA-002,DEBIT,210.00,91,Savings transfer to SA_002,demo-savings-002-2
+SA_002,CREDIT,210.00,91,Savings transfer from ACC-CA-002,demo-savings-002-2
+ACC-CA-002,CREDIT,2190.00,88,Monthly salary - Atelier Demo,salary-2-3
+ACC-CA-002,DEBIT,736.00,85,Monthly rent,rent-2-3
+ACC-CA-002,DEBIT,91.40,80,Electricity and internet,bills-2-3
+ACC-CA-002,DEBIT,158.65,72,Groceries - Marche Demo,groceries-2-3
+ACC-CA-002,DEBIT,12.99,67,Music subscription,music-2-3
+ACC-CA-002,DEBIT,210.00,61,Savings transfer to SA_002,demo-savings-002-3
+SA_002,CREDIT,210.00,61,Savings transfer from ACC-CA-002,demo-savings-002-3
+ACC-CA-002,CREDIT,2190.00,58,Monthly salary - Atelier Demo,salary-2-4
+ACC-CA-002,DEBIT,736.00,55,Monthly rent,rent-2-4
+ACC-CA-002,DEBIT,91.40,50,Electricity and internet,bills-2-4
+ACC-CA-002,DEBIT,161.65,42,Groceries - Marche Demo,groceries-2-4
+ACC-CA-002,DEBIT,12.99,37,Music subscription,music-2-4
+ACC-CA-002,DEBIT,210.00,31,Savings transfer to SA_002,demo-savings-002-4
+SA_002,CREDIT,210.00,31,Savings transfer from ACC-CA-002,demo-savings-002-4
+ACC-CA-002,CREDIT,2190.00,28,Monthly salary - Atelier Demo,salary-2-5
+ACC-CA-002,DEBIT,736.00,25,Monthly rent,rent-2-5
+ACC-CA-002,DEBIT,91.40,20,Electricity and internet,bills-2-5
+ACC-CA-002,DEBIT,164.65,12,Groceries - Marche Demo,groceries-2-5
+ACC-CA-002,DEBIT,12.99,7,Music subscription,music-2-5
+ACC-CA-002,DEBIT,210.00,1,Savings transfer to SA_002,demo-savings-002-5
+SA_002,CREDIT,210.00,1,Savings transfer from ACC-CA-002,demo-savings-002-5
+ACC-CA-003,CREDIT,1455.00,181,Opening deposit,opening-ACC-CA-003
+SA_003,CREDIT,3010.00,181,Opening savings deposit,opening-SA_003
+ACC-CA-003,CREDIT,2235.00,178,Monthly salary - Atelier Demo,salary-3-0
+ACC-CA-003,DEBIT,744.00,175,Monthly rent,rent-3-0
+ACC-CA-003,DEBIT,92.40,170,Electricity and internet,bills-3-0
+ACC-CA-003,DEBIT,151.65,162,Groceries - Marche Demo,groceries-3-0
+ACC-CA-003,DEBIT,12.99,157,Music subscription,music-3-0
+ACC-CA-003,DEBIT,215.00,151,Savings transfer to SA_003,demo-savings-003-0
+SA_003,CREDIT,215.00,151,Savings transfer from ACC-CA-003,demo-savings-003-0
+ACC-CA-003,CREDIT,2235.00,148,Monthly salary - Atelier Demo,salary-3-1
+ACC-CA-003,DEBIT,744.00,145,Monthly rent,rent-3-1
+ACC-CA-003,DEBIT,92.40,140,Electricity and internet,bills-3-1
+ACC-CA-003,DEBIT,154.65,132,Groceries - Marche Demo,groceries-3-1
+ACC-CA-003,DEBIT,12.99,127,Music subscription,music-3-1
+ACC-CA-003,DEBIT,215.00,121,Savings transfer to SA_003,demo-savings-003-1
+SA_003,CREDIT,215.00,121,Savings transfer from ACC-CA-003,demo-savings-003-1
+ACC-CA-003,CREDIT,2235.00,118,Monthly salary - Atelier Demo,salary-3-2
+ACC-CA-003,DEBIT,744.00,115,Monthly rent,rent-3-2
+ACC-CA-003,DEBIT,92.40,110,Electricity and internet,bills-3-2
+ACC-CA-003,DEBIT,157.65,102,Groceries - Marche Demo,groceries-3-2
+ACC-CA-003,DEBIT,12.99,97,Music subscription,music-3-2
+ACC-CA-003,DEBIT,215.00,91,Savings transfer to SA_003,demo-savings-003-2
+SA_003,CREDIT,215.00,91,Savings transfer from ACC-CA-003,demo-savings-003-2
+ACC-CA-003,CREDIT,2235.00,88,Monthly salary - Atelier Demo,salary-3-3
+ACC-CA-003,DEBIT,744.00,85,Monthly rent,rent-3-3
+ACC-CA-003,DEBIT,92.40,80,Electricity and internet,bills-3-3
+ACC-CA-003,DEBIT,160.65,72,Groceries - Marche Demo,groceries-3-3
+ACC-CA-003,DEBIT,12.99,67,Music subscription,music-3-3
+ACC-CA-003,DEBIT,215.00,61,Savings transfer to SA_003,demo-savings-003-3
+SA_003,CREDIT,215.00,61,Savings transfer from ACC-CA-003,demo-savings-003-3
+ACC-CA-003,CREDIT,2235.00,58,Monthly salary - Atelier Demo,salary-3-4
+ACC-CA-003,DEBIT,744.00,55,Monthly rent,rent-3-4
+ACC-CA-003,DEBIT,92.40,50,Electricity and internet,bills-3-4
+ACC-CA-003,DEBIT,163.65,42,Groceries - Marche Demo,groceries-3-4
+ACC-CA-003,DEBIT,12.99,37,Music subscription,music-3-4
+ACC-CA-003,DEBIT,215.00,31,Savings transfer to SA_003,demo-savings-003-4
+SA_003,CREDIT,215.00,31,Savings transfer from ACC-CA-003,demo-savings-003-4
+ACC-CA-003,CREDIT,2235.00,28,Monthly salary - Atelier Demo,salary-3-5
+ACC-CA-003,DEBIT,744.00,25,Monthly rent,rent-3-5
+ACC-CA-003,DEBIT,92.40,20,Electricity and internet,bills-3-5
+ACC-CA-003,DEBIT,166.65,12,Groceries - Marche Demo,groceries-3-5
+ACC-CA-003,DEBIT,12.99,7,Music subscription,music-3-5
+ACC-CA-003,DEBIT,215.00,1,Savings transfer to SA_003,demo-savings-003-5
+SA_003,CREDIT,215.00,1,Savings transfer from ACC-CA-003,demo-savings-003-5
+ACC-CA-004,CREDIT,1540.00,181,Opening deposit,opening-ACC-CA-004
+SA_004,CREDIT,3180.00,181,Opening savings deposit,opening-SA_004
+ACC-CA-004,CREDIT,2280.00,178,Monthly salary - Atelier Demo,salary-4-0
+ACC-CA-004,DEBIT,752.00,175,Monthly rent,rent-4-0
+ACC-CA-004,DEBIT,93.40,170,Electricity and internet,bills-4-0
+ACC-CA-004,DEBIT,153.65,162,Groceries - Marche Demo,groceries-4-0
+ACC-CA-004,DEBIT,12.99,157,Music subscription,music-4-0
+ACC-CA-004,DEBIT,220.00,151,Savings transfer to SA_004,demo-savings-004-0
+SA_004,CREDIT,220.00,151,Savings transfer from ACC-CA-004,demo-savings-004-0
+ACC-CA-004,CREDIT,2280.00,148,Monthly salary - Atelier Demo,salary-4-1
+ACC-CA-004,DEBIT,752.00,145,Monthly rent,rent-4-1
+ACC-CA-004,DEBIT,93.40,140,Electricity and internet,bills-4-1
+ACC-CA-004,DEBIT,156.65,132,Groceries - Marche Demo,groceries-4-1
+ACC-CA-004,DEBIT,12.99,127,Music subscription,music-4-1
+ACC-CA-004,DEBIT,220.00,121,Savings transfer to SA_004,demo-savings-004-1
+SA_004,CREDIT,220.00,121,Savings transfer from ACC-CA-004,demo-savings-004-1
+ACC-CA-004,CREDIT,2280.00,118,Monthly salary - Atelier Demo,salary-4-2
+ACC-CA-004,DEBIT,752.00,115,Monthly rent,rent-4-2
+ACC-CA-004,DEBIT,93.40,110,Electricity and internet,bills-4-2
+ACC-CA-004,DEBIT,159.65,102,Groceries - Marche Demo,groceries-4-2
+ACC-CA-004,DEBIT,12.99,97,Music subscription,music-4-2
+ACC-CA-004,DEBIT,220.00,91,Savings transfer to SA_004,demo-savings-004-2
+SA_004,CREDIT,220.00,91,Savings transfer from ACC-CA-004,demo-savings-004-2
+ACC-CA-004,CREDIT,2280.00,88,Monthly salary - Atelier Demo,salary-4-3
+ACC-CA-004,DEBIT,752.00,85,Monthly rent,rent-4-3
+ACC-CA-004,DEBIT,93.40,80,Electricity and internet,bills-4-3
+ACC-CA-004,DEBIT,162.65,72,Groceries - Marche Demo,groceries-4-3
+ACC-CA-004,DEBIT,12.99,67,Music subscription,music-4-3
+ACC-CA-004,DEBIT,220.00,61,Savings transfer to SA_004,demo-savings-004-3
+SA_004,CREDIT,220.00,61,Savings transfer from ACC-CA-004,demo-savings-004-3
+ACC-CA-004,CREDIT,2280.00,58,Monthly salary - Atelier Demo,salary-4-4
+ACC-CA-004,DEBIT,752.00,55,Monthly rent,rent-4-4
+ACC-CA-004,DEBIT,93.40,50,Electricity and internet,bills-4-4
+ACC-CA-004,DEBIT,165.65,42,Groceries - Marche Demo,groceries-4-4
+ACC-CA-004,DEBIT,12.99,37,Music subscription,music-4-4
+ACC-CA-004,DEBIT,220.00,31,Savings transfer to SA_004,demo-savings-004-4
+SA_004,CREDIT,220.00,31,Savings transfer from ACC-CA-004,demo-savings-004-4
+ACC-CA-004,CREDIT,2280.00,28,Monthly salary - Atelier Demo,salary-4-5
+ACC-CA-004,DEBIT,752.00,25,Monthly rent,rent-4-5
+ACC-CA-004,DEBIT,93.40,20,Electricity and internet,bills-4-5
+ACC-CA-004,DEBIT,168.65,12,Groceries - Marche Demo,groceries-4-5
+ACC-CA-004,DEBIT,12.99,7,Music subscription,music-4-5
+ACC-CA-004,DEBIT,220.00,1,Savings transfer to SA_004,demo-savings-004-5
+SA_004,CREDIT,220.00,1,Savings transfer from ACC-CA-004,demo-savings-004-5
+ACC-CA-005,CREDIT,1625.00,181,Opening deposit,opening-ACC-CA-005
+SA_005,CREDIT,3350.00,181,Opening savings deposit,opening-SA_005
+ACC-CA-005,CREDIT,2325.00,178,Monthly salary - Atelier Demo,salary-5-0
+ACC-CA-005,DEBIT,760.00,175,Monthly rent,rent-5-0
+ACC-CA-005,DEBIT,94.40,170,Electricity and internet,bills-5-0
+ACC-CA-005,DEBIT,155.65,162,Groceries - Marche Demo,groceries-5-0
+ACC-CA-005,DEBIT,12.99,157,Music subscription,music-5-0
+ACC-CA-005,DEBIT,225.00,151,Savings transfer to SA_005,demo-savings-005-0
+SA_005,CREDIT,225.00,151,Savings transfer from ACC-CA-005,demo-savings-005-0
+ACC-CA-005,CREDIT,2325.00,148,Monthly salary - Atelier Demo,salary-5-1
+ACC-CA-005,DEBIT,760.00,145,Monthly rent,rent-5-1
+ACC-CA-005,DEBIT,94.40,140,Electricity and internet,bills-5-1
+ACC-CA-005,DEBIT,158.65,132,Groceries - Marche Demo,groceries-5-1
+ACC-CA-005,DEBIT,12.99,127,Music subscription,music-5-1
+ACC-CA-005,DEBIT,225.00,121,Savings transfer to SA_005,demo-savings-005-1
+SA_005,CREDIT,225.00,121,Savings transfer from ACC-CA-005,demo-savings-005-1
+ACC-CA-005,CREDIT,2325.00,118,Monthly salary - Atelier Demo,salary-5-2
+ACC-CA-005,DEBIT,760.00,115,Monthly rent,rent-5-2
+ACC-CA-005,DEBIT,94.40,110,Electricity and internet,bills-5-2
+ACC-CA-005,DEBIT,161.65,102,Groceries - Marche Demo,groceries-5-2
+ACC-CA-005,DEBIT,12.99,97,Music subscription,music-5-2
+ACC-CA-005,DEBIT,225.00,91,Savings transfer to SA_005,demo-savings-005-2
+SA_005,CREDIT,225.00,91,Savings transfer from ACC-CA-005,demo-savings-005-2
+ACC-CA-005,CREDIT,2325.00,88,Monthly salary - Atelier Demo,salary-5-3
+ACC-CA-005,DEBIT,760.00,85,Monthly rent,rent-5-3
+ACC-CA-005,DEBIT,94.40,80,Electricity and internet,bills-5-3
+ACC-CA-005,DEBIT,164.65,72,Groceries - Marche Demo,groceries-5-3
+ACC-CA-005,DEBIT,12.99,67,Music subscription,music-5-3
+ACC-CA-005,DEBIT,225.00,61,Savings transfer to SA_005,demo-savings-005-3
+SA_005,CREDIT,225.00,61,Savings transfer from ACC-CA-005,demo-savings-005-3
+ACC-CA-005,CREDIT,2325.00,58,Monthly salary - Atelier Demo,salary-5-4
+ACC-CA-005,DEBIT,760.00,55,Monthly rent,rent-5-4
+ACC-CA-005,DEBIT,94.40,50,Electricity and internet,bills-5-4
+ACC-CA-005,DEBIT,167.65,42,Groceries - Marche Demo,groceries-5-4
+ACC-CA-005,DEBIT,12.99,37,Music subscription,music-5-4
+ACC-CA-005,DEBIT,225.00,31,Savings transfer to SA_005,demo-savings-005-4
+SA_005,CREDIT,225.00,31,Savings transfer from ACC-CA-005,demo-savings-005-4
+ACC-CA-005,CREDIT,2325.00,28,Monthly salary - Atelier Demo,salary-5-5
+ACC-CA-005,DEBIT,760.00,25,Monthly rent,rent-5-5
+ACC-CA-005,DEBIT,94.40,20,Electricity and internet,bills-5-5
+ACC-CA-005,DEBIT,170.65,12,Groceries - Marche Demo,groceries-5-5
+ACC-CA-005,DEBIT,12.99,7,Music subscription,music-5-5
+ACC-CA-005,DEBIT,225.00,1,Savings transfer to SA_005,demo-savings-005-5
+SA_005,CREDIT,225.00,1,Savings transfer from ACC-CA-005,demo-savings-005-5
+ACC-CA-006,CREDIT,1710.00,181,Opening deposit,opening-ACC-CA-006
+SA_006,CREDIT,3520.00,181,Opening savings deposit,opening-SA_006
+ACC-CA-006,CREDIT,2370.00,178,Monthly salary - Atelier Demo,salary-6-0
+ACC-CA-006,DEBIT,768.00,175,Monthly rent,rent-6-0
+ACC-CA-006,DEBIT,95.40,170,Electricity and internet,bills-6-0
+ACC-CA-006,DEBIT,157.65,162,Groceries - Marche Demo,groceries-6-0
+ACC-CA-006,DEBIT,12.99,157,Music subscription,music-6-0
+ACC-CA-006,DEBIT,230.00,151,Savings transfer to SA_006,demo-savings-006-0
+SA_006,CREDIT,230.00,151,Savings transfer from ACC-CA-006,demo-savings-006-0
+ACC-CA-006,CREDIT,2370.00,148,Monthly salary - Atelier Demo,salary-6-1
+ACC-CA-006,DEBIT,768.00,145,Monthly rent,rent-6-1
+ACC-CA-006,DEBIT,95.40,140,Electricity and internet,bills-6-1
+ACC-CA-006,DEBIT,160.65,132,Groceries - Marche Demo,groceries-6-1
+ACC-CA-006,DEBIT,12.99,127,Music subscription,music-6-1
+ACC-CA-006,DEBIT,230.00,121,Savings transfer to SA_006,demo-savings-006-1
+SA_006,CREDIT,230.00,121,Savings transfer from ACC-CA-006,demo-savings-006-1
+ACC-CA-006,CREDIT,2370.00,118,Monthly salary - Atelier Demo,salary-6-2
+ACC-CA-006,DEBIT,768.00,115,Monthly rent,rent-6-2
+ACC-CA-006,DEBIT,95.40,110,Electricity and internet,bills-6-2
+ACC-CA-006,DEBIT,163.65,102,Groceries - Marche Demo,groceries-6-2
+ACC-CA-006,DEBIT,12.99,97,Music subscription,music-6-2
+ACC-CA-006,DEBIT,230.00,91,Savings transfer to SA_006,demo-savings-006-2
+SA_006,CREDIT,230.00,91,Savings transfer from ACC-CA-006,demo-savings-006-2
+ACC-CA-006,CREDIT,2370.00,88,Monthly salary - Atelier Demo,salary-6-3
+ACC-CA-006,DEBIT,768.00,85,Monthly rent,rent-6-3
+ACC-CA-006,DEBIT,95.40,80,Electricity and internet,bills-6-3
+ACC-CA-006,DEBIT,166.65,72,Groceries - Marche Demo,groceries-6-3
+ACC-CA-006,DEBIT,12.99,67,Music subscription,music-6-3
+ACC-CA-006,DEBIT,230.00,61,Savings transfer to SA_006,demo-savings-006-3
+SA_006,CREDIT,230.00,61,Savings transfer from ACC-CA-006,demo-savings-006-3
+ACC-CA-006,CREDIT,2370.00,58,Monthly salary - Atelier Demo,salary-6-4
+ACC-CA-006,DEBIT,768.00,55,Monthly rent,rent-6-4
+ACC-CA-006,DEBIT,95.40,50,Electricity and internet,bills-6-4
+ACC-CA-006,DEBIT,169.65,42,Groceries - Marche Demo,groceries-6-4
+ACC-CA-006,DEBIT,12.99,37,Music subscription,music-6-4
+ACC-CA-006,DEBIT,230.00,31,Savings transfer to SA_006,demo-savings-006-4
+SA_006,CREDIT,230.00,31,Savings transfer from ACC-CA-006,demo-savings-006-4
+ACC-CA-006,CREDIT,2370.00,28,Monthly salary - Atelier Demo,salary-6-5
+ACC-CA-006,DEBIT,768.00,25,Monthly rent,rent-6-5
+ACC-CA-006,DEBIT,95.40,20,Electricity and internet,bills-6-5
+ACC-CA-006,DEBIT,172.65,12,Groceries - Marche Demo,groceries-6-5
+ACC-CA-006,DEBIT,12.99,7,Music subscription,music-6-5
+ACC-CA-006,DEBIT,230.00,1,Savings transfer to SA_006,demo-savings-006-5
+SA_006,CREDIT,230.00,1,Savings transfer from ACC-CA-006,demo-savings-006-5
+ACC-CA-007,CREDIT,1795.00,181,Opening deposit,opening-ACC-CA-007
+SA_007,CREDIT,3690.00,181,Opening savings deposit,opening-SA_007
+ACC-CA-007,CREDIT,2415.00,178,Monthly salary - Atelier Demo,salary-7-0
+ACC-CA-007,DEBIT,776.00,175,Monthly rent,rent-7-0
+ACC-CA-007,DEBIT,96.40,170,Electricity and internet,bills-7-0
+ACC-CA-007,DEBIT,159.65,162,Groceries - Marche Demo,groceries-7-0
+ACC-CA-007,DEBIT,12.99,157,Music subscription,music-7-0
+ACC-CA-007,DEBIT,235.00,151,Savings transfer to SA_007,demo-savings-007-0
+SA_007,CREDIT,235.00,151,Savings transfer from ACC-CA-007,demo-savings-007-0
+ACC-CA-007,CREDIT,2415.00,148,Monthly salary - Atelier Demo,salary-7-1
+ACC-CA-007,DEBIT,776.00,145,Monthly rent,rent-7-1
+ACC-CA-007,DEBIT,96.40,140,Electricity and internet,bills-7-1
+ACC-CA-007,DEBIT,162.65,132,Groceries - Marche Demo,groceries-7-1
+ACC-CA-007,DEBIT,12.99,127,Music subscription,music-7-1
+ACC-CA-007,DEBIT,235.00,121,Savings transfer to SA_007,demo-savings-007-1
+SA_007,CREDIT,235.00,121,Savings transfer from ACC-CA-007,demo-savings-007-1
+ACC-CA-007,CREDIT,2415.00,118,Monthly salary - Atelier Demo,salary-7-2
+ACC-CA-007,DEBIT,776.00,115,Monthly rent,rent-7-2
+ACC-CA-007,DEBIT,96.40,110,Electricity and internet,bills-7-2
+ACC-CA-007,DEBIT,165.65,102,Groceries - Marche Demo,groceries-7-2
+ACC-CA-007,DEBIT,12.99,97,Music subscription,music-7-2
+ACC-CA-007,DEBIT,235.00,91,Savings transfer to SA_007,demo-savings-007-2
+SA_007,CREDIT,235.00,91,Savings transfer from ACC-CA-007,demo-savings-007-2
+ACC-CA-007,CREDIT,2415.00,88,Monthly salary - Atelier Demo,salary-7-3
+ACC-CA-007,DEBIT,776.00,85,Monthly rent,rent-7-3
+ACC-CA-007,DEBIT,96.40,80,Electricity and internet,bills-7-3
+ACC-CA-007,DEBIT,168.65,72,Groceries - Marche Demo,groceries-7-3
+ACC-CA-007,DEBIT,12.99,67,Music subscription,music-7-3
+ACC-CA-007,DEBIT,235.00,61,Savings transfer to SA_007,demo-savings-007-3
+SA_007,CREDIT,235.00,61,Savings transfer from ACC-CA-007,demo-savings-007-3
+ACC-CA-007,CREDIT,2415.00,58,Monthly salary - Atelier Demo,salary-7-4
+ACC-CA-007,DEBIT,776.00,55,Monthly rent,rent-7-4
+ACC-CA-007,DEBIT,96.40,50,Electricity and internet,bills-7-4
+ACC-CA-007,DEBIT,171.65,42,Groceries - Marche Demo,groceries-7-4
+ACC-CA-007,DEBIT,12.99,37,Music subscription,music-7-4
+ACC-CA-007,DEBIT,235.00,31,Savings transfer to SA_007,demo-savings-007-4
+SA_007,CREDIT,235.00,31,Savings transfer from ACC-CA-007,demo-savings-007-4
+ACC-CA-007,CREDIT,2415.00,28,Monthly salary - Atelier Demo,salary-7-5
+ACC-CA-007,DEBIT,776.00,25,Monthly rent,rent-7-5
+ACC-CA-007,DEBIT,96.40,20,Electricity and internet,bills-7-5
+ACC-CA-007,DEBIT,174.65,12,Groceries - Marche Demo,groceries-7-5
+ACC-CA-007,DEBIT,12.99,7,Music subscription,music-7-5
+ACC-CA-007,DEBIT,235.00,1,Savings transfer to SA_007,demo-savings-007-5
+SA_007,CREDIT,235.00,1,Savings transfer from ACC-CA-007,demo-savings-007-5
+ACC-CA-008,CREDIT,1880.00,181,Opening deposit,opening-ACC-CA-008
+SA_008,CREDIT,3860.00,181,Opening savings deposit,opening-SA_008
+ACC-CA-008,CREDIT,2460.00,178,Monthly salary - Atelier Demo,salary-8-0
+ACC-CA-008,DEBIT,784.00,175,Monthly rent,rent-8-0
+ACC-CA-008,DEBIT,97.40,170,Electricity and internet,bills-8-0
+ACC-CA-008,DEBIT,161.65,162,Groceries - Marche Demo,groceries-8-0
+ACC-CA-008,DEBIT,12.99,157,Music subscription,music-8-0
+ACC-CA-008,DEBIT,240.00,151,Savings transfer to SA_008,demo-savings-008-0
+SA_008,CREDIT,240.00,151,Savings transfer from ACC-CA-008,demo-savings-008-0
+ACC-CA-008,CREDIT,2460.00,148,Monthly salary - Atelier Demo,salary-8-1
+ACC-CA-008,DEBIT,784.00,145,Monthly rent,rent-8-1
+ACC-CA-008,DEBIT,97.40,140,Electricity and internet,bills-8-1
+ACC-CA-008,DEBIT,164.65,132,Groceries - Marche Demo,groceries-8-1
+ACC-CA-008,DEBIT,12.99,127,Music subscription,music-8-1
+ACC-CA-008,DEBIT,240.00,121,Savings transfer to SA_008,demo-savings-008-1
+SA_008,CREDIT,240.00,121,Savings transfer from ACC-CA-008,demo-savings-008-1
+ACC-CA-008,CREDIT,2460.00,118,Monthly salary - Atelier Demo,salary-8-2
+ACC-CA-008,DEBIT,784.00,115,Monthly rent,rent-8-2
+ACC-CA-008,DEBIT,97.40,110,Electricity and internet,bills-8-2
+ACC-CA-008,DEBIT,167.65,102,Groceries - Marche Demo,groceries-8-2
+ACC-CA-008,DEBIT,12.99,97,Music subscription,music-8-2
+ACC-CA-008,DEBIT,240.00,91,Savings transfer to SA_008,demo-savings-008-2
+SA_008,CREDIT,240.00,91,Savings transfer from ACC-CA-008,demo-savings-008-2
+ACC-CA-008,CREDIT,2460.00,88,Monthly salary - Atelier Demo,salary-8-3
+ACC-CA-008,DEBIT,784.00,85,Monthly rent,rent-8-3
+ACC-CA-008,DEBIT,97.40,80,Electricity and internet,bills-8-3
+ACC-CA-008,DEBIT,170.65,72,Groceries - Marche Demo,groceries-8-3
+ACC-CA-008,DEBIT,12.99,67,Music subscription,music-8-3
+ACC-CA-008,DEBIT,240.00,61,Savings transfer to SA_008,demo-savings-008-3
+SA_008,CREDIT,240.00,61,Savings transfer from ACC-CA-008,demo-savings-008-3
+ACC-CA-008,CREDIT,2460.00,58,Monthly salary - Atelier Demo,salary-8-4
+ACC-CA-008,DEBIT,784.00,55,Monthly rent,rent-8-4
+ACC-CA-008,DEBIT,97.40,50,Electricity and internet,bills-8-4
+ACC-CA-008,DEBIT,173.65,42,Groceries - Marche Demo,groceries-8-4
+ACC-CA-008,DEBIT,12.99,37,Music subscription,music-8-4
+ACC-CA-008,DEBIT,240.00,31,Savings transfer to SA_008,demo-savings-008-4
+SA_008,CREDIT,240.00,31,Savings transfer from ACC-CA-008,demo-savings-008-4
+ACC-CA-008,CREDIT,2460.00,28,Monthly salary - Atelier Demo,salary-8-5
+ACC-CA-008,DEBIT,784.00,25,Monthly rent,rent-8-5
+ACC-CA-008,DEBIT,97.40,20,Electricity and internet,bills-8-5
+ACC-CA-008,DEBIT,176.65,12,Groceries - Marche Demo,groceries-8-5
+ACC-CA-008,DEBIT,12.99,7,Music subscription,music-8-5
+ACC-CA-008,DEBIT,240.00,1,Savings transfer to SA_008,demo-savings-008-5
+SA_008,CREDIT,240.00,1,Savings transfer from ACC-CA-008,demo-savings-008-5
+ACC-CA-009,CREDIT,1965.00,181,Opening deposit,opening-ACC-CA-009
+SA_009,CREDIT,4030.00,181,Opening savings deposit,opening-SA_009
+ACC-CA-009,CREDIT,2505.00,178,Monthly salary - Atelier Demo,salary-9-0
+ACC-CA-009,DEBIT,792.00,175,Monthly rent,rent-9-0
+ACC-CA-009,DEBIT,98.40,170,Electricity and internet,bills-9-0
+ACC-CA-009,DEBIT,163.65,162,Groceries - Marche Demo,groceries-9-0
+ACC-CA-009,DEBIT,12.99,157,Music subscription,music-9-0
+ACC-CA-009,DEBIT,245.00,151,Savings transfer to SA_009,demo-savings-009-0
+SA_009,CREDIT,245.00,151,Savings transfer from ACC-CA-009,demo-savings-009-0
+ACC-CA-009,CREDIT,2505.00,148,Monthly salary - Atelier Demo,salary-9-1
+ACC-CA-009,DEBIT,792.00,145,Monthly rent,rent-9-1
+ACC-CA-009,DEBIT,98.40,140,Electricity and internet,bills-9-1
+ACC-CA-009,DEBIT,166.65,132,Groceries - Marche Demo,groceries-9-1
+ACC-CA-009,DEBIT,12.99,127,Music subscription,music-9-1
+ACC-CA-009,DEBIT,245.00,121,Savings transfer to SA_009,demo-savings-009-1
+SA_009,CREDIT,245.00,121,Savings transfer from ACC-CA-009,demo-savings-009-1
+ACC-CA-009,CREDIT,2505.00,118,Monthly salary - Atelier Demo,salary-9-2
+ACC-CA-009,DEBIT,792.00,115,Monthly rent,rent-9-2
+ACC-CA-009,DEBIT,98.40,110,Electricity and internet,bills-9-2
+ACC-CA-009,DEBIT,169.65,102,Groceries - Marche Demo,groceries-9-2
+ACC-CA-009,DEBIT,12.99,97,Music subscription,music-9-2
+ACC-CA-009,DEBIT,245.00,91,Savings transfer to SA_009,demo-savings-009-2
+SA_009,CREDIT,245.00,91,Savings transfer from ACC-CA-009,demo-savings-009-2
+ACC-CA-009,CREDIT,2505.00,88,Monthly salary - Atelier Demo,salary-9-3
+ACC-CA-009,DEBIT,792.00,85,Monthly rent,rent-9-3
+ACC-CA-009,DEBIT,98.40,80,Electricity and internet,bills-9-3
+ACC-CA-009,DEBIT,172.65,72,Groceries - Marche Demo,groceries-9-3
+ACC-CA-009,DEBIT,12.99,67,Music subscription,music-9-3
+ACC-CA-009,DEBIT,245.00,61,Savings transfer to SA_009,demo-savings-009-3
+SA_009,CREDIT,245.00,61,Savings transfer from ACC-CA-009,demo-savings-009-3
+ACC-CA-009,CREDIT,2505.00,58,Monthly salary - Atelier Demo,salary-9-4
+ACC-CA-009,DEBIT,792.00,55,Monthly rent,rent-9-4
+ACC-CA-009,DEBIT,98.40,50,Electricity and internet,bills-9-4
+ACC-CA-009,DEBIT,175.65,42,Groceries - Marche Demo,groceries-9-4
+ACC-CA-009,DEBIT,12.99,37,Music subscription,music-9-4
+ACC-CA-009,DEBIT,245.00,31,Savings transfer to SA_009,demo-savings-009-4
+SA_009,CREDIT,245.00,31,Savings transfer from ACC-CA-009,demo-savings-009-4
+ACC-CA-009,CREDIT,2505.00,28,Monthly salary - Atelier Demo,salary-9-5
+ACC-CA-009,DEBIT,792.00,25,Monthly rent,rent-9-5
+ACC-CA-009,DEBIT,98.40,20,Electricity and internet,bills-9-5
+ACC-CA-009,DEBIT,178.65,12,Groceries - Marche Demo,groceries-9-5
+ACC-CA-009,DEBIT,12.99,7,Music subscription,music-9-5
+ACC-CA-009,DEBIT,245.00,1,Savings transfer to SA_009,demo-savings-009-5
+SA_009,CREDIT,245.00,1,Savings transfer from ACC-CA-009,demo-savings-009-5
+ACC-CA-010,CREDIT,2050.00,181,Opening deposit,opening-ACC-CA-010
+SA_010,CREDIT,4200.00,181,Opening savings deposit,opening-SA_010
+ACC-CA-010,CREDIT,2550.00,178,Monthly salary - Atelier Demo,salary-10-0
+ACC-CA-010,DEBIT,800.00,175,Monthly rent,rent-10-0
+ACC-CA-010,DEBIT,99.40,170,Electricity and internet,bills-10-0
+ACC-CA-010,DEBIT,165.65,162,Groceries - Marche Demo,groceries-10-0
+ACC-CA-010,DEBIT,12.99,157,Music subscription,music-10-0
+ACC-CA-010,DEBIT,250.00,151,Savings transfer to SA_010,demo-savings-010-0
+SA_010,CREDIT,250.00,151,Savings transfer from ACC-CA-010,demo-savings-010-0
+ACC-CA-010,CREDIT,2550.00,148,Monthly salary - Atelier Demo,salary-10-1
+ACC-CA-010,DEBIT,800.00,145,Monthly rent,rent-10-1
+ACC-CA-010,DEBIT,99.40,140,Electricity and internet,bills-10-1
+ACC-CA-010,DEBIT,168.65,132,Groceries - Marche Demo,groceries-10-1
+ACC-CA-010,DEBIT,12.99,127,Music subscription,music-10-1
+ACC-CA-010,DEBIT,250.00,121,Savings transfer to SA_010,demo-savings-010-1
+SA_010,CREDIT,250.00,121,Savings transfer from ACC-CA-010,demo-savings-010-1
+ACC-CA-010,CREDIT,2550.00,118,Monthly salary - Atelier Demo,salary-10-2
+ACC-CA-010,DEBIT,800.00,115,Monthly rent,rent-10-2
+ACC-CA-010,DEBIT,99.40,110,Electricity and internet,bills-10-2
+ACC-CA-010,DEBIT,171.65,102,Groceries - Marche Demo,groceries-10-2
+ACC-CA-010,DEBIT,12.99,97,Music subscription,music-10-2
+ACC-CA-010,DEBIT,250.00,91,Savings transfer to SA_010,demo-savings-010-2
+SA_010,CREDIT,250.00,91,Savings transfer from ACC-CA-010,demo-savings-010-2
+ACC-CA-010,CREDIT,2550.00,88,Monthly salary - Atelier Demo,salary-10-3
+ACC-CA-010,DEBIT,800.00,85,Monthly rent,rent-10-3
+ACC-CA-010,DEBIT,99.40,80,Electricity and internet,bills-10-3
+ACC-CA-010,DEBIT,174.65,72,Groceries - Marche Demo,groceries-10-3
+ACC-CA-010,DEBIT,12.99,67,Music subscription,music-10-3
+ACC-CA-010,DEBIT,250.00,61,Savings transfer to SA_010,demo-savings-010-3
+SA_010,CREDIT,250.00,61,Savings transfer from ACC-CA-010,demo-savings-010-3
+ACC-CA-010,CREDIT,2550.00,58,Monthly salary - Atelier Demo,salary-10-4
+ACC-CA-010,DEBIT,800.00,55,Monthly rent,rent-10-4
+ACC-CA-010,DEBIT,99.40,50,Electricity and internet,bills-10-4
+ACC-CA-010,DEBIT,177.65,42,Groceries - Marche Demo,groceries-10-4
+ACC-CA-010,DEBIT,12.99,37,Music subscription,music-10-4
+ACC-CA-010,DEBIT,250.00,31,Savings transfer to SA_010,demo-savings-010-4
+SA_010,CREDIT,250.00,31,Savings transfer from ACC-CA-010,demo-savings-010-4
+ACC-CA-010,CREDIT,2550.00,28,Monthly salary - Atelier Demo,salary-10-5
+ACC-CA-010,DEBIT,800.00,25,Monthly rent,rent-10-5
+ACC-CA-010,DEBIT,99.40,20,Electricity and internet,bills-10-5
+ACC-CA-010,DEBIT,180.65,12,Groceries - Marche Demo,groceries-10-5
+ACC-CA-010,DEBIT,12.99,7,Music subscription,music-10-5
+ACC-CA-010,DEBIT,250.00,1,Savings transfer to SA_010,demo-savings-010-5
+SA_010,CREDIT,250.00,1,Savings transfer from ACC-CA-010,demo-savings-010-5
+ACC-CA-011,CREDIT,2135.00,181,Opening deposit,opening-ACC-CA-011
+SA_011,CREDIT,4370.00,181,Opening savings deposit,opening-SA_011
+ACC-CA-011,CREDIT,2595.00,178,Monthly salary - Atelier Demo,salary-11-0
+ACC-CA-011,DEBIT,808.00,175,Monthly rent,rent-11-0
+ACC-CA-011,DEBIT,100.40,170,Electricity and internet,bills-11-0
+ACC-CA-011,DEBIT,167.65,162,Groceries - Marche Demo,groceries-11-0
+ACC-CA-011,DEBIT,12.99,157,Music subscription,music-11-0
+ACC-CA-011,DEBIT,255.00,151,Savings transfer to SA_011,demo-savings-011-0
+SA_011,CREDIT,255.00,151,Savings transfer from ACC-CA-011,demo-savings-011-0
+ACC-CA-011,CREDIT,2595.00,148,Monthly salary - Atelier Demo,salary-11-1
+ACC-CA-011,DEBIT,808.00,145,Monthly rent,rent-11-1
+ACC-CA-011,DEBIT,100.40,140,Electricity and internet,bills-11-1
+ACC-CA-011,DEBIT,170.65,132,Groceries - Marche Demo,groceries-11-1
+ACC-CA-011,DEBIT,12.99,127,Music subscription,music-11-1
+ACC-CA-011,DEBIT,255.00,121,Savings transfer to SA_011,demo-savings-011-1
+SA_011,CREDIT,255.00,121,Savings transfer from ACC-CA-011,demo-savings-011-1
+ACC-CA-011,CREDIT,2595.00,118,Monthly salary - Atelier Demo,salary-11-2
+ACC-CA-011,DEBIT,808.00,115,Monthly rent,rent-11-2
+ACC-CA-011,DEBIT,100.40,110,Electricity and internet,bills-11-2
+ACC-CA-011,DEBIT,173.65,102,Groceries - Marche Demo,groceries-11-2
+ACC-CA-011,DEBIT,12.99,97,Music subscription,music-11-2
+ACC-CA-011,DEBIT,255.00,91,Savings transfer to SA_011,demo-savings-011-2
+SA_011,CREDIT,255.00,91,Savings transfer from ACC-CA-011,demo-savings-011-2
+ACC-CA-011,CREDIT,2595.00,88,Monthly salary - Atelier Demo,salary-11-3
+ACC-CA-011,DEBIT,808.00,85,Monthly rent,rent-11-3
+ACC-CA-011,DEBIT,100.40,80,Electricity and internet,bills-11-3
+ACC-CA-011,DEBIT,176.65,72,Groceries - Marche Demo,groceries-11-3
+ACC-CA-011,DEBIT,12.99,67,Music subscription,music-11-3
+ACC-CA-011,DEBIT,255.00,61,Savings transfer to SA_011,demo-savings-011-3
+SA_011,CREDIT,255.00,61,Savings transfer from ACC-CA-011,demo-savings-011-3
+ACC-CA-011,CREDIT,2595.00,58,Monthly salary - Atelier Demo,salary-11-4
+ACC-CA-011,DEBIT,808.00,55,Monthly rent,rent-11-4
+ACC-CA-011,DEBIT,100.40,50,Electricity and internet,bills-11-4
+ACC-CA-011,DEBIT,179.65,42,Groceries - Marche Demo,groceries-11-4
+ACC-CA-011,DEBIT,12.99,37,Music subscription,music-11-4
+ACC-CA-011,DEBIT,255.00,31,Savings transfer to SA_011,demo-savings-011-4
+SA_011,CREDIT,255.00,31,Savings transfer from ACC-CA-011,demo-savings-011-4
+ACC-CA-011,CREDIT,2595.00,28,Monthly salary - Atelier Demo,salary-11-5
+ACC-CA-011,DEBIT,808.00,25,Monthly rent,rent-11-5
+ACC-CA-011,DEBIT,100.40,20,Electricity and internet,bills-11-5
+ACC-CA-011,DEBIT,182.65,12,Groceries - Marche Demo,groceries-11-5
+ACC-CA-011,DEBIT,12.99,7,Music subscription,music-11-5
+ACC-CA-011,DEBIT,255.00,1,Savings transfer to SA_011,demo-savings-011-5
+SA_011,CREDIT,255.00,1,Savings transfer from ACC-CA-011,demo-savings-011-5
+ACC-CA-012,CREDIT,2220.00,181,Opening deposit,opening-ACC-CA-012
+SA_012,CREDIT,4540.00,181,Opening savings deposit,opening-SA_012
+ACC-CA-012,CREDIT,2640.00,178,Monthly salary - Atelier Demo,salary-12-0
+ACC-CA-012,DEBIT,816.00,175,Monthly rent,rent-12-0
+ACC-CA-012,DEBIT,101.40,170,Electricity and internet,bills-12-0
+ACC-CA-012,DEBIT,169.65,162,Groceries - Marche Demo,groceries-12-0
+ACC-CA-012,DEBIT,12.99,157,Music subscription,music-12-0
+ACC-CA-012,DEBIT,260.00,151,Savings transfer to SA_012,demo-savings-012-0
+SA_012,CREDIT,260.00,151,Savings transfer from ACC-CA-012,demo-savings-012-0
+ACC-CA-012,CREDIT,2640.00,148,Monthly salary - Atelier Demo,salary-12-1
+ACC-CA-012,DEBIT,816.00,145,Monthly rent,rent-12-1
+ACC-CA-012,DEBIT,101.40,140,Electricity and internet,bills-12-1
+ACC-CA-012,DEBIT,172.65,132,Groceries - Marche Demo,groceries-12-1
+ACC-CA-012,DEBIT,12.99,127,Music subscription,music-12-1
+ACC-CA-012,DEBIT,260.00,121,Savings transfer to SA_012,demo-savings-012-1
+SA_012,CREDIT,260.00,121,Savings transfer from ACC-CA-012,demo-savings-012-1
+ACC-CA-012,CREDIT,2640.00,118,Monthly salary - Atelier Demo,salary-12-2
+ACC-CA-012,DEBIT,816.00,115,Monthly rent,rent-12-2
+ACC-CA-012,DEBIT,101.40,110,Electricity and internet,bills-12-2
+ACC-CA-012,DEBIT,175.65,102,Groceries - Marche Demo,groceries-12-2
+ACC-CA-012,DEBIT,12.99,97,Music subscription,music-12-2
+ACC-CA-012,DEBIT,260.00,91,Savings transfer to SA_012,demo-savings-012-2
+SA_012,CREDIT,260.00,91,Savings transfer from ACC-CA-012,demo-savings-012-2
+ACC-CA-012,CREDIT,2640.00,88,Monthly salary - Atelier Demo,salary-12-3
+ACC-CA-012,DEBIT,816.00,85,Monthly rent,rent-12-3
+ACC-CA-012,DEBIT,101.40,80,Electricity and internet,bills-12-3
+ACC-CA-012,DEBIT,178.65,72,Groceries - Marche Demo,groceries-12-3
+ACC-CA-012,DEBIT,12.99,67,Music subscription,music-12-3
+ACC-CA-012,DEBIT,260.00,61,Savings transfer to SA_012,demo-savings-012-3
+SA_012,CREDIT,260.00,61,Savings transfer from ACC-CA-012,demo-savings-012-3
+ACC-CA-012,CREDIT,2640.00,58,Monthly salary - Atelier Demo,salary-12-4
+ACC-CA-012,DEBIT,816.00,55,Monthly rent,rent-12-4
+ACC-CA-012,DEBIT,101.40,50,Electricity and internet,bills-12-4
+ACC-CA-012,DEBIT,181.65,42,Groceries - Marche Demo,groceries-12-4
+ACC-CA-012,DEBIT,12.99,37,Music subscription,music-12-4
+ACC-CA-012,DEBIT,260.00,31,Savings transfer to SA_012,demo-savings-012-4
+SA_012,CREDIT,260.00,31,Savings transfer from ACC-CA-012,demo-savings-012-4
+ACC-CA-012,CREDIT,2640.00,28,Monthly salary - Atelier Demo,salary-12-5
+ACC-CA-012,DEBIT,816.00,25,Monthly rent,rent-12-5
+ACC-CA-012,DEBIT,101.40,20,Electricity and internet,bills-12-5
+ACC-CA-012,DEBIT,184.65,12,Groceries - Marche Demo,groceries-12-5
+ACC-CA-012,DEBIT,12.99,7,Music subscription,music-12-5
+ACC-CA-012,DEBIT,260.00,1,Savings transfer to SA_012,demo-savings-012-5
+SA_012,CREDIT,260.00,1,Savings transfer from ACC-CA-012,demo-savings-012-5
+ACC-CA-013,CREDIT,2305.00,181,Opening deposit,opening-ACC-CA-013
+SA_013,CREDIT,4710.00,181,Opening savings deposit,opening-SA_013
+ACC-CA-013,CREDIT,2685.00,178,Monthly salary - Atelier Demo,salary-13-0
+ACC-CA-013,DEBIT,824.00,175,Monthly rent,rent-13-0
+ACC-CA-013,DEBIT,102.40,170,Electricity and internet,bills-13-0
+ACC-CA-013,DEBIT,171.65,162,Groceries - Marche Demo,groceries-13-0
+ACC-CA-013,DEBIT,12.99,157,Music subscription,music-13-0
+ACC-CA-013,DEBIT,265.00,151,Savings transfer to SA_013,demo-savings-013-0
+SA_013,CREDIT,265.00,151,Savings transfer from ACC-CA-013,demo-savings-013-0
+ACC-CA-013,CREDIT,2685.00,148,Monthly salary - Atelier Demo,salary-13-1
+ACC-CA-013,DEBIT,824.00,145,Monthly rent,rent-13-1
+ACC-CA-013,DEBIT,102.40,140,Electricity and internet,bills-13-1
+ACC-CA-013,DEBIT,174.65,132,Groceries - Marche Demo,groceries-13-1
+ACC-CA-013,DEBIT,12.99,127,Music subscription,music-13-1
+ACC-CA-013,DEBIT,265.00,121,Savings transfer to SA_013,demo-savings-013-1
+SA_013,CREDIT,265.00,121,Savings transfer from ACC-CA-013,demo-savings-013-1
+ACC-CA-013,CREDIT,2685.00,118,Monthly salary - Atelier Demo,salary-13-2
+ACC-CA-013,DEBIT,824.00,115,Monthly rent,rent-13-2
+ACC-CA-013,DEBIT,102.40,110,Electricity and internet,bills-13-2
+ACC-CA-013,DEBIT,177.65,102,Groceries - Marche Demo,groceries-13-2
+ACC-CA-013,DEBIT,12.99,97,Music subscription,music-13-2
+ACC-CA-013,DEBIT,265.00,91,Savings transfer to SA_013,demo-savings-013-2
+SA_013,CREDIT,265.00,91,Savings transfer from ACC-CA-013,demo-savings-013-2
+ACC-CA-013,CREDIT,2685.00,88,Monthly salary - Atelier Demo,salary-13-3
+ACC-CA-013,DEBIT,824.00,85,Monthly rent,rent-13-3
+ACC-CA-013,DEBIT,102.40,80,Electricity and internet,bills-13-3
+ACC-CA-013,DEBIT,180.65,72,Groceries - Marche Demo,groceries-13-3
+ACC-CA-013,DEBIT,12.99,67,Music subscription,music-13-3
+ACC-CA-013,DEBIT,265.00,61,Savings transfer to SA_013,demo-savings-013-3
+SA_013,CREDIT,265.00,61,Savings transfer from ACC-CA-013,demo-savings-013-3
+ACC-CA-013,CREDIT,2685.00,58,Monthly salary - Atelier Demo,salary-13-4
+ACC-CA-013,DEBIT,824.00,55,Monthly rent,rent-13-4
+ACC-CA-013,DEBIT,102.40,50,Electricity and internet,bills-13-4
+ACC-CA-013,DEBIT,183.65,42,Groceries - Marche Demo,groceries-13-4
+ACC-CA-013,DEBIT,12.99,37,Music subscription,music-13-4
+ACC-CA-013,DEBIT,265.00,31,Savings transfer to SA_013,demo-savings-013-4
+SA_013,CREDIT,265.00,31,Savings transfer from ACC-CA-013,demo-savings-013-4
+ACC-CA-013,CREDIT,2685.00,28,Monthly salary - Atelier Demo,salary-13-5
+ACC-CA-013,DEBIT,824.00,25,Monthly rent,rent-13-5
+ACC-CA-013,DEBIT,102.40,20,Electricity and internet,bills-13-5
+ACC-CA-013,DEBIT,186.65,12,Groceries - Marche Demo,groceries-13-5
+ACC-CA-013,DEBIT,12.99,7,Music subscription,music-13-5
+ACC-CA-013,DEBIT,265.00,1,Savings transfer to SA_013,demo-savings-013-5
+SA_013,CREDIT,265.00,1,Savings transfer from ACC-CA-013,demo-savings-013-5
+ACC-CA-014,CREDIT,2390.00,181,Opening deposit,opening-ACC-CA-014
+SA_014,CREDIT,4880.00,181,Opening savings deposit,opening-SA_014
+ACC-CA-014,CREDIT,2730.00,178,Monthly salary - Atelier Demo,salary-14-0
+ACC-CA-014,DEBIT,832.00,175,Monthly rent,rent-14-0
+ACC-CA-014,DEBIT,103.40,170,Electricity and internet,bills-14-0
+ACC-CA-014,DEBIT,173.65,162,Groceries - Marche Demo,groceries-14-0
+ACC-CA-014,DEBIT,12.99,157,Music subscription,music-14-0
+ACC-CA-014,DEBIT,270.00,151,Savings transfer to SA_014,demo-savings-014-0
+SA_014,CREDIT,270.00,151,Savings transfer from ACC-CA-014,demo-savings-014-0
+ACC-CA-014,CREDIT,2730.00,148,Monthly salary - Atelier Demo,salary-14-1
+ACC-CA-014,DEBIT,832.00,145,Monthly rent,rent-14-1
+ACC-CA-014,DEBIT,103.40,140,Electricity and internet,bills-14-1
+ACC-CA-014,DEBIT,176.65,132,Groceries - Marche Demo,groceries-14-1
+ACC-CA-014,DEBIT,12.99,127,Music subscription,music-14-1
+ACC-CA-014,DEBIT,270.00,121,Savings transfer to SA_014,demo-savings-014-1
+SA_014,CREDIT,270.00,121,Savings transfer from ACC-CA-014,demo-savings-014-1
+ACC-CA-014,CREDIT,2730.00,118,Monthly salary - Atelier Demo,salary-14-2
+ACC-CA-014,DEBIT,832.00,115,Monthly rent,rent-14-2
+ACC-CA-014,DEBIT,103.40,110,Electricity and internet,bills-14-2
+ACC-CA-014,DEBIT,179.65,102,Groceries - Marche Demo,groceries-14-2
+ACC-CA-014,DEBIT,12.99,97,Music subscription,music-14-2
+ACC-CA-014,DEBIT,270.00,91,Savings transfer to SA_014,demo-savings-014-2
+SA_014,CREDIT,270.00,91,Savings transfer from ACC-CA-014,demo-savings-014-2
+ACC-CA-014,CREDIT,2730.00,88,Monthly salary - Atelier Demo,salary-14-3
+ACC-CA-014,DEBIT,832.00,85,Monthly rent,rent-14-3
+ACC-CA-014,DEBIT,103.40,80,Electricity and internet,bills-14-3
+ACC-CA-014,DEBIT,182.65,72,Groceries - Marche Demo,groceries-14-3
+ACC-CA-014,DEBIT,12.99,67,Music subscription,music-14-3
+ACC-CA-014,DEBIT,270.00,61,Savings transfer to SA_014,demo-savings-014-3
+SA_014,CREDIT,270.00,61,Savings transfer from ACC-CA-014,demo-savings-014-3
+ACC-CA-014,CREDIT,2730.00,58,Monthly salary - Atelier Demo,salary-14-4
+ACC-CA-014,DEBIT,832.00,55,Monthly rent,rent-14-4
+ACC-CA-014,DEBIT,103.40,50,Electricity and internet,bills-14-4
+ACC-CA-014,DEBIT,185.65,42,Groceries - Marche Demo,groceries-14-4
+ACC-CA-014,DEBIT,12.99,37,Music subscription,music-14-4
+ACC-CA-014,DEBIT,270.00,31,Savings transfer to SA_014,demo-savings-014-4
+SA_014,CREDIT,270.00,31,Savings transfer from ACC-CA-014,demo-savings-014-4
+ACC-CA-014,CREDIT,2730.00,28,Monthly salary - Atelier Demo,salary-14-5
+ACC-CA-014,DEBIT,832.00,25,Monthly rent,rent-14-5
+ACC-CA-014,DEBIT,103.40,20,Electricity and internet,bills-14-5
+ACC-CA-014,DEBIT,188.65,12,Groceries - Marche Demo,groceries-14-5
+ACC-CA-014,DEBIT,12.99,7,Music subscription,music-14-5
+ACC-CA-014,DEBIT,270.00,1,Savings transfer to SA_014,demo-savings-014-5
+SA_014,CREDIT,270.00,1,Savings transfer from ACC-CA-014,demo-savings-014-5
+ACC-CA-015,CREDIT,2475.00,181,Opening deposit,opening-ACC-CA-015
+SA_015,CREDIT,5050.00,181,Opening savings deposit,opening-SA_015
+ACC-CA-015,CREDIT,2775.00,178,Monthly salary - Atelier Demo,salary-15-0
+ACC-CA-015,DEBIT,840.00,175,Monthly rent,rent-15-0
+ACC-CA-015,DEBIT,104.40,170,Electricity and internet,bills-15-0
+ACC-CA-015,DEBIT,175.65,162,Groceries - Marche Demo,groceries-15-0
+ACC-CA-015,DEBIT,12.99,157,Music subscription,music-15-0
+ACC-CA-015,DEBIT,275.00,151,Savings transfer to SA_015,demo-savings-015-0
+SA_015,CREDIT,275.00,151,Savings transfer from ACC-CA-015,demo-savings-015-0
+ACC-CA-015,CREDIT,2775.00,148,Monthly salary - Atelier Demo,salary-15-1
+ACC-CA-015,DEBIT,840.00,145,Monthly rent,rent-15-1
+ACC-CA-015,DEBIT,104.40,140,Electricity and internet,bills-15-1
+ACC-CA-015,DEBIT,178.65,132,Groceries - Marche Demo,groceries-15-1
+ACC-CA-015,DEBIT,12.99,127,Music subscription,music-15-1
+ACC-CA-015,DEBIT,275.00,121,Savings transfer to SA_015,demo-savings-015-1
+SA_015,CREDIT,275.00,121,Savings transfer from ACC-CA-015,demo-savings-015-1
+ACC-CA-015,CREDIT,2775.00,118,Monthly salary - Atelier Demo,salary-15-2
+ACC-CA-015,DEBIT,840.00,115,Monthly rent,rent-15-2
+ACC-CA-015,DEBIT,104.40,110,Electricity and internet,bills-15-2
+ACC-CA-015,DEBIT,181.65,102,Groceries - Marche Demo,groceries-15-2
+ACC-CA-015,DEBIT,12.99,97,Music subscription,music-15-2
+ACC-CA-015,DEBIT,275.00,91,Savings transfer to SA_015,demo-savings-015-2
+SA_015,CREDIT,275.00,91,Savings transfer from ACC-CA-015,demo-savings-015-2
+ACC-CA-015,CREDIT,2775.00,88,Monthly salary - Atelier Demo,salary-15-3
+ACC-CA-015,DEBIT,840.00,85,Monthly rent,rent-15-3
+ACC-CA-015,DEBIT,104.40,80,Electricity and internet,bills-15-3
+ACC-CA-015,DEBIT,184.65,72,Groceries - Marche Demo,groceries-15-3
+ACC-CA-015,DEBIT,12.99,67,Music subscription,music-15-3
+ACC-CA-015,DEBIT,275.00,61,Savings transfer to SA_015,demo-savings-015-3
+SA_015,CREDIT,275.00,61,Savings transfer from ACC-CA-015,demo-savings-015-3
+ACC-CA-015,CREDIT,2775.00,58,Monthly salary - Atelier Demo,salary-15-4
+ACC-CA-015,DEBIT,840.00,55,Monthly rent,rent-15-4
+ACC-CA-015,DEBIT,104.40,50,Electricity and internet,bills-15-4
+ACC-CA-015,DEBIT,187.65,42,Groceries - Marche Demo,groceries-15-4
+ACC-CA-015,DEBIT,12.99,37,Music subscription,music-15-4
+ACC-CA-015,DEBIT,275.00,31,Savings transfer to SA_015,demo-savings-015-4
+SA_015,CREDIT,275.00,31,Savings transfer from ACC-CA-015,demo-savings-015-4
+ACC-CA-015,CREDIT,2775.00,28,Monthly salary - Atelier Demo,salary-15-5
+ACC-CA-015,DEBIT,840.00,25,Monthly rent,rent-15-5
+ACC-CA-015,DEBIT,104.40,20,Electricity and internet,bills-15-5
+ACC-CA-015,DEBIT,190.65,12,Groceries - Marche Demo,groceries-15-5
+ACC-CA-015,DEBIT,12.99,7,Music subscription,music-15-5
+ACC-CA-015,DEBIT,275.00,1,Savings transfer to SA_015,demo-savings-015-5
+SA_015,CREDIT,275.00,1,Savings transfer from ACC-CA-015,demo-savings-015-5
+ACC-CA-016,CREDIT,2560.00,181,Opening deposit,opening-ACC-CA-016
+SA_016,CREDIT,5220.00,181,Opening savings deposit,opening-SA_016
+ACC-CA-016,CREDIT,2820.00,178,Monthly salary - Atelier Demo,salary-16-0
+ACC-CA-016,DEBIT,848.00,175,Monthly rent,rent-16-0
+ACC-CA-016,DEBIT,105.40,170,Electricity and internet,bills-16-0
+ACC-CA-016,DEBIT,177.65,162,Groceries - Marche Demo,groceries-16-0
+ACC-CA-016,DEBIT,12.99,157,Music subscription,music-16-0
+ACC-CA-016,DEBIT,280.00,151,Savings transfer to SA_016,demo-savings-016-0
+SA_016,CREDIT,280.00,151,Savings transfer from ACC-CA-016,demo-savings-016-0
+ACC-CA-016,CREDIT,2820.00,148,Monthly salary - Atelier Demo,salary-16-1
+ACC-CA-016,DEBIT,848.00,145,Monthly rent,rent-16-1
+ACC-CA-016,DEBIT,105.40,140,Electricity and internet,bills-16-1
+ACC-CA-016,DEBIT,180.65,132,Groceries - Marche Demo,groceries-16-1
+ACC-CA-016,DEBIT,12.99,127,Music subscription,music-16-1
+ACC-CA-016,DEBIT,280.00,121,Savings transfer to SA_016,demo-savings-016-1
+SA_016,CREDIT,280.00,121,Savings transfer from ACC-CA-016,demo-savings-016-1
+ACC-CA-016,CREDIT,2820.00,118,Monthly salary - Atelier Demo,salary-16-2
+ACC-CA-016,DEBIT,848.00,115,Monthly rent,rent-16-2
+ACC-CA-016,DEBIT,105.40,110,Electricity and internet,bills-16-2
+ACC-CA-016,DEBIT,183.65,102,Groceries - Marche Demo,groceries-16-2
+ACC-CA-016,DEBIT,12.99,97,Music subscription,music-16-2
+ACC-CA-016,DEBIT,280.00,91,Savings transfer to SA_016,demo-savings-016-2
+SA_016,CREDIT,280.00,91,Savings transfer from ACC-CA-016,demo-savings-016-2
+ACC-CA-016,CREDIT,2820.00,88,Monthly salary - Atelier Demo,salary-16-3
+ACC-CA-016,DEBIT,848.00,85,Monthly rent,rent-16-3
+ACC-CA-016,DEBIT,105.40,80,Electricity and internet,bills-16-3
+ACC-CA-016,DEBIT,186.65,72,Groceries - Marche Demo,groceries-16-3
+ACC-CA-016,DEBIT,12.99,67,Music subscription,music-16-3
+ACC-CA-016,DEBIT,280.00,61,Savings transfer to SA_016,demo-savings-016-3
+SA_016,CREDIT,280.00,61,Savings transfer from ACC-CA-016,demo-savings-016-3
+ACC-CA-016,CREDIT,2820.00,58,Monthly salary - Atelier Demo,salary-16-4
+ACC-CA-016,DEBIT,848.00,55,Monthly rent,rent-16-4
+ACC-CA-016,DEBIT,105.40,50,Electricity and internet,bills-16-4
+ACC-CA-016,DEBIT,189.65,42,Groceries - Marche Demo,groceries-16-4
+ACC-CA-016,DEBIT,12.99,37,Music subscription,music-16-4
+ACC-CA-016,DEBIT,280.00,31,Savings transfer to SA_016,demo-savings-016-4
+SA_016,CREDIT,280.00,31,Savings transfer from ACC-CA-016,demo-savings-016-4
+ACC-CA-016,CREDIT,2820.00,28,Monthly salary - Atelier Demo,salary-16-5
+ACC-CA-016,DEBIT,848.00,25,Monthly rent,rent-16-5
+ACC-CA-016,DEBIT,105.40,20,Electricity and internet,bills-16-5
+ACC-CA-016,DEBIT,192.65,12,Groceries - Marche Demo,groceries-16-5
+ACC-CA-016,DEBIT,12.99,7,Music subscription,music-16-5
+ACC-CA-016,DEBIT,280.00,1,Savings transfer to SA_016,demo-savings-016-5
+SA_016,CREDIT,280.00,1,Savings transfer from ACC-CA-016,demo-savings-016-5
+ACC-CA-017,CREDIT,2645.00,181,Opening deposit,opening-ACC-CA-017
+SA_017,CREDIT,5390.00,181,Opening savings deposit,opening-SA_017
+ACC-CA-017,CREDIT,2865.00,178,Monthly salary - Atelier Demo,salary-17-0
+ACC-CA-017,DEBIT,856.00,175,Monthly rent,rent-17-0
+ACC-CA-017,DEBIT,106.40,170,Electricity and internet,bills-17-0
+ACC-CA-017,DEBIT,179.65,162,Groceries - Marche Demo,groceries-17-0
+ACC-CA-017,DEBIT,12.99,157,Music subscription,music-17-0
+ACC-CA-017,DEBIT,285.00,151,Savings transfer to SA_017,demo-savings-017-0
+SA_017,CREDIT,285.00,151,Savings transfer from ACC-CA-017,demo-savings-017-0
+ACC-CA-017,CREDIT,2865.00,148,Monthly salary - Atelier Demo,salary-17-1
+ACC-CA-017,DEBIT,856.00,145,Monthly rent,rent-17-1
+ACC-CA-017,DEBIT,106.40,140,Electricity and internet,bills-17-1
+ACC-CA-017,DEBIT,182.65,132,Groceries - Marche Demo,groceries-17-1
+ACC-CA-017,DEBIT,12.99,127,Music subscription,music-17-1
+ACC-CA-017,DEBIT,285.00,121,Savings transfer to SA_017,demo-savings-017-1
+SA_017,CREDIT,285.00,121,Savings transfer from ACC-CA-017,demo-savings-017-1
+ACC-CA-017,CREDIT,2865.00,118,Monthly salary - Atelier Demo,salary-17-2
+ACC-CA-017,DEBIT,856.00,115,Monthly rent,rent-17-2
+ACC-CA-017,DEBIT,106.40,110,Electricity and internet,bills-17-2
+ACC-CA-017,DEBIT,185.65,102,Groceries - Marche Demo,groceries-17-2
+ACC-CA-017,DEBIT,12.99,97,Music subscription,music-17-2
+ACC-CA-017,DEBIT,285.00,91,Savings transfer to SA_017,demo-savings-017-2
+SA_017,CREDIT,285.00,91,Savings transfer from ACC-CA-017,demo-savings-017-2
+ACC-CA-017,CREDIT,2865.00,88,Monthly salary - Atelier Demo,salary-17-3
+ACC-CA-017,DEBIT,856.00,85,Monthly rent,rent-17-3
+ACC-CA-017,DEBIT,106.40,80,Electricity and internet,bills-17-3
+ACC-CA-017,DEBIT,188.65,72,Groceries - Marche Demo,groceries-17-3
+ACC-CA-017,DEBIT,12.99,67,Music subscription,music-17-3
+ACC-CA-017,DEBIT,285.00,61,Savings transfer to SA_017,demo-savings-017-3
+SA_017,CREDIT,285.00,61,Savings transfer from ACC-CA-017,demo-savings-017-3
+ACC-CA-017,CREDIT,2865.00,58,Monthly salary - Atelier Demo,salary-17-4
+ACC-CA-017,DEBIT,856.00,55,Monthly rent,rent-17-4
+ACC-CA-017,DEBIT,106.40,50,Electricity and internet,bills-17-4
+ACC-CA-017,DEBIT,191.65,42,Groceries - Marche Demo,groceries-17-4
+ACC-CA-017,DEBIT,12.99,37,Music subscription,music-17-4
+ACC-CA-017,DEBIT,285.00,31,Savings transfer to SA_017,demo-savings-017-4
+SA_017,CREDIT,285.00,31,Savings transfer from ACC-CA-017,demo-savings-017-4
+ACC-CA-017,CREDIT,2865.00,28,Monthly salary - Atelier Demo,salary-17-5
+ACC-CA-017,DEBIT,856.00,25,Monthly rent,rent-17-5
+ACC-CA-017,DEBIT,106.40,20,Electricity and internet,bills-17-5
+ACC-CA-017,DEBIT,194.65,12,Groceries - Marche Demo,groceries-17-5
+ACC-CA-017,DEBIT,12.99,7,Music subscription,music-17-5
+ACC-CA-017,DEBIT,285.00,1,Savings transfer to SA_017,demo-savings-017-5
+SA_017,CREDIT,285.00,1,Savings transfer from ACC-CA-017,demo-savings-017-5
+ACC-CA-018,CREDIT,2730.00,181,Opening deposit,opening-ACC-CA-018
+SA_018,CREDIT,5560.00,181,Opening savings deposit,opening-SA_018
+ACC-CA-018,CREDIT,2910.00,178,Monthly salary - Atelier Demo,salary-18-0
+ACC-CA-018,DEBIT,864.00,175,Monthly rent,rent-18-0
+ACC-CA-018,DEBIT,107.40,170,Electricity and internet,bills-18-0
+ACC-CA-018,DEBIT,181.65,162,Groceries - Marche Demo,groceries-18-0
+ACC-CA-018,DEBIT,12.99,157,Music subscription,music-18-0
+ACC-CA-018,DEBIT,290.00,151,Savings transfer to SA_018,demo-savings-018-0
+SA_018,CREDIT,290.00,151,Savings transfer from ACC-CA-018,demo-savings-018-0
+ACC-CA-018,CREDIT,2910.00,148,Monthly salary - Atelier Demo,salary-18-1
+ACC-CA-018,DEBIT,864.00,145,Monthly rent,rent-18-1
+ACC-CA-018,DEBIT,107.40,140,Electricity and internet,bills-18-1
+ACC-CA-018,DEBIT,184.65,132,Groceries - Marche Demo,groceries-18-1
+ACC-CA-018,DEBIT,12.99,127,Music subscription,music-18-1
+ACC-CA-018,DEBIT,290.00,121,Savings transfer to SA_018,demo-savings-018-1
+SA_018,CREDIT,290.00,121,Savings transfer from ACC-CA-018,demo-savings-018-1
+ACC-CA-018,CREDIT,2910.00,118,Monthly salary - Atelier Demo,salary-18-2
+ACC-CA-018,DEBIT,864.00,115,Monthly rent,rent-18-2
+ACC-CA-018,DEBIT,107.40,110,Electricity and internet,bills-18-2
+ACC-CA-018,DEBIT,187.65,102,Groceries - Marche Demo,groceries-18-2
+ACC-CA-018,DEBIT,12.99,97,Music subscription,music-18-2
+ACC-CA-018,DEBIT,290.00,91,Savings transfer to SA_018,demo-savings-018-2
+SA_018,CREDIT,290.00,91,Savings transfer from ACC-CA-018,demo-savings-018-2
+ACC-CA-018,CREDIT,2910.00,88,Monthly salary - Atelier Demo,salary-18-3
+ACC-CA-018,DEBIT,864.00,85,Monthly rent,rent-18-3
+ACC-CA-018,DEBIT,107.40,80,Electricity and internet,bills-18-3
+ACC-CA-018,DEBIT,190.65,72,Groceries - Marche Demo,groceries-18-3
+ACC-CA-018,DEBIT,12.99,67,Music subscription,music-18-3
+ACC-CA-018,DEBIT,290.00,61,Savings transfer to SA_018,demo-savings-018-3
+SA_018,CREDIT,290.00,61,Savings transfer from ACC-CA-018,demo-savings-018-3
+ACC-CA-018,CREDIT,2910.00,58,Monthly salary - Atelier Demo,salary-18-4
+ACC-CA-018,DEBIT,864.00,55,Monthly rent,rent-18-4
+ACC-CA-018,DEBIT,107.40,50,Electricity and internet,bills-18-4
+ACC-CA-018,DEBIT,193.65,42,Groceries - Marche Demo,groceries-18-4
+ACC-CA-018,DEBIT,12.99,37,Music subscription,music-18-4
+ACC-CA-018,DEBIT,290.00,31,Savings transfer to SA_018,demo-savings-018-4
+SA_018,CREDIT,290.00,31,Savings transfer from ACC-CA-018,demo-savings-018-4
+ACC-CA-018,CREDIT,2910.00,28,Monthly salary - Atelier Demo,salary-18-5
+ACC-CA-018,DEBIT,864.00,25,Monthly rent,rent-18-5
+ACC-CA-018,DEBIT,107.40,20,Electricity and internet,bills-18-5
+ACC-CA-018,DEBIT,196.65,12,Groceries - Marche Demo,groceries-18-5
+ACC-CA-018,DEBIT,12.99,7,Music subscription,music-18-5
+ACC-CA-018,DEBIT,290.00,1,Savings transfer to SA_018,demo-savings-018-5
+SA_018,CREDIT,290.00,1,Savings transfer from ACC-CA-018,demo-savings-018-5
+ACC-CA-019,CREDIT,2815.00,181,Opening deposit,opening-ACC-CA-019
+SA_019,CREDIT,5730.00,181,Opening savings deposit,opening-SA_019
+ACC-CA-019,CREDIT,2955.00,178,Monthly salary - Atelier Demo,salary-19-0
+ACC-CA-019,DEBIT,872.00,175,Monthly rent,rent-19-0
+ACC-CA-019,DEBIT,108.40,170,Electricity and internet,bills-19-0
+ACC-CA-019,DEBIT,183.65,162,Groceries - Marche Demo,groceries-19-0
+ACC-CA-019,DEBIT,12.99,157,Music subscription,music-19-0
+ACC-CA-019,DEBIT,295.00,151,Savings transfer to SA_019,demo-savings-019-0
+SA_019,CREDIT,295.00,151,Savings transfer from ACC-CA-019,demo-savings-019-0
+ACC-CA-019,CREDIT,2955.00,148,Monthly salary - Atelier Demo,salary-19-1
+ACC-CA-019,DEBIT,872.00,145,Monthly rent,rent-19-1
+ACC-CA-019,DEBIT,108.40,140,Electricity and internet,bills-19-1
+ACC-CA-019,DEBIT,186.65,132,Groceries - Marche Demo,groceries-19-1
+ACC-CA-019,DEBIT,12.99,127,Music subscription,music-19-1
+ACC-CA-019,DEBIT,295.00,121,Savings transfer to SA_019,demo-savings-019-1
+SA_019,CREDIT,295.00,121,Savings transfer from ACC-CA-019,demo-savings-019-1
+ACC-CA-019,CREDIT,2955.00,118,Monthly salary - Atelier Demo,salary-19-2
+ACC-CA-019,DEBIT,872.00,115,Monthly rent,rent-19-2
+ACC-CA-019,DEBIT,108.40,110,Electricity and internet,bills-19-2
+ACC-CA-019,DEBIT,189.65,102,Groceries - Marche Demo,groceries-19-2
+ACC-CA-019,DEBIT,12.99,97,Music subscription,music-19-2
+ACC-CA-019,DEBIT,295.00,91,Savings transfer to SA_019,demo-savings-019-2
+SA_019,CREDIT,295.00,91,Savings transfer from ACC-CA-019,demo-savings-019-2
+ACC-CA-019,CREDIT,2955.00,88,Monthly salary - Atelier Demo,salary-19-3
+ACC-CA-019,DEBIT,872.00,85,Monthly rent,rent-19-3
+ACC-CA-019,DEBIT,108.40,80,Electricity and internet,bills-19-3
+ACC-CA-019,DEBIT,192.65,72,Groceries - Marche Demo,groceries-19-3
+ACC-CA-019,DEBIT,12.99,67,Music subscription,music-19-3
+ACC-CA-019,DEBIT,295.00,61,Savings transfer to SA_019,demo-savings-019-3
+SA_019,CREDIT,295.00,61,Savings transfer from ACC-CA-019,demo-savings-019-3
+ACC-CA-019,CREDIT,2955.00,58,Monthly salary - Atelier Demo,salary-19-4
+ACC-CA-019,DEBIT,872.00,55,Monthly rent,rent-19-4
+ACC-CA-019,DEBIT,108.40,50,Electricity and internet,bills-19-4
+ACC-CA-019,DEBIT,195.65,42,Groceries - Marche Demo,groceries-19-4
+ACC-CA-019,DEBIT,12.99,37,Music subscription,music-19-4
+ACC-CA-019,DEBIT,295.00,31,Savings transfer to SA_019,demo-savings-019-4
+SA_019,CREDIT,295.00,31,Savings transfer from ACC-CA-019,demo-savings-019-4
+ACC-CA-019,CREDIT,2955.00,28,Monthly salary - Atelier Demo,salary-19-5
+ACC-CA-019,DEBIT,872.00,25,Monthly rent,rent-19-5
+ACC-CA-019,DEBIT,108.40,20,Electricity and internet,bills-19-5
+ACC-CA-019,DEBIT,198.65,12,Groceries - Marche Demo,groceries-19-5
+ACC-CA-019,DEBIT,12.99,7,Music subscription,music-19-5
+ACC-CA-019,DEBIT,295.00,1,Savings transfer to SA_019,demo-savings-019-5
+SA_019,CREDIT,295.00,1,Savings transfer from ACC-CA-019,demo-savings-019-5
+ACC-CA-020,CREDIT,2900.00,181,Opening deposit,opening-ACC-CA-020
+SA_020,CREDIT,5900.00,181,Opening savings deposit,opening-SA_020
+ACC-CA-020,CREDIT,3000.00,178,Monthly salary - Atelier Demo,salary-20-0
+ACC-CA-020,DEBIT,880.00,175,Monthly rent,rent-20-0
+ACC-CA-020,DEBIT,109.40,170,Electricity and internet,bills-20-0
+ACC-CA-020,DEBIT,185.65,162,Groceries - Marche Demo,groceries-20-0
+ACC-CA-020,DEBIT,12.99,157,Music subscription,music-20-0
+ACC-CA-020,DEBIT,300.00,151,Savings transfer to SA_020,demo-savings-020-0
+SA_020,CREDIT,300.00,151,Savings transfer from ACC-CA-020,demo-savings-020-0
+ACC-CA-020,CREDIT,3000.00,148,Monthly salary - Atelier Demo,salary-20-1
+ACC-CA-020,DEBIT,880.00,145,Monthly rent,rent-20-1
+ACC-CA-020,DEBIT,109.40,140,Electricity and internet,bills-20-1
+ACC-CA-020,DEBIT,188.65,132,Groceries - Marche Demo,groceries-20-1
+ACC-CA-020,DEBIT,12.99,127,Music subscription,music-20-1
+ACC-CA-020,DEBIT,300.00,121,Savings transfer to SA_020,demo-savings-020-1
+SA_020,CREDIT,300.00,121,Savings transfer from ACC-CA-020,demo-savings-020-1
+ACC-CA-020,CREDIT,3000.00,118,Monthly salary - Atelier Demo,salary-20-2
+ACC-CA-020,DEBIT,880.00,115,Monthly rent,rent-20-2
+ACC-CA-020,DEBIT,109.40,110,Electricity and internet,bills-20-2
+ACC-CA-020,DEBIT,191.65,102,Groceries - Marche Demo,groceries-20-2
+ACC-CA-020,DEBIT,12.99,97,Music subscription,music-20-2
+ACC-CA-020,DEBIT,300.00,91,Savings transfer to SA_020,demo-savings-020-2
+SA_020,CREDIT,300.00,91,Savings transfer from ACC-CA-020,demo-savings-020-2
+ACC-CA-020,CREDIT,3000.00,88,Monthly salary - Atelier Demo,salary-20-3
+ACC-CA-020,DEBIT,880.00,85,Monthly rent,rent-20-3
+ACC-CA-020,DEBIT,109.40,80,Electricity and internet,bills-20-3
+ACC-CA-020,DEBIT,194.65,72,Groceries - Marche Demo,groceries-20-3
+ACC-CA-020,DEBIT,12.99,67,Music subscription,music-20-3
+ACC-CA-020,DEBIT,300.00,61,Savings transfer to SA_020,demo-savings-020-3
+SA_020,CREDIT,300.00,61,Savings transfer from ACC-CA-020,demo-savings-020-3
+ACC-CA-020,CREDIT,3000.00,58,Monthly salary - Atelier Demo,salary-20-4
+ACC-CA-020,DEBIT,880.00,55,Monthly rent,rent-20-4
+ACC-CA-020,DEBIT,109.40,50,Electricity and internet,bills-20-4
+ACC-CA-020,DEBIT,197.65,42,Groceries - Marche Demo,groceries-20-4
+ACC-CA-020,DEBIT,12.99,37,Music subscription,music-20-4
+ACC-CA-020,DEBIT,300.00,31,Savings transfer to SA_020,demo-savings-020-4
+SA_020,CREDIT,300.00,31,Savings transfer from ACC-CA-020,demo-savings-020-4
+ACC-CA-020,CREDIT,3000.00,28,Monthly salary - Atelier Demo,salary-20-5
+ACC-CA-020,DEBIT,880.00,25,Monthly rent,rent-20-5
+ACC-CA-020,DEBIT,109.40,20,Electricity and internet,bills-20-5
+ACC-CA-020,DEBIT,200.65,12,Groceries - Marche Demo,groceries-20-5
+ACC-CA-020,DEBIT,12.99,7,Music subscription,music-20-5
+ACC-CA-020,DEBIT,300.00,1,Savings transfer to SA_020,demo-savings-020-5
+SA_020,CREDIT,300.00,1,Savings transfer from ACC-CA-020,demo-savings-020-5
+ACC-CA-021,CREDIT,2985.00,181,Opening deposit,opening-ACC-CA-021
+SA_021,CREDIT,6070.00,181,Opening savings deposit,opening-SA_021
+ACC-CA-021,CREDIT,3045.00,178,Monthly salary - Atelier Demo,salary-21-0
+ACC-CA-021,DEBIT,888.00,175,Monthly rent,rent-21-0
+ACC-CA-021,DEBIT,110.40,170,Electricity and internet,bills-21-0
+ACC-CA-021,DEBIT,187.65,162,Groceries - Marche Demo,groceries-21-0
+ACC-CA-021,DEBIT,12.99,157,Music subscription,music-21-0
+ACC-CA-021,DEBIT,305.00,151,Savings transfer to SA_021,demo-savings-021-0
+SA_021,CREDIT,305.00,151,Savings transfer from ACC-CA-021,demo-savings-021-0
+ACC-CA-021,CREDIT,3045.00,148,Monthly salary - Atelier Demo,salary-21-1
+ACC-CA-021,DEBIT,888.00,145,Monthly rent,rent-21-1
+ACC-CA-021,DEBIT,110.40,140,Electricity and internet,bills-21-1
+ACC-CA-021,DEBIT,190.65,132,Groceries - Marche Demo,groceries-21-1
+ACC-CA-021,DEBIT,12.99,127,Music subscription,music-21-1
+ACC-CA-021,DEBIT,305.00,121,Savings transfer to SA_021,demo-savings-021-1
+SA_021,CREDIT,305.00,121,Savings transfer from ACC-CA-021,demo-savings-021-1
+ACC-CA-021,CREDIT,3045.00,118,Monthly salary - Atelier Demo,salary-21-2
+ACC-CA-021,DEBIT,888.00,115,Monthly rent,rent-21-2
+ACC-CA-021,DEBIT,110.40,110,Electricity and internet,bills-21-2
+ACC-CA-021,DEBIT,193.65,102,Groceries - Marche Demo,groceries-21-2
+ACC-CA-021,DEBIT,12.99,97,Music subscription,music-21-2
+ACC-CA-021,DEBIT,305.00,91,Savings transfer to SA_021,demo-savings-021-2
+SA_021,CREDIT,305.00,91,Savings transfer from ACC-CA-021,demo-savings-021-2
+ACC-CA-021,CREDIT,3045.00,88,Monthly salary - Atelier Demo,salary-21-3
+ACC-CA-021,DEBIT,888.00,85,Monthly rent,rent-21-3
+ACC-CA-021,DEBIT,110.40,80,Electricity and internet,bills-21-3
+ACC-CA-021,DEBIT,196.65,72,Groceries - Marche Demo,groceries-21-3
+ACC-CA-021,DEBIT,12.99,67,Music subscription,music-21-3
+ACC-CA-021,DEBIT,305.00,61,Savings transfer to SA_021,demo-savings-021-3
+SA_021,CREDIT,305.00,61,Savings transfer from ACC-CA-021,demo-savings-021-3
+ACC-CA-021,CREDIT,3045.00,58,Monthly salary - Atelier Demo,salary-21-4
+ACC-CA-021,DEBIT,888.00,55,Monthly rent,rent-21-4
+ACC-CA-021,DEBIT,110.40,50,Electricity and internet,bills-21-4
+ACC-CA-021,DEBIT,199.65,42,Groceries - Marche Demo,groceries-21-4
+ACC-CA-021,DEBIT,12.99,37,Music subscription,music-21-4
+ACC-CA-021,DEBIT,305.00,31,Savings transfer to SA_021,demo-savings-021-4
+SA_021,CREDIT,305.00,31,Savings transfer from ACC-CA-021,demo-savings-021-4
+ACC-CA-021,CREDIT,3045.00,28,Monthly salary - Atelier Demo,salary-21-5
+ACC-CA-021,DEBIT,888.00,25,Monthly rent,rent-21-5
+ACC-CA-021,DEBIT,110.40,20,Electricity and internet,bills-21-5
+ACC-CA-021,DEBIT,202.65,12,Groceries - Marche Demo,groceries-21-5
+ACC-CA-021,DEBIT,12.99,7,Music subscription,music-21-5
+ACC-CA-021,DEBIT,305.00,1,Savings transfer to SA_021,demo-savings-021-5
+SA_021,CREDIT,305.00,1,Savings transfer from ACC-CA-021,demo-savings-021-5
+ACC-CA-022,CREDIT,3070.00,181,Opening deposit,opening-ACC-CA-022
+SA_022,CREDIT,6240.00,181,Opening savings deposit,opening-SA_022
+ACC-CA-022,CREDIT,3090.00,178,Monthly salary - Atelier Demo,salary-22-0
+ACC-CA-022,DEBIT,896.00,175,Monthly rent,rent-22-0
+ACC-CA-022,DEBIT,111.40,170,Electricity and internet,bills-22-0
+ACC-CA-022,DEBIT,189.65,162,Groceries - Marche Demo,groceries-22-0
+ACC-CA-022,DEBIT,12.99,157,Music subscription,music-22-0
+ACC-CA-022,DEBIT,310.00,151,Savings transfer to SA_022,demo-savings-022-0
+SA_022,CREDIT,310.00,151,Savings transfer from ACC-CA-022,demo-savings-022-0
+ACC-CA-022,CREDIT,3090.00,148,Monthly salary - Atelier Demo,salary-22-1
+ACC-CA-022,DEBIT,896.00,145,Monthly rent,rent-22-1
+ACC-CA-022,DEBIT,111.40,140,Electricity and internet,bills-22-1
+ACC-CA-022,DEBIT,192.65,132,Groceries - Marche Demo,groceries-22-1
+ACC-CA-022,DEBIT,12.99,127,Music subscription,music-22-1
+ACC-CA-022,DEBIT,310.00,121,Savings transfer to SA_022,demo-savings-022-1
+SA_022,CREDIT,310.00,121,Savings transfer from ACC-CA-022,demo-savings-022-1
+ACC-CA-022,CREDIT,3090.00,118,Monthly salary - Atelier Demo,salary-22-2
+ACC-CA-022,DEBIT,896.00,115,Monthly rent,rent-22-2
+ACC-CA-022,DEBIT,111.40,110,Electricity and internet,bills-22-2
+ACC-CA-022,DEBIT,195.65,102,Groceries - Marche Demo,groceries-22-2
+ACC-CA-022,DEBIT,12.99,97,Music subscription,music-22-2
+ACC-CA-022,DEBIT,310.00,91,Savings transfer to SA_022,demo-savings-022-2
+SA_022,CREDIT,310.00,91,Savings transfer from ACC-CA-022,demo-savings-022-2
+ACC-CA-022,CREDIT,3090.00,88,Monthly salary - Atelier Demo,salary-22-3
+ACC-CA-022,DEBIT,896.00,85,Monthly rent,rent-22-3
+ACC-CA-022,DEBIT,111.40,80,Electricity and internet,bills-22-3
+ACC-CA-022,DEBIT,198.65,72,Groceries - Marche Demo,groceries-22-3
+ACC-CA-022,DEBIT,12.99,67,Music subscription,music-22-3
+ACC-CA-022,DEBIT,310.00,61,Savings transfer to SA_022,demo-savings-022-3
+SA_022,CREDIT,310.00,61,Savings transfer from ACC-CA-022,demo-savings-022-3
+ACC-CA-022,CREDIT,3090.00,58,Monthly salary - Atelier Demo,salary-22-4
+ACC-CA-022,DEBIT,896.00,55,Monthly rent,rent-22-4
+ACC-CA-022,DEBIT,111.40,50,Electricity and internet,bills-22-4
+ACC-CA-022,DEBIT,201.65,42,Groceries - Marche Demo,groceries-22-4
+ACC-CA-022,DEBIT,12.99,37,Music subscription,music-22-4
+ACC-CA-022,DEBIT,310.00,31,Savings transfer to SA_022,demo-savings-022-4
+SA_022,CREDIT,310.00,31,Savings transfer from ACC-CA-022,demo-savings-022-4
+ACC-CA-022,CREDIT,3090.00,28,Monthly salary - Atelier Demo,salary-22-5
+ACC-CA-022,DEBIT,896.00,25,Monthly rent,rent-22-5
+ACC-CA-022,DEBIT,111.40,20,Electricity and internet,bills-22-5
+ACC-CA-022,DEBIT,204.65,12,Groceries - Marche Demo,groceries-22-5
+ACC-CA-022,DEBIT,12.99,7,Music subscription,music-22-5
+ACC-CA-022,DEBIT,310.00,1,Savings transfer to SA_022,demo-savings-022-5
+SA_022,CREDIT,310.00,1,Savings transfer from ACC-CA-022,demo-savings-022-5
+ACC-CA-023,CREDIT,3155.00,181,Opening deposit,opening-ACC-CA-023
+SA_023,CREDIT,6410.00,181,Opening savings deposit,opening-SA_023
+ACC-CA-023,CREDIT,3135.00,178,Monthly salary - Atelier Demo,salary-23-0
+ACC-CA-023,DEBIT,904.00,175,Monthly rent,rent-23-0
+ACC-CA-023,DEBIT,112.40,170,Electricity and internet,bills-23-0
+ACC-CA-023,DEBIT,191.65,162,Groceries - Marche Demo,groceries-23-0
+ACC-CA-023,DEBIT,12.99,157,Music subscription,music-23-0
+ACC-CA-023,DEBIT,315.00,151,Savings transfer to SA_023,demo-savings-023-0
+SA_023,CREDIT,315.00,151,Savings transfer from ACC-CA-023,demo-savings-023-0
+ACC-CA-023,CREDIT,3135.00,148,Monthly salary - Atelier Demo,salary-23-1
+ACC-CA-023,DEBIT,904.00,145,Monthly rent,rent-23-1
+ACC-CA-023,DEBIT,112.40,140,Electricity and internet,bills-23-1
+ACC-CA-023,DEBIT,194.65,132,Groceries - Marche Demo,groceries-23-1
+ACC-CA-023,DEBIT,12.99,127,Music subscription,music-23-1
+ACC-CA-023,DEBIT,315.00,121,Savings transfer to SA_023,demo-savings-023-1
+SA_023,CREDIT,315.00,121,Savings transfer from ACC-CA-023,demo-savings-023-1
+ACC-CA-023,CREDIT,3135.00,118,Monthly salary - Atelier Demo,salary-23-2
+ACC-CA-023,DEBIT,904.00,115,Monthly rent,rent-23-2
+ACC-CA-023,DEBIT,112.40,110,Electricity and internet,bills-23-2
+ACC-CA-023,DEBIT,197.65,102,Groceries - Marche Demo,groceries-23-2
+ACC-CA-023,DEBIT,12.99,97,Music subscription,music-23-2
+ACC-CA-023,DEBIT,315.00,91,Savings transfer to SA_023,demo-savings-023-2
+SA_023,CREDIT,315.00,91,Savings transfer from ACC-CA-023,demo-savings-023-2
+ACC-CA-023,CREDIT,3135.00,88,Monthly salary - Atelier Demo,salary-23-3
+ACC-CA-023,DEBIT,904.00,85,Monthly rent,rent-23-3
+ACC-CA-023,DEBIT,112.40,80,Electricity and internet,bills-23-3
+ACC-CA-023,DEBIT,200.65,72,Groceries - Marche Demo,groceries-23-3
+ACC-CA-023,DEBIT,12.99,67,Music subscription,music-23-3
+ACC-CA-023,DEBIT,315.00,61,Savings transfer to SA_023,demo-savings-023-3
+SA_023,CREDIT,315.00,61,Savings transfer from ACC-CA-023,demo-savings-023-3
+ACC-CA-023,CREDIT,3135.00,58,Monthly salary - Atelier Demo,salary-23-4
+ACC-CA-023,DEBIT,904.00,55,Monthly rent,rent-23-4
+ACC-CA-023,DEBIT,112.40,50,Electricity and internet,bills-23-4
+ACC-CA-023,DEBIT,203.65,42,Groceries - Marche Demo,groceries-23-4
+ACC-CA-023,DEBIT,12.99,37,Music subscription,music-23-4
+ACC-CA-023,DEBIT,315.00,31,Savings transfer to SA_023,demo-savings-023-4
+SA_023,CREDIT,315.00,31,Savings transfer from ACC-CA-023,demo-savings-023-4
+ACC-CA-023,CREDIT,3135.00,28,Monthly salary - Atelier Demo,salary-23-5
+ACC-CA-023,DEBIT,904.00,25,Monthly rent,rent-23-5
+ACC-CA-023,DEBIT,112.40,20,Electricity and internet,bills-23-5
+ACC-CA-023,DEBIT,206.65,12,Groceries - Marche Demo,groceries-23-5
+ACC-CA-023,DEBIT,12.99,7,Music subscription,music-23-5
+ACC-CA-023,DEBIT,315.00,1,Savings transfer to SA_023,demo-savings-023-5
+SA_023,CREDIT,315.00,1,Savings transfer from ACC-CA-023,demo-savings-023-5
+ACC-CA-024,CREDIT,3240.00,181,Opening deposit,opening-ACC-CA-024
+SA_024,CREDIT,6580.00,181,Opening savings deposit,opening-SA_024
+ACC-CA-024,CREDIT,3180.00,178,Monthly salary - Atelier Demo,salary-24-0
+ACC-CA-024,DEBIT,912.00,175,Monthly rent,rent-24-0
+ACC-CA-024,DEBIT,113.40,170,Electricity and internet,bills-24-0
+ACC-CA-024,DEBIT,193.65,162,Groceries - Marche Demo,groceries-24-0
+ACC-CA-024,DEBIT,12.99,157,Music subscription,music-24-0
+ACC-CA-024,DEBIT,320.00,151,Savings transfer to SA_024,demo-savings-024-0
+SA_024,CREDIT,320.00,151,Savings transfer from ACC-CA-024,demo-savings-024-0
+ACC-CA-024,CREDIT,3180.00,148,Monthly salary - Atelier Demo,salary-24-1
+ACC-CA-024,DEBIT,912.00,145,Monthly rent,rent-24-1
+ACC-CA-024,DEBIT,113.40,140,Electricity and internet,bills-24-1
+ACC-CA-024,DEBIT,196.65,132,Groceries - Marche Demo,groceries-24-1
+ACC-CA-024,DEBIT,12.99,127,Music subscription,music-24-1
+ACC-CA-024,DEBIT,320.00,121,Savings transfer to SA_024,demo-savings-024-1
+SA_024,CREDIT,320.00,121,Savings transfer from ACC-CA-024,demo-savings-024-1
+ACC-CA-024,CREDIT,3180.00,118,Monthly salary - Atelier Demo,salary-24-2
+ACC-CA-024,DEBIT,912.00,115,Monthly rent,rent-24-2
+ACC-CA-024,DEBIT,113.40,110,Electricity and internet,bills-24-2
+ACC-CA-024,DEBIT,199.65,102,Groceries - Marche Demo,groceries-24-2
+ACC-CA-024,DEBIT,12.99,97,Music subscription,music-24-2
+ACC-CA-024,DEBIT,320.00,91,Savings transfer to SA_024,demo-savings-024-2
+SA_024,CREDIT,320.00,91,Savings transfer from ACC-CA-024,demo-savings-024-2
+ACC-CA-024,CREDIT,3180.00,88,Monthly salary - Atelier Demo,salary-24-3
+ACC-CA-024,DEBIT,912.00,85,Monthly rent,rent-24-3
+ACC-CA-024,DEBIT,113.40,80,Electricity and internet,bills-24-3
+ACC-CA-024,DEBIT,202.65,72,Groceries - Marche Demo,groceries-24-3
+ACC-CA-024,DEBIT,12.99,67,Music subscription,music-24-3
+ACC-CA-024,DEBIT,320.00,61,Savings transfer to SA_024,demo-savings-024-3
+SA_024,CREDIT,320.00,61,Savings transfer from ACC-CA-024,demo-savings-024-3
+ACC-CA-024,CREDIT,3180.00,58,Monthly salary - Atelier Demo,salary-24-4
+ACC-CA-024,DEBIT,912.00,55,Monthly rent,rent-24-4
+ACC-CA-024,DEBIT,113.40,50,Electricity and internet,bills-24-4
+ACC-CA-024,DEBIT,205.65,42,Groceries - Marche Demo,groceries-24-4
+ACC-CA-024,DEBIT,12.99,37,Music subscription,music-24-4
+ACC-CA-024,DEBIT,320.00,31,Savings transfer to SA_024,demo-savings-024-4
+SA_024,CREDIT,320.00,31,Savings transfer from ACC-CA-024,demo-savings-024-4
+ACC-CA-024,CREDIT,3180.00,28,Monthly salary - Atelier Demo,salary-24-5
+ACC-CA-024,DEBIT,912.00,25,Monthly rent,rent-24-5
+ACC-CA-024,DEBIT,113.40,20,Electricity and internet,bills-24-5
+ACC-CA-024,DEBIT,208.65,12,Groceries - Marche Demo,groceries-24-5
+ACC-CA-024,DEBIT,12.99,7,Music subscription,music-24-5
+ACC-CA-024,DEBIT,320.00,1,Savings transfer to SA_024,demo-savings-024-5
+SA_024,CREDIT,320.00,1,Savings transfer from ACC-CA-024,demo-savings-024-5
+ACC-CA-025,CREDIT,3325.00,181,Opening deposit,opening-ACC-CA-025
+SA_025,CREDIT,6750.00,181,Opening savings deposit,opening-SA_025
+ACC-CA-025,CREDIT,3225.00,178,Monthly salary - Atelier Demo,salary-25-0
+ACC-CA-025,DEBIT,920.00,175,Monthly rent,rent-25-0
+ACC-CA-025,DEBIT,114.40,170,Electricity and internet,bills-25-0
+ACC-CA-025,DEBIT,195.65,162,Groceries - Marche Demo,groceries-25-0
+ACC-CA-025,DEBIT,12.99,157,Music subscription,music-25-0
+ACC-CA-025,DEBIT,325.00,151,Savings transfer to SA_025,demo-savings-025-0
+SA_025,CREDIT,325.00,151,Savings transfer from ACC-CA-025,demo-savings-025-0
+ACC-CA-025,CREDIT,3225.00,148,Monthly salary - Atelier Demo,salary-25-1
+ACC-CA-025,DEBIT,920.00,145,Monthly rent,rent-25-1
+ACC-CA-025,DEBIT,114.40,140,Electricity and internet,bills-25-1
+ACC-CA-025,DEBIT,198.65,132,Groceries - Marche Demo,groceries-25-1
+ACC-CA-025,DEBIT,12.99,127,Music subscription,music-25-1
+ACC-CA-025,DEBIT,325.00,121,Savings transfer to SA_025,demo-savings-025-1
+SA_025,CREDIT,325.00,121,Savings transfer from ACC-CA-025,demo-savings-025-1
+ACC-CA-025,CREDIT,3225.00,118,Monthly salary - Atelier Demo,salary-25-2
+ACC-CA-025,DEBIT,920.00,115,Monthly rent,rent-25-2
+ACC-CA-025,DEBIT,114.40,110,Electricity and internet,bills-25-2
+ACC-CA-025,DEBIT,201.65,102,Groceries - Marche Demo,groceries-25-2
+ACC-CA-025,DEBIT,12.99,97,Music subscription,music-25-2
+ACC-CA-025,DEBIT,325.00,91,Savings transfer to SA_025,demo-savings-025-2
+SA_025,CREDIT,325.00,91,Savings transfer from ACC-CA-025,demo-savings-025-2
+ACC-CA-025,CREDIT,3225.00,88,Monthly salary - Atelier Demo,salary-25-3
+ACC-CA-025,DEBIT,920.00,85,Monthly rent,rent-25-3
+ACC-CA-025,DEBIT,114.40,80,Electricity and internet,bills-25-3
+ACC-CA-025,DEBIT,204.65,72,Groceries - Marche Demo,groceries-25-3
+ACC-CA-025,DEBIT,12.99,67,Music subscription,music-25-3
+ACC-CA-025,DEBIT,325.00,61,Savings transfer to SA_025,demo-savings-025-3
+SA_025,CREDIT,325.00,61,Savings transfer from ACC-CA-025,demo-savings-025-3
+ACC-CA-025,CREDIT,3225.00,58,Monthly salary - Atelier Demo,salary-25-4
+ACC-CA-025,DEBIT,920.00,55,Monthly rent,rent-25-4
+ACC-CA-025,DEBIT,114.40,50,Electricity and internet,bills-25-4
+ACC-CA-025,DEBIT,207.65,42,Groceries - Marche Demo,groceries-25-4
+ACC-CA-025,DEBIT,12.99,37,Music subscription,music-25-4
+ACC-CA-025,DEBIT,325.00,31,Savings transfer to SA_025,demo-savings-025-4
+SA_025,CREDIT,325.00,31,Savings transfer from ACC-CA-025,demo-savings-025-4
+ACC-CA-025,CREDIT,3225.00,28,Monthly salary - Atelier Demo,salary-25-5
+ACC-CA-025,DEBIT,920.00,25,Monthly rent,rent-25-5
+ACC-CA-025,DEBIT,114.40,20,Electricity and internet,bills-25-5
+ACC-CA-025,DEBIT,210.65,12,Groceries - Marche Demo,groceries-25-5
+ACC-CA-025,DEBIT,12.99,7,Music subscription,music-25-5
+ACC-CA-025,DEBIT,325.00,1,Savings transfer to SA_025,demo-savings-025-5
+SA_025,CREDIT,325.00,1,Savings transfer from ACC-CA-025,demo-savings-025-5

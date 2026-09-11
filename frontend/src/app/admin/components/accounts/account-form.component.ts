@@ -95,7 +95,6 @@ export class AdminAccountFormComponent implements OnInit {
       description: "",
     });
 
-    // Disable customer selection in edit mode
     this.accountForm.get("customerId")?.disable();
     this.accountForm.get("accountType")?.disable();
   }
@@ -167,7 +166,6 @@ export class AdminAccountFormComponent implements OnInit {
     );
 
     if (this.isEditMode && this.accountId) {
-      // Update existing account (limited functionality)
       this.accountService
         .updateAccountStatus(this.accountId, "ACTIVATED")
         .subscribe({
@@ -185,7 +183,6 @@ export class AdminAccountFormComponent implements OnInit {
           },
         });
     } else {
-      // Create new account
       this.accountService.createAccount(accountRequest).subscribe({
         next: () => {
           this.success = "Bank account created successfully!";

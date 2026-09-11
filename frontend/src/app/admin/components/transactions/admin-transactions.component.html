@@ -1,5 +1,4 @@
 <div class="container-fluid">
-      <!-- Page Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 class="mb-1">Transaction Management</h2>
@@ -35,7 +34,6 @@
         </div>
       </div>
 
-      <!-- Success/Error Messages -->
       <div
         *ngIf="successMessage"
         class="alert alert-success alert-dismissible fade show"
@@ -64,7 +62,6 @@
         ></button>
       </div>
 
-      <!-- Transactions Table -->
       <div class="card">
         <div
           class="card-header d-flex justify-content-between align-items-center"
@@ -84,7 +81,6 @@
           </div>
         </div>
         <div class="card-body p-0">
-          <!-- Search and quick filters (like accounts list) -->
           <div class="p-3 border-bottom">
             <div class="row g-2">
               <div class="col-md-4">
@@ -132,7 +128,6 @@
                 </select>
               </div>
 
-              <!-- Single refresh button is kept in the card header to avoid duplicates -->
             </div>
           </div>
 
@@ -208,13 +203,11 @@
             </table>
           </div>
 
-          <!-- Enhanced Pagination -->
           <div
             *ngIf="pagedResponse && pagedResponse.totalPages > 1"
             class="card-footer bg-white"
           >
             <div class="row align-items-center">
-              <!-- Pagination Info -->
               <div class="col-md-6 mb-2 mb-md-0">
                 <div class="pagination-info">
                   <small class="text-muted">
@@ -224,13 +217,11 @@
                 </div>
               </div>
 
-              <!-- Pagination Controls -->
               <div class="col-md-6">
                 <nav aria-label="Transaction pagination">
                   <ul
                     class="pagination pagination-sm justify-content-md-end justify-content-center mb-0"
                   >
-                    <!-- First Page -->
                     <li
                       class="page-item"
                       [class.disabled]="pagedResponse.first"
@@ -245,7 +236,6 @@
                       </button>
                     </li>
 
-                    <!-- Previous Page -->
                     <li
                       class="page-item"
                       [class.disabled]="pagedResponse.first"
@@ -260,7 +250,6 @@
                       </button>
                     </li>
 
-                    <!-- Page Numbers -->
                     <li
                       *ngFor="let page of getVisiblePages()"
                       class="page-item"
@@ -279,7 +268,6 @@
                       </ng-template>
                     </li>
 
-                    <!-- Next Page -->
                     <li class="page-item" [class.disabled]="pagedResponse.last">
                       <button
                         class="page-link"
@@ -291,7 +279,6 @@
                       </button>
                     </li>
 
-                    <!-- Last Page -->
                     <li class="page-item" [class.disabled]="pagedResponse.last">
                       <button
                         class="page-link"
@@ -307,7 +294,6 @@
               </div>
             </div>
 
-            <!-- Page Size Selector -->
             <div class="row mt-3">
               <div class="col-md-6">
                 <div class="d-flex align-items-center">
@@ -326,7 +312,6 @@
                 </div>
               </div>
 
-              <!-- Quick Jump -->
               <div class="col-md-6">
                 <div class="d-flex align-items-center justify-content-md-end">
                   <label class="form-label me-2 mb-0">Go to page:</label>
@@ -357,7 +342,6 @@
       </div>
     </div>
 
-    <!-- Banking Operation Modal -->
     <div
       *ngIf="showModal"
       class="modal d-block"

@@ -1,5 +1,4 @@
 <div class="container-fluid">
-      <!-- Page Header -->
       <div class="row mb-4">
         <div class="col-12">
           <nav aria-label="breadcrumb">
@@ -22,7 +21,6 @@
 
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <!-- Transfer Form -->
           <div class="card">
             <div class="card-header">
               <h5 class="mb-0">
@@ -31,7 +29,6 @@
               </h5>
             </div>
             <div class="card-body">
-              <!-- Success Message -->
               <app-inline-alert
                 *ngIf="successMessage"
                 type="success"
@@ -41,7 +38,6 @@
               >
               </app-inline-alert>
 
-              <!-- Error Message -->
               <app-inline-alert
                 *ngIf="errorMessage"
                 type="danger"
@@ -55,7 +51,6 @@
 <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
 <fieldset [disabled]="reviewing || loading">
                 <div class="row">
-                  <!-- From Account -->
                   <div class="col-md-6 mb-3">
                     <label for="fromAccount" class="form-label"
                       >From Account *</label
@@ -97,7 +92,6 @@
                     </div>
                   </div>
 
-                  <!-- To Account -->
                   <div class="col-md-6 mb-3">
                     <label for="toAccount" class="form-label"
                       >To Account *</label
@@ -140,7 +134,6 @@
                   </div>
                 </div>
 
-                <!-- Amount -->
                 <div class="mb-3">
                   <label for="amount" class="form-label">Amount *</label>
                   <div class="input-group">
@@ -183,7 +176,6 @@
                   </div>
                 </div>
 
-                <!-- Description -->
                 <div class="mb-3">
                   <label for="description" class="form-label"
                     >Description *</label
@@ -215,7 +207,6 @@
                   </div>
                 </div>
 
-                <!-- Reference (Optional) -->
                 <div class="mb-4">
                   <label for="reference" class="form-label"
                     >Reference (Optional)</label
@@ -229,7 +220,6 @@
                   />
                 </div>
 
-                <!-- Transfer Summary -->
                 <div class="card bg-light mb-4" *ngIf="transferForm.valid">
                   <div class="card-body">
                     <h6 class="card-title">Transfer Summary</h6>
@@ -258,7 +248,6 @@
                 </div>
 
 </fieldset>
-                <!-- Action Buttons -->
                 <div class="d-flex justify-content-between">
                   <button
                     type="button"

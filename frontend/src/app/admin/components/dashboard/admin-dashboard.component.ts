@@ -45,10 +45,8 @@ export class AdminDashboardComponent
 
   recentTransactions: any[] = [];
 
-  /** Map accountId -> customer name for recent transactions (avoids showing "system-demo" for all rows) */
   accountIdToCustomerName: Record<string, string> = {};
 
-  // Chart instances
   accountTypesChart: Chart | null = null;
   transactionVolumeChart: Chart | null = null;
   growthTrendsChart: Chart | null = null;
@@ -66,10 +64,8 @@ export class AdminDashboardComponent
   }
 
   ngAfterViewInit(): void {
-    // Initialize charts after view is ready
     setTimeout(() => {
       this.initializeCharts();
-      // Ensure charts have some data even if backend is not available
       setTimeout(() => {
         
       }, 500);
@@ -77,7 +73,6 @@ export class AdminDashboardComponent
   }
 
   ngOnDestroy(): void {
-    // Destroy chart instances to prevent memory leaks
     if (this.accountTypesChart) {
       this.accountTypesChart.destroy();
     }
@@ -93,7 +88,6 @@ export class AdminDashboardComponent
     this.loading = true;
     this.error = null;
 
-    // Load dashboard stats, account statistics, transaction summary, accounts (for customer names), and recent transactions
     Promise.all([
       this.dashboardService
         .getAdminStats()
@@ -124,7 +118,6 @@ export class AdminDashboardComponent
           accounts,
           recentTransactions,
         ]) => {
-          // Build accountId -> customer name for recent transactions
           this.accountIdToCustomerName = {};
           if (Array.isArray(accounts)) {
             for (const acc of accounts) {
@@ -136,7 +129,6 @@ export class AdminDashboardComponent
             }
           }
 
-          // Set stats from dashboard or fallback to account stats
           if (dashboardStats) {
             this.stats = {
               ...dashboardStats,
@@ -152,7 +144,6 @@ export class AdminDashboardComponent
                 dashboardStats.pendingTransactions,
             };
           } else {
-            // Fallback to individual stats if dashboard stats fail
             this.stats = {
               totalCustomers: 0,
               totalAccounts: accountStats?.totalAccounts || 0,
@@ -166,7 +157,6 @@ export class AdminDashboardComponent
             };
           }
 
-          // If we still don't have transaction data, try to get it from transaction service
           if (!this.stats.totalTransactions) {
             this.loadTransactionCountFallback();
           }
@@ -177,7 +167,6 @@ export class AdminDashboardComponent
           console.log("Admin Dashboard Stats:", this.stats);
           console.log("Transactions Summary:", transactionsSummary);
 
-          // Update charts with real data after loading
           setTimeout(() => {
             this.updateChartsWithRealData(transactionsSummary);
           }, 200);
@@ -191,7 +180,6 @@ export class AdminDashboardComponent
   }
 
   private loadRecentTransactions(): Observable<any[]> {
-    // Load recent transactions using the admin transaction endpoint
     return this.accountService
       .getTransactions({
         page: 0,
@@ -211,7 +199,6 @@ export class AdminDashboardComponent
   }
 
   private loadTransactionCountFallback(): void {
-    // Try to get total transaction count from the transaction service
     this.accountService
       .getTransactions({
         page: 0,
@@ -235,7 +222,6 @@ export class AdminDashboardComponent
       });
   }
 
-  // Helper methods for transaction display
   getTransactionTypeBadge(type: string): string {
     switch (type?.toUpperCase()) {
       case "DEPOSIT":
@@ -263,7 +249,6 @@ export class AdminDashboardComponent
   }
 
   getCustomerName(transaction: any): string {
-    // Prefer customer object from API if present
     if (transaction.customer && transaction.customer.username) {
       return transaction.customer.username;
     }
@@ -273,12 +258,10 @@ export class AdminDashboardComponent
     if (transaction.customerName) {
       return transaction.customerName;
     }
-    // Resolve by account: look up customer name from loaded accounts (avoids "system-demo" for all rows)
     const accountId = transaction.bankAccountId ?? transaction.accountId ?? "";
     if (accountId && this.accountIdToCustomerName[accountId]) {
       return this.accountIdToCustomerName[accountId];
     }
-    // If performedBy is a generic system value, show a dash instead of "system-demo"
     if (
       transaction.performedBy === "system-demo" ||
       transaction.performedBy === "system"
@@ -291,7 +274,6 @@ export class AdminDashboardComponent
     return "Not available";
   }
 
-  // Chart initialization methods
   private initializeCharts(): void {
     this.createAccountTypesChart();
     this.createTransactionVolumeChart();
@@ -311,7 +293,6 @@ export class AdminDashboardComponent
           transactionsSummary.transactionsByType.TRANSFER || 0,
         ];
       } else {
-        // Use some sample data if no real data is available
         realData = [
           Math.floor(Math.random() * 100) + 50, // Add Money
           Math.floor(Math.random() * 80) + 30, // Debit
@@ -449,14 +430,11 @@ export class AdminDashboardComponent
     }
   }
 
-  // Export functionality
   exportReport(): void {
     this.exportingReport = true;
 
-    // Create CSV content
     const csvContent = this.generateCSVReport();
 
-    // Create and download file
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);

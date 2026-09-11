@@ -11,18 +11,15 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Skip loading for certain requests (like authentication checks)
     if (req.url.includes('/auth/check') || req.headers.has('skip-loading')) {
       return next.handle(req);
     }
 
-    // Increment active requests and show loading
     this.activeRequests++;
     this.loadingService.setLoading(true);
 
     return next.handle(req).pipe(
       finalize(() => {
-        // Decrement active requests and hide loading if no more requests
         this.activeRequests--;
         if (this.activeRequests === 0) {
           this.loadingService.setLoading(false);

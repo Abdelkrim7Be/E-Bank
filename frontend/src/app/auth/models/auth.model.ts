@@ -10,7 +10,6 @@ export interface User {
   enabled: boolean;
   createdAt: string;
   updatedAt: string;
-  // Additional properties for admin management
   accountCount?: number;
   totalBalance?: number;
   selected?: boolean;
@@ -28,7 +27,6 @@ export interface RegisterRequest {
   firstName?: string;
   lastName?: string;
   role?: UserRole;
-  // Optional fields for customer creation
   name?: string;
   phone?: string;
   address?: string;
@@ -82,6 +80,5 @@ export interface CustomerUpdateRequest {
   name?: string;
   phone?: string;
   address?: string;
-  // Password is optional for updates
   password?: string;
 }

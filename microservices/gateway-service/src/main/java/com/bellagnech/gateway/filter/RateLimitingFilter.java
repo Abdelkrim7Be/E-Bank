@@ -51,7 +51,6 @@ public class RateLimitingFilter extends AbstractGatewayFilterFactory<RateLimitin
             ? exchange.getRequest().getRemoteAddress().getAddress().getHostAddress()
             : "unknown";
         
-        // If user is authenticated, use username instead of IP
         String username = exchange.getRequest().getHeaders().getFirst("X-User-Name");
         return username != null ? username : clientIp;
     }
@@ -78,7 +77,6 @@ public class RateLimitingFilter extends AbstractGatewayFilterFactory<RateLimitin
 
         boolean isAllowed() {
             long now = System.currentTimeMillis();
-            // Reset window every minute
             if (now - windowStart > 60000) {
                 requestCount.set(0);
                 windowStart = now;

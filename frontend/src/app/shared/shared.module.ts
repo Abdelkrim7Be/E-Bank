@@ -12,12 +12,9 @@ import { loadingInterceptor } from './interceptors/loading.interceptor';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    // Import standalone components if you need them in this module
   ],
   exports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   providers: [
-    // Modern approach uses provideHttpClient with withInterceptors in app.config.ts
-    // Old HTTP_INTERCEPTORS approach is no longer needed here
   ],
 })
 export class SharedModule {}

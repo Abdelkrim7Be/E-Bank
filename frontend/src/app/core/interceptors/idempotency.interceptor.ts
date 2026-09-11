@@ -1,7 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs';
 
-/** Preserve a mutation key through uncertain failures, including a page reload. */
 export const idempotencyInterceptor: HttpInterceptorFn = (request, next) => {
   if (request.method !== 'POST' || !/\/(credit|debit|transfer)$/.test(request.url) || typeof sessionStorage === 'undefined') {
     return next(request);

@@ -21,18 +21,15 @@ export class AdminAccountListComponent implements OnInit {
   paginatedAccounts: BankAccount[] = [];
   loading = false;
 
-  // Search and filter
   searchTerm = "";
   selectedStatus = "";
   selectedType = "";
 
-  // Pagination
   currentPage = 1;
   pageSize = 10;
   totalPages = 0;
   totalElements = 0;
 
-  // Expose Math to template
   Math = Math;
 
   constructor(private accountService: AdminAccountService) {}
@@ -43,7 +40,6 @@ export class AdminAccountListComponent implements OnInit {
 
   loadAccounts(): void {
     this.loading = true;
-    // Load all accounts; backend returns full list and does not filter by params
     this.accountService.getAccounts({ size: 10000 }).subscribe({
       next: (response) => {
         this.accounts = response.content || [];
@@ -62,7 +58,6 @@ export class AdminAccountListComponent implements OnInit {
     });
   }
 
-  /** Apply client-side filter by search, status, type and sort by createDate desc (newest first). */
   applyFiltersAndSort(): void {
     let list = [...this.accounts];
 
@@ -91,7 +86,6 @@ export class AdminAccountListComponent implements OnInit {
       list = list.filter((acc) => (acc.type || "").toUpperCase() === typeNorm);
     }
 
-    // Sort by createDate desc (newest first)
     list.sort((a, b) => {
       const aDate = a.createDate ? new Date(a.createDate).getTime() : 0;
       const bDate = b.createDate ? new Date(b.createDate).getTime() : 0;

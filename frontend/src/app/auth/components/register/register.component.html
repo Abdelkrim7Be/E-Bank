@@ -12,7 +12,6 @@
             <div class="auth-story-footer">Closer to your everyday.</div>
           </aside>
 
-          <!-- Right Side - Register Form -->
           <div
             class="col-lg-6 auth-form-side d-flex align-items-center justify-content-center"
           >
@@ -23,7 +22,6 @@
                 <p class="text-muted">Your everyday banking starts here.</p>
               </div>
 
-              <!-- Alert Messages -->
               <div
                 *ngIf="errorMessage"
                 class="alert alert-danger alert-dismissible fade show"
@@ -52,14 +50,12 @@
                 ></button>
               </div>
 
-              <!-- Register Form -->
               <form
                 [formGroup]="registerForm"
                 (ngSubmit)="onSubmit()"
                 class="needs-validation"
                 novalidate
               >
-                <!-- Name Fields -->
                 <div class="row mb-3">
                   <div class="col-md-6">
                     <label for="firstName" class="form-label">First Name</label>
@@ -119,7 +115,6 @@
                   </div>
                 </div>
 
-                <!-- Username Field -->
                 <div class="mb-3">
                   <label for="username" class="form-label">
                     <i class="bi bi-person me-2"></i>Username
@@ -156,7 +151,6 @@
                   </div>
                 </div>
 
-                <!-- Email Field -->
                 <div class="mb-3">
                   <label for="email" class="form-label">
                     <i class="bi bi-envelope me-2"></i>Email Address
@@ -185,7 +179,6 @@
                   </div>
                 </div>
 
-                <!-- Phone Field (Optional) -->
                 <div class="mb-3">
                   <label for="phone" class="form-label">
                     <i class="bi bi-telephone me-2"></i>Phone Number (Optional)
@@ -200,9 +193,6 @@
                   />
                 </div>
 
-                <!-- Account type: sign up is always for CUSTOMER accounts -->
-
-                <!-- Password Field -->
                 <div class="mb-3">
                   <label for="password" class="form-label">
                     <i class="bi bi-lock me-2"></i>Password
@@ -233,7 +223,6 @@
                     </button>
                   </div>
 
-                  <!-- Password Strength Indicator -->
                   <div *ngIf="password?.value" class="mt-2">
                     <small class="text-muted">Password Requirements:</small>
                     <div class="small">
@@ -343,7 +332,6 @@
                   </div>
                 </div>
 
-                <!-- Confirm Password Field -->
                 <div class="mb-3">
                   <label for="confirmPassword" class="form-label">
                     <i class="bi bi-lock-fill me-2"></i>Confirm Password
@@ -376,7 +364,6 @@
                   </div>
                 </div>
 
-                <!-- Terms and Conditions -->
                 <div class="mb-4">
                   <div class="form-check">
                     <input
@@ -406,7 +393,6 @@
                   </div>
                 </div>
 
-                <!-- Submit Button -->
                 <button
                   type="submit"
                   class="btn btn-primary btn-lg w-100 mb-3"
@@ -420,7 +406,6 @@
                   {{ loading ? "Creating Account..." : "Create Account" }}
                 </button>
 
-                <!-- Help Text for Button -->
                 <div
                   *ngIf="registerForm.invalid && !loading"
                   class="text-center mb-3"
@@ -432,7 +417,6 @@
                   </small>
                 </div>
 
-                <!-- Login Link -->
                 <div class="text-center">
                   <p class="mb-0">
                     Already have an account?

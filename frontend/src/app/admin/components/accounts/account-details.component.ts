@@ -84,7 +84,6 @@ export class AdminAccountDetailsComponent implements OnInit {
               error: err.error,
             });
 
-            // Log validation errors specifically
             if (err.error && err.error.errors) {
               console.error('Validation errors:', err.error.errors);
             }
@@ -97,7 +96,6 @@ export class AdminAccountDetailsComponent implements OnInit {
                 'Connection error. The backend server may not be running or there may be a CORS issue. Please check the server status.';
             } else if (err.status === 400) {
               if (err.error && err.error.errors) {
-                // Format validation errors
                 const validationErrors = err.error.errors;
                 let errorMessages: string[] = [];
 
@@ -140,7 +138,6 @@ export class AdminAccountDetailsComponent implements OnInit {
               errorMessage = 'Server error. Please try again later.';
             }
 
-            // Check for enhanced error message from service
             if (err.userMessage) {
               errorMessage = err.userMessage;
             }
@@ -239,7 +236,6 @@ Are you absolutely sure you want to delete this account?`;
   }
 
   private formatFieldName(field: string): string {
-    // Convert camelCase to readable format
     return field
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, (str) => str.toUpperCase())

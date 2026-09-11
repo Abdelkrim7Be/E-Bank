@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class OutboxRelay {
     private final OutboxRepository repository;
     private final KafkaTemplate<String,String> kafka;
-    // The bounded batch holds database locks until broker acknowledgement.
     // A crash after send and before commit can replay an event with the same eventId.
     @Scheduled(fixedDelayString="${app.outbox.poll-ms:1000}")
     @Transactional

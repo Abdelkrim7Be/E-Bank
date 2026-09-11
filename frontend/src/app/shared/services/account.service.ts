@@ -252,7 +252,6 @@ export class AccountService {
     );
   }
 
-  // Banking Operations
   deposit(request: DepositRequest): Observable<Transaction> {
     return this.http.post<Transaction>(
       `${this.apiUrl}${environment.endpoints.transactions}/deposit`,
@@ -283,7 +282,6 @@ export class AccountService {
     );
   }
 
-  // Customer-specific transaction operations
   customerDeposit(request: DepositRequest): Observable<Transaction> {
     return this.http.post<Transaction>(
       `${this.apiUrl}${environment.endpoints.customer.transactions}/deposit`,
@@ -305,7 +303,6 @@ export class AccountService {
     );
   }
 
-  // Account Balance
   getAccountBalance(
     accountId: number,
   ): Observable<{ balance: number; currency: string }> {
@@ -314,7 +311,6 @@ export class AccountService {
     );
   }
 
-  // Account Statement
   getAccountStatement(
     accountId: number,
     startDate: string,
@@ -346,7 +342,6 @@ export class AccountService {
     );
   }
 
-  // Alternative method for customer transactions with multiple fallbacks
   getCustomerTransactions(
     filter?: TransactionFilter,
   ): Observable<PagedResponse<Transaction>> {

@@ -45,14 +45,12 @@ export class ProfileComponent implements OnInit {
   }
 
   initializeForms(): void {
-    // Profile form
     this.profileForm = this.fb.group({
       firstName: [this.currentUser?.firstName || '', [Validators.required, Validators.minLength(2)]],
       lastName: [this.currentUser?.lastName || '', [Validators.required, Validators.minLength(2)]],
       email: [this.currentUser?.email || '', [Validators.required, Validators.email]]
     });
 
-    // Password form
     this.passwordForm = this.fb.group({
       currentPassword: ['', [Validators.required]],
       newPassword: ['', [
@@ -212,7 +210,6 @@ export class ProfileComponent implements OnInit {
     return badges[status as keyof typeof badges] || 'bg-secondary';
   }
 
-  // Getter methods for form controls
   get firstName() { return this.profileForm.get('firstName'); }
   get lastName() { return this.profileForm.get('lastName'); }
   get email() { return this.profileForm.get('email'); }

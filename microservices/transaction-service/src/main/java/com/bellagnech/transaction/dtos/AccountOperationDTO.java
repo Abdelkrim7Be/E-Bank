@@ -19,7 +19,6 @@ public class AccountOperationDTO {
     private OperationType type;
     private String bankAccountId;
     private String performedBy;
-    /** Customer display name (or username) resolved from account-service. */
     private String customerName;
 }
 

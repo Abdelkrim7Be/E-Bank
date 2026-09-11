@@ -1,13 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
-/**
- * Custom validators for banking application that match Spring Boot backend constraints
- */
 export class BankingValidators {
-  /**
-   * Account number validator - matches Spring Boot pattern
-   * Format: ACCT-XXXXXXXX (where X is alphanumeric)
-   */
   static accountNumber(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -27,10 +20,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Amount validator for banking transactions
-   * Must be positive and have at most 2 decimal places
-   */
   static amount(min: number = 0.01, max: number = 1000000): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -53,7 +42,6 @@ export class BankingValidators {
         };
       }
 
-      // Check for at most 2 decimal places
       if (!/^\d+(\.\d{1,2})?$/.test(control.value.toString())) {
         return {
           amount: { message: "Amount can have at most 2 decimal places" },
@@ -64,16 +52,12 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Phone number validator - matches international format
-   */
   static phoneNumber(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
         return null;
       }
 
-      // Supports formats: +1234567890, (123) 456-7890, 123-456-7890, 123.456.7890
       const phonePattern = /^(\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/;
 
       if (!phonePattern.test(control.value)) {
@@ -88,9 +72,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Strong password validator - matches Spring Boot security requirements
-   */
   static strongPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -100,29 +81,24 @@ export class BankingValidators {
       const password = control.value;
       const errors: any = {};
 
-      // Minimum 8 characters
       if (password.length < 8) {
         errors.minLength = "Password must be at least 8 characters long";
       }
 
-      // At least one lowercase letter
       if (!/[a-z]/.test(password)) {
         errors.lowercase =
           "Password must contain at least one lowercase letter";
       }
 
-      // At least one uppercase letter
       if (!/[A-Z]/.test(password)) {
         errors.uppercase =
           "Password must contain at least one uppercase letter";
       }
 
-      // At least one digit
       if (!/\d/.test(password)) {
         errors.digit = "Password must contain at least one number";
       }
 
-      // At least one special character
       if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
         errors.special = "Password must contain at least one special character";
       }
@@ -131,10 +107,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Username validator - matches Spring Boot constraints
-   * Backend allows letters, numbers, dots and underscores (e.g. jean.martin)
-   */
   static username(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -143,7 +115,6 @@ export class BankingValidators {
 
       const username = control.value;
 
-      // Length between 3 and 20 characters
       if (username.length < 3 || username.length > 20) {
         return {
           username: {
@@ -152,7 +123,6 @@ export class BankingValidators {
         };
       }
 
-      // Only letters, numbers, dots, dashes and underscores
       if (!/^[a-zA-Z][a-zA-Z0-9._-]*$/.test(username)) {
         return {
           username: {
@@ -162,7 +132,6 @@ export class BankingValidators {
         };
       }
 
-      // Cannot start with a number
       if (/^\d/.test(username)) {
         return {
           username: {
@@ -175,16 +144,12 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * National ID validator (SSN format for US)
-   */
   static nationalId(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
         return null;
       }
 
-      // SSN format: XXX-XX-XXXX
       const ssnPattern = /^\d{3}-\d{2}-\d{4}$/;
 
       if (!ssnPattern.test(control.value)) {
@@ -199,9 +164,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Date of birth validator
-   */
   static dateOfBirth(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -217,10 +179,8 @@ export class BankingValidators {
         monthDiff < 0 ||
         (monthDiff === 0 && today.getDate() < birthDate.getDate())
       ) {
-        // age--;
       }
 
-      // Must be at least 18 years old
       if (age < 18) {
         return {
           dateOfBirth: {
@@ -229,7 +189,6 @@ export class BankingValidators {
         };
       }
 
-      // Cannot be more than 120 years old
       if (age > 120) {
         return {
           dateOfBirth: {
@@ -242,9 +201,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Password confirmation validator
-   */
   static passwordMatch(passwordField: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -266,9 +222,6 @@ export class BankingValidators {
     };
   }
 
-  /**
-   * Transaction description validator
-   */
   static transactionDescription(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
@@ -277,7 +230,6 @@ export class BankingValidators {
 
       const description = control.value.trim();
 
-      // Minimum 3 characters, maximum 255
       if (description.length < 3) {
         return {
           transactionDescription: {
@@ -294,7 +246,6 @@ export class BankingValidators {
         };
       }
 
-      // No special characters that could cause issues
       if (/[<>\"'&]/.test(description)) {
         return {
           transactionDescription: {

@@ -39,13 +39,10 @@ export class AuthDiagnosticComponent implements OnInit {
   runDiagnostic(): void {
     console.log('🔍 Running authentication diagnostic...');
     
-    // Check token
     this.checkToken();
     
-    // Check user
     this.checkUser();
     
-    // Test APIs
     this.testAPIs();
   }
 
@@ -109,16 +106,13 @@ export class AuthDiagnosticComponent implements OnInit {
   private testAPIs(): void {
     this.apiTests = [];
     
-    // Test 1: Login endpoint (should work without token)
     this.testAPI('Login Endpoint', `${environment.apiUrl}/auth/login`, 'POST', {
       username: 'test',
       password: 'test'
     }, false);
     
-    // Test 2: Customer accounts (needs token)
     this.testAPI('Customer Accounts', `${environment.apiUrl}/customer/accounts`, 'GET', null, true);
     
-    // Test 3: Customer transactions (needs token)
     this.testAPI('Customer Transactions', `${environment.apiUrl}/customer/transactions`, 'GET', null, true);
   }
 
@@ -179,7 +173,6 @@ export class AuthDiagnosticComponent implements OnInit {
   testDirectAPI(): void {
     console.log('🧪 Testing direct API call...');
     
-    // Get fresh token by logging in
     fetch(`${environment.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
@@ -194,7 +187,6 @@ export class AuthDiagnosticComponent implements OnInit {
     .then(data => {
       console.log('✅ Login successful:', data);
       
-      // Test customer accounts with fresh token
       return fetch(`${environment.apiUrl}/customer/accounts`, {
         headers: {
           'Authorization': `Bearer ${data.token}`

@@ -18,9 +18,7 @@ export interface BankAccount {
   };
   customerName?: string;
   customerEmail?: string;
-  // For CurrentAccount
   overDraft?: number;
-  // For SavingAccount
   interestRate?: number;
 }
 
@@ -68,9 +66,6 @@ export class AdminAccountService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Get all accounts with optional filtering and pagination
-   */
   getAccounts(params?: AccountSearchParams): Observable<AccountResponse> {
     let httpParams = new HttpParams();
 
@@ -86,8 +81,6 @@ export class AdminAccountService {
         httpParams = httpParams.set("sortOrder", params.sortOrder);
     }
 
-    // Backend currently returns a plain array of accounts, not a paginated wrapper.
-    // Normalize it into an AccountResponse shape expected by the UI.
     return this.http
       .get<BankAccount[]>(this.API_URL, { params: httpParams })
       .pipe(
@@ -111,16 +104,10 @@ export class AdminAccountService {
       );
   }
 
-  /**
-   * Get account by ID
-   */
   getAccountById(id: string): Observable<BankAccount> {
     return this.http.get<BankAccount>(`${this.API_URL}/${id}`);
   }
 
-  /**
-   * Create new account
-   */
   createAccount(accountData: CreateAccountRequest): Observable<BankAccount> {
     console.log("AdminAccountService.createAccount() - URL:", this.API_URL);
     console.log("AdminAccountService.createAccount() - Data:", accountData);
@@ -129,7 +116,6 @@ export class AdminAccountService {
       !!localStorage.getItem("digital-banking-token"),
     );
 
-    // Try the main endpoint first
     return this.http.post<BankAccount>(this.API_URL, accountData).pipe(
       tap((newAccount) => {
         console.log(
@@ -154,7 +140,6 @@ export class AdminAccountService {
           error.url,
         );
 
-        // If main endpoint fails with 404, try the specific endpoints
         if (error.status === 404) {
           console.log(
             "AdminAccountService.createAccount() - Trying alternative endpoints...",
@@ -180,9 +165,6 @@ export class AdminAccountService {
     );
   }
 
-  /**
-   * Create current account (legacy endpoint)
-   */
   createCurrentAccount(
     initialBalance: number,
     overDraft: number,
@@ -209,9 +191,6 @@ export class AdminAccountService {
       );
   }
 
-  /**
-   * Create saving account (legacy endpoint)
-   */
   createSavingAccount(
     initialBalance: number,
     interestRate: number,
@@ -238,9 +217,6 @@ export class AdminAccountService {
       );
   }
 
-  /**
-   * Update account status
-   */
   updateAccountStatus(id: string, status: string): Observable<BankAccount> {
     console.log(
       "AdminAccountService.updateAccountStatus() - ID:",
@@ -270,7 +246,6 @@ export class AdminAccountService {
             error,
           );
 
-          // If CORS or other error, try using fallback methods
           if (
             error.status === 0 ||
             error.status === 405 ||
@@ -287,9 +262,6 @@ export class AdminAccountService {
       );
   }
 
-  /**
-   * Update account status using fallback methods
-   */
   private updateAccountStatusFallback(
     id: string,
     status: string,
@@ -301,7 +273,6 @@ export class AdminAccountService {
       status,
     );
 
-    // Try direct PATCH to the account endpoint
     const statusUpdate = { status };
 
     return this.http
@@ -312,7 +283,6 @@ export class AdminAccountService {
             "AdminAccountService.updateAccountStatusFallback() - PATCH Success:",
             updatedAccount,
           );
-          // Update local cache
           const currentAccounts = this.accountsSubject.value;
           const index = currentAccounts.findIndex((a) => a.id === id);
           if (index !== -1) {
@@ -332,20 +302,16 @@ export class AdminAccountService {
             error: patchError.error,
           });
 
-          // Log validation errors specifically
           if (patchError.error && patchError.error.errors) {
             console.error("PATCH Validation errors:", patchError.error.errors);
           }
 
-          // If PATCH also fails, try a local simulation as last resort
           console.log(
             "AdminAccountService.updateAccountStatusFallback() - Trying local simulation...",
           );
 
-          // Simulate the status update locally for UI purposes
           return this.getAccountById(id).pipe(
             map((account) => {
-              // Create a simulated updated account
               const simulatedAccount = { ...account, status: status };
 
               console.log(
@@ -353,7 +319,6 @@ export class AdminAccountService {
                 simulatedAccount,
               );
 
-              // Update local cache with simulated data
               const currentAccounts = this.accountsSubject.value;
               const index = currentAccounts.findIndex((a) => a.id === id);
               if (index !== -1) {
@@ -361,7 +326,6 @@ export class AdminAccountService {
                 this.accountsSubject.next([...currentAccounts]);
               }
 
-              // Show warning to user
               setTimeout(() => {
                 alert(`⚠️ Status updated locally only!
 
@@ -375,7 +339,6 @@ Please contact your system administrator to implement the backend functionality.
               return simulatedAccount;
             }),
             catchError(() => {
-              // If even simulation fails, return user-friendly error
               const enhancedError = {
                 ...patchError,
                 message: "Account status update not supported by backend.",
@@ -394,9 +357,6 @@ Please contact your system administrator.`,
       );
   }
 
-  /**
-   * Delete account
-   */
   deleteAccount(id: string): Observable<void> {
     console.log("AdminAccountService.deleteAccount() - ID:", id);
     console.log(
@@ -407,7 +367,6 @@ Please contact your system administrator.`,
     return this.http.delete<void>(`${this.API_URL}/${id}`).pipe(
       tap(() => {
         console.log("AdminAccountService.deleteAccount() - Success");
-        // Remove account from local cache
         const currentAccounts = this.accountsSubject.value;
         const filteredAccounts = currentAccounts.filter((a) => a.id !== id);
         this.accountsSubject.next(filteredAccounts);
@@ -419,16 +378,10 @@ Please contact your system administrator.`,
     );
   }
 
-  /**
-   * Get account statistics
-   */
   getAccountStats(): Observable<AccountStats> {
     return this.http.get<AccountStats>(`${this.API_URL}/stats`);
   }
 
-  /**
-   * Export accounts to CSV
-   */
   exportAccounts(params?: AccountSearchParams): Observable<Blob> {
     let httpParams = new HttpParams();
 
@@ -446,25 +399,16 @@ Please contact your system administrator.`,
     });
   }
 
-  /**
-   * Search accounts by term
-   */
   searchAccounts(term: string): Observable<BankAccount[]> {
     return this.getAccounts({ search: term, size: 10 }).pipe(
       map((response) => response.content),
     );
   }
 
-  /**
-   * Get current accounts from subject
-   */
   getCurrentAccounts(): BankAccount[] {
     return this.accountsSubject.value;
   }
 
-  /**
-   * Clear accounts cache
-   */
   clearCache(): void {
     this.accountsSubject.next([]);
   }

@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Seeds demo users (admin + customers) with password "password". */
 @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="app.demo.enabled", havingValue="true")
 @Component
 @RequiredArgsConstructor
@@ -33,11 +32,11 @@ public class DemoDataLoader implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) {
         String encodedPassword = passwordEncoder.encode(DEMO_PASSWORD);
-        ensureUser("admin", "admin@banque.fr", "Admin", "Système", Role.ADMIN, encodedPassword, null);
-        ensureUser("marie.dupont", "marie.dupont@email.fr", "Marie", "Dupont", Role.CUSTOMER, encodedPassword, "Marie Dupont");
-        ensureUser("jean.martin", "jean.martin@email.fr", "Jean", "Martin", Role.CUSTOMER, encodedPassword, "Jean Martin");
-        ensureUser("sophie.bernard", "sophie.bernard@email.fr", "Sophie", "Bernard", Role.CUSTOMER, encodedPassword, "Sophie Bernard");
-        ensureUser("nadia.chakir", "nadia.chakir@email.fr", "Nadia", "Chakir", Role.CUSTOMER, encodedPassword, "Nadia Chakir");
+        ensureUser("admin", "admin@ebank.example", "Admin", "Système", Role.ADMIN, encodedPassword, null);
+        ensureUser("marie.dupont", "marie.dupont@ebank.example", "Marie", "Dupont", Role.CUSTOMER, encodedPassword, "Marie Dupont");
+        ensureUser("jean.martin", "jean.martin@ebank.example", "Jean", "Martin", Role.CUSTOMER, encodedPassword, "Jean Martin");
+        ensureUser("sophie.bernard", "sophie.bernard@ebank.example", "Sophie", "Bernard", Role.CUSTOMER, encodedPassword, "Sophie Bernard");
+        ensureUser("nadia.chakir", "nadia.chakir@ebank.example", "Nadia", "Chakir", Role.CUSTOMER, encodedPassword, "Nadia Chakir");
         String[][] extraCustomers = new String[][]{
                 {"pierre.dupuis", "Pierre", "Dupuis"},
                 {"amelie.leroy", "Amélie", "Leroy"},
@@ -91,7 +90,7 @@ public class DemoDataLoader implements ApplicationRunner {
             String username = c[0];
             String firstName = c[1];
             String lastName = c[2];
-            String email = username + "@email.fr";
+            String email = username + "@ebank.example";
             String fullName = firstName + " " + lastName;
             ensureUser(username, email, firstName, lastName, Role.CUSTOMER, encodedPassword, fullName);
         }
@@ -104,26 +103,7 @@ public class DemoDataLoader implements ApplicationRunner {
     private void ensureUser(String username, String email, String firstName, String lastName,
                            Role role, String encodedPassword, String customerName) {
         userRepository.findByUsername(username).ifPresentOrElse(
-                user -> {
-                    user.setPassword(encodedPassword);
-                    userRepository.save(user);
-                    customerRepository.findByUser(user).ifPresent(customer -> {
-                        if (customer.getPhone() == null || customer.getPhone().isBlank()) {
-                            customer.setPhone("+33 6 12 34 56 78");
-                        }
-                        if (customer.getAddress() == null || customer.getAddress().isBlank()) {
-                            customer.setAddress("123 Rue Example, Paris");
-                        }
-                        customerRepository.save(customer);
-                        // Republish current demo state when upgrading retained volumes from
-                        // the legacy event format; reporting upserts these versioned snapshots.
-                        eventProducer.publishCustomerCreated(CustomerCreatedEvent.builder()
-                                .eventType(CustomerCreatedEvent.EVENT_TYPE)
-                                .customerId(customer.getId()).name(customer.getName())
-                                .email(customer.getEmail()).username(user.getUsername()).build());
-                    });
-                    log.debug("Updated password for demo user: {}", username);
-                },
+                user -> log.debug("Demo user {} already exists", username),
                 () -> {
                     User user = new User();
                     user.setUsername(username);

@@ -76,7 +76,6 @@ export class CustomerAccountDetailsComponent implements OnInit {
     this.transactionsLoading = true;
     this.transactionsError = null;
 
-    // Try customer-specific method first, then fallback
     this.accountService
       .getCustomerTransactions(this.transactionFilter)
       .subscribe({
@@ -90,7 +89,6 @@ export class CustomerAccountDetailsComponent implements OnInit {
             error
           );
 
-          // Fallback to general method
           this.accountService
             .getTransactions(this.transactionFilter)
             .subscribe({

@@ -7,7 +7,6 @@ import java.math.*;
 import java.time.*;
 import java.util.*;
 
-/** Reports read only the database owned by reporting-service. */
 @Service
 @RequiredArgsConstructor
 public class ReportingService {

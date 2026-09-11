@@ -16,7 +16,6 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- Error Alert -->
               @if (error) {
                 <div
                   class="alert alert-danger alert-dismissible fade show"
@@ -35,7 +34,6 @@
                 </div>
               }
 
-              <!-- Success Alert -->
               @if (success) {
                 <div
                   class="alert alert-success alert-dismissible fade show"
@@ -50,7 +48,6 @@
                 </div>
               }
 
-              <!-- Loading Spinner -->
               @if (loading) {
                 <div class="text-center py-4">
                   <div class="spinner-border text-primary" role="status">
@@ -59,11 +56,9 @@
                 </div>
               }
 
-              <!-- Customer Form -->
               @if (!loading) {
                 <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
                   <div class="row">
-                    <!-- Username Field -->
                     <div class="col-md-6 mb-3">
                       <label for="username" class="form-label"
                         >Username *</label
@@ -98,7 +93,6 @@
                       }
                     </div>
 
-                    <!-- Email Field -->
                     <div class="col-md-6 mb-3">
                       <label for="email" class="form-label">Email *</label>
                       <input
@@ -131,7 +125,6 @@
                   </div>
 
                   <div class="row">
-                    <!-- First Name Field -->
                     <div class="col-md-6 mb-3">
                       <label for="firstName" class="form-label"
                         >First Name</label
@@ -145,7 +138,6 @@
                       />
                     </div>
 
-                    <!-- Last Name Field -->
                     <div class="col-md-6 mb-3">
                       <label for="lastName" class="form-label">Last Name</label>
                       <input
@@ -159,7 +151,6 @@
                   </div>
 
                   <div class="row">
-                    <!-- Name Field -->
                     <div class="col-md-6 mb-3">
                       <label for="name" class="form-label">Display Name</label>
                       <input
@@ -171,7 +162,6 @@
                       />
                     </div>
 
-                    <!-- Phone Field -->
                     <div class="col-md-6 mb-3">
                       <label for="phone" class="form-label">Phone Number</label>
                       <input
@@ -184,7 +174,6 @@
                     </div>
                   </div>
 
-                  <!-- Password Fields (only for new customers) -->
                   @if (!isEditMode) {
                     <div class="row">
                       <div class="col-md-6 mb-3">
@@ -225,7 +214,6 @@
                     </div>
                   }
 
-                  <!-- Address Field -->
                   <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
                     <textarea
@@ -237,7 +225,6 @@
                     ></textarea>
                   </div>
 
-                  <!-- Form Actions -->
                   <div class="d-flex justify-content-end gap-2">
                     <button
                       type="button"

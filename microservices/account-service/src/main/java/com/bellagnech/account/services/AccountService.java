@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-// Account CRUD, balance updates, and Kafka events.
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -196,7 +195,6 @@ public class AccountService {
         account.setStatus(status);
         bankAccountRepository.save(account);
 
-        // Publish Kafka event
         try {
             AccountStatusChangedEvent event = AccountStatusChangedEvent.builder()
                     .eventType("ACCOUNT_STATUS_CHANGED")

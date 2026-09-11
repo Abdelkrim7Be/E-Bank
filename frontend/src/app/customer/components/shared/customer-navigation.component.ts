@@ -21,7 +21,6 @@ export class CustomerNavigationComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     this.updatePageTitle();
 
-    // Listen to route changes to update breadcrumb
     this.router.events.subscribe(() => {
       this.updatePageTitle();
     });
@@ -59,7 +58,6 @@ export class CustomerNavigationComponent implements OnInit {
         },
         error: (error) => {
           console.error('Logout error:', error);
-          // Force logout even if server request fails
           this.authService.clearAuthData();
           this.router.navigate(['/auth/login']);
         },
@@ -69,13 +67,11 @@ export class CustomerNavigationComponent implements OnInit {
 
   changePassword(event: Event): void {
     event.preventDefault();
-    // Placeholder for change password functionality
     alert('Change password functionality will be implemented soon.');
   }
 
   viewAccountStatement(event: Event): void {
     event.preventDefault();
-    // Placeholder for account statement functionality
     alert('Account statement functionality will be implemented soon.');
   }
 }

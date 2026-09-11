@@ -40,12 +40,10 @@ export class CustomerAccountFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Get customer information when component loads
     this.loadCustomerInfo();
   }
 
   private loadCustomerInfo(): void {
-    // Use the account service to get customer accounts, which will give us the customer ID
     this.accountService.getCustomerAccounts().subscribe({
       next: (accounts) => {
         console.log(
@@ -58,7 +56,6 @@ export class CustomerAccountFormComponent implements OnInit {
         );
 
         if (accounts && accounts.length > 0) {
-          // Extract customer ID from the first account
           const firstAccount = accounts[0];
           console.log(
             '✅ [ACCOUNT CREATION] First account structure:',
@@ -69,7 +66,6 @@ export class CustomerAccountFormComponent implements OnInit {
             Object.keys(firstAccount)
           );
 
-          // Try to get customer ID from the account
           let foundCustomerId = null;
           if (firstAccount.customerDTO?.id) {
             foundCustomerId = firstAccount.customerDTO.id;
@@ -84,7 +80,6 @@ export class CustomerAccountFormComponent implements OnInit {
               foundCustomerId
             );
           } else {
-            // Let's check what customer-related fields exist
             console.log(
               '🔍 [ACCOUNT CREATION] Checking for customer fields...'
             );
@@ -101,7 +96,6 @@ export class CustomerAccountFormComponent implements OnInit {
               firstAccount.customerName
             );
 
-            // Check if there's any field that contains customer info
             Object.keys(firstAccount).forEach((key) => {
               if (key.toLowerCase().includes('customer')) {
                 console.log(
@@ -117,7 +111,6 @@ export class CustomerAccountFormComponent implements OnInit {
               '✅ [ACCOUNT CREATION] Storing customer ID:',
               foundCustomerId
             );
-            // Store the customer ID for later use
             (this as any).customerIdFromAccounts = foundCustomerId;
           } else {
             console.log(
@@ -133,7 +126,6 @@ export class CustomerAccountFormComponent implements OnInit {
           '❌ [ACCOUNT CREATION] Error loading customer info:',
           error
         );
-        // This is not critical, we'll try other methods during account creation
       },
     });
   }
@@ -178,16 +170,13 @@ export class CustomerAccountFormComponent implements OnInit {
       return;
     }
 
-    // Get customer ID from the user object
     let customerId = currentUser.id;
 
-    // If the user ID is 0 or undefined, try to get it from the customer relationship
     if (!customerId || customerId === 0) {
       console.log(
         '⚠️ [ACCOUNT CREATION] User ID is 0 or undefined, trying alternative methods'
       );
 
-      // Try to get customer ID from existing accounts first
       if ((this as any).customerIdFromAccounts) {
         customerId = (this as any).customerIdFromAccounts;
         console.log(
@@ -195,7 +184,6 @@ export class CustomerAccountFormComponent implements OnInit {
           customerId
         );
       } else {
-        // If still no customer ID, show error
         this.errorMessage =
           'Customer information not found. Please contact support or try logging in again.';
         this.loading = false;
@@ -233,7 +221,6 @@ export class CustomerAccountFormComponent implements OnInit {
         this.successMessage = `${this.getAccountTypeDisplay()} created successfully!`;
         this.accountForm.reset();
 
-        // Redirect to accounts page after 3 seconds
         setTimeout(() => {
           this.router.navigate(['/customer/accounts']);
         }, 3000);
@@ -251,7 +238,6 @@ export class CustomerAccountFormComponent implements OnInit {
     this.router.navigate(['/customer/accounts']);
   }
 
-  // Getter methods for form controls
   get accountType() {
     return this.accountForm.get('accountType');
   }

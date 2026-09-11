@@ -147,5 +147,4 @@ public class AccountController {
         ));
     }
 
-    // Absolute balance writes are deliberately unavailable; all mutations use commands.
 }

@@ -1,5 +1,4 @@
 <div class="customer-account-form">
-      <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 class="h4 mb-1">Open New Account</h2>
@@ -10,19 +9,16 @@
         </button>
       </div>
 
-      <!-- Error State -->
       <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
         <i class="bi bi-exclamation-triangle me-2"></i>
         {{ errorMessage }}
       </div>
 
-      <!-- Success State -->
       <div *ngIf="successMessage" class="alert alert-success" role="alert">
         <i class="bi bi-check-circle me-2"></i>
         {{ successMessage }}
       </div>
 
-      <!-- Account Form -->
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <div class="card border-0 shadow-sm">
@@ -34,7 +30,6 @@
             </div>
             <div class="card-body">
               <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-                <!-- Account Type -->
                 <div class="mb-3">
                   <label for="accountType" class="form-label"
                     >Account Type</label
@@ -59,7 +54,6 @@
                   </div>
                 </div>
 
-                <!-- Initial Balance -->
                 <div class="mb-3">
                   <label for="initialBalance" class="form-label"
                     >Initial Balance</label
@@ -93,7 +87,6 @@
                   <div class="form-text">Minimum initial balance: $0.00</div>
                 </div>
 
-                <!-- Overdraft (for Current Account) -->
                 <div class="mb-3" *ngIf="accountType?.value === 'CURRENT'">
                   <label for="overdraft" class="form-label"
                     >Overdraft Limit</label
@@ -126,7 +119,6 @@
                   </div>
                 </div>
 
-                <!-- Interest Rate (for Savings Account) -->
                 <div class="mb-3" *ngIf="accountType?.value === 'SAVING'">
                   <label for="interestRate" class="form-label"
                     >Interest Rate (%)</label
@@ -163,7 +155,6 @@
                   </div>
                 </div>
 
-                <!-- Account Summary -->
                 <div class="card bg-light mb-4" *ngIf="accountForm.valid">
                   <div class="card-body">
                     <h6 class="card-title">Account Summary</h6>
@@ -194,7 +185,6 @@
                   </div>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                   <button
                     type="button"

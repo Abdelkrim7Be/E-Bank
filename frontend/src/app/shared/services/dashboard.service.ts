@@ -70,72 +70,48 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Get admin dashboard data
-   */
   getAdminDashboard(): Observable<AdminDashboardData> {
     return this.http.get<AdminDashboardData>(
       `${this.API_URL}${environment.endpoints.admin.dashboard}`
     );
   }
 
-  /**
-   * Get admin dashboard statistics
-   */
   getAdminStats(): Observable<DashboardStats> {
     return this.http.get<DashboardStats>(
       `${this.API_URL}${environment.endpoints.admin.dashboard}/stats`
     );
   }
 
-  /**
-   * Get accounts summary for admin
-   */
   getAccountsSummary(): Observable<AccountsSummary> {
     return this.http.get<AccountsSummary>(
       `${this.API_URL}${environment.endpoints.admin.dashboard}/accounts-summary`
     );
   }
 
-  /**
-   * Get transactions summary for admin
-   */
   getTransactionsSummary(): Observable<TransactionsSummary> {
     return this.http.get<TransactionsSummary>(
       `${this.API_URL}${environment.endpoints.admin.dashboard}/transactions-summary`
     );
   }
 
-  /**
-   * Get customer dashboard data
-   */
   getCustomerDashboard(): Observable<CustomerDashboardData> {
     const url = `${this.API_URL}${environment.endpoints.customer.dashboard}`;
     console.log('Dashboard service calling URL:', url);
     return this.http.get<CustomerDashboardData>(url);
   }
 
-  /**
-   * Get customer accounts summary
-   */
   getCustomerAccountsSummary(): Observable<AccountsSummary> {
     return this.http.get<AccountsSummary>(
       `${this.API_URL}${environment.endpoints.customer.dashboard}/accounts`
     );
   }
 
-  /**
-   * Get customer transactions summary
-   */
   getCustomerTransactionsSummary(): Observable<TransactionsSummary> {
     return this.http.get<TransactionsSummary>(
       `${this.API_URL}${environment.endpoints.customer.dashboard}/transactions`
     );
   }
 
-  /**
-   * Get customer monthly spending breakdown
-   */
   getCustomerSpendingBreakdown(): Observable<
     { category: string; amount: number; percentage: number }[]
   > {
@@ -146,18 +122,12 @@ export class DashboardService {
     );
   }
 
-  /**
-   * Get recent transactions for dashboard
-   */
   getRecentTransactions(limit: number = 5): Observable<any[]> {
     return this.http.get<any[]>(
       `${this.API_URL}${environment.endpoints.transactions}/recent?limit=${limit}`
     );
   }
 
-  /**
-   * Get customer growth data for admin charts
-   */
   getCustomerGrowthData(
     months: number = 12
   ): Observable<{ month: string; count: number }[]> {
@@ -166,9 +136,6 @@ export class DashboardService {
     );
   }
 
-  /**
-   * Get transaction volume data for admin charts
-   */
   getTransactionVolumeData(
     months: number = 12
   ): Observable<{ month: string; volume: number }[]> {

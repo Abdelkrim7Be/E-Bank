@@ -54,7 +54,6 @@ export class AdminCustomerDetailsComponent implements OnInit {
       error: (err) => {
         console.error("Error loading customer details:", err);
 
-        // Enhanced error handling
         let errorMessage = "Failed to load customer details";
 
         if (err.status === 0) {
@@ -153,7 +152,6 @@ export class AdminCustomerDetailsComponent implements OnInit {
             error: err.error,
           });
 
-          // Log validation errors specifically
           if (err.error && err.error.errors) {
             console.error("Validation errors:", err.error.errors);
           }
@@ -166,7 +164,6 @@ export class AdminCustomerDetailsComponent implements OnInit {
               "Connection error. The backend server may not be running or there may be a CORS issue. Please check the server status.";
           } else if (err.status === 400) {
             if (err.error && err.error.errors) {
-              // Format validation errors
               const validationErrors = err.error.errors;
               let errorMessages: string[] = [];
 
@@ -259,12 +256,10 @@ export class AdminCustomerDetailsComponent implements OnInit {
   }
 
   editAccount(account: any): void {
-    // Navigate to account edit page (if it exists) or show edit modal
     this.router.navigate(["/admin/accounts", account.id, "edit"]);
   }
 
   private formatFieldName(field: string): string {
-    // Convert camelCase to readable format
     return field
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase())

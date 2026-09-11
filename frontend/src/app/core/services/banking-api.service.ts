@@ -29,7 +29,6 @@ import {
   TransferRequest,
 } from "../../shared/models/banking-dtos.model";
 
-/** Central HTTP client for auth, admin, customers, accounts, transactions and dashboard. */
 @Injectable({
   providedIn: "root",
 })
@@ -45,9 +44,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * User registration with role selection
-   */
   register(userData: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(
       `${this.apiUrl}${environment.endpoints.auth.register}`,
@@ -61,9 +57,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get all customers (Admin only)
-   */
   getAllCustomersAdmin(): Observable<CustomerDTO[]> {
     return this.http.get<CustomerDTO[]>(
       `${this.apiUrl}${environment.endpoints.admin.customers}`,
@@ -76,9 +69,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Enable/disable user (Admin only)
-   */
   updateUserStatus(
     userId: number,
     statusUpdate: UserStatusUpdateRequest,
@@ -95,9 +85,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Create new customer
-   */
   createCustomer(customer: CustomerDTO): Observable<CustomerDTO> {
     return this.http.post<CustomerDTO>(
       `${this.apiUrl}${environment.endpoints.customers}`,
@@ -111,9 +98,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Update customer
-   */
   updateCustomer(id: number, customer: CustomerDTO): Observable<CustomerDTO> {
     return this.http.put<CustomerDTO>(
       `${this.apiUrl}${environment.endpoints.customers}/${id}`,
@@ -127,9 +111,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get paginated customers
-   */
   getCustomersPage(
     page: number = 0,
     size: number = 10,
@@ -161,11 +142,6 @@ export class BankingApiService {
     );
   }
 
-  // ==================== ACCOUNT MANAGEMENT ====================
-
-  /**
-   * Get all accounts
-   */
   getAccounts(): Observable<BankAccountDTO[]> {
     return this.http.get<BankAccountDTO[]>(
       `${this.apiUrl}${environment.endpoints.accounts}`,
@@ -178,9 +154,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get customer accounts
-   */
   getCustomerAccounts(customerId: number): Observable<BankAccountDTO[]> {
     return this.http.get<BankAccountDTO[]>(
       `${this.apiUrl}${environment.endpoints.accounts}/customer/${customerId}`,
@@ -203,9 +176,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Create saving account
-   */
   createSavingAccount(
     initialBalance: number,
     interestRate: number,
@@ -234,9 +204,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Deposit money (Credit)
-   */
   credit(
     accountId: string,
     amount: number,
@@ -262,9 +229,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get account history
-   */
   getAccountHistory(
     accountId: string,
     page: number = 0,
@@ -285,19 +249,10 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get active accounts for selection dropdown
-   */
   getActiveAccountsForSelection(): Observable<any[]> {
-    // For now, filter on the client side using the full accounts list.
     return this.getAccountsForSelection();
   }
 
-  // ==================== DASHBOARD ====================
-
-  /**
-   * Get banking statistics
-   */
   getBankingStats(): Observable<BankingStatsDTO> {
     return this.http.get<BankingStatsDTO>(
       `${this.apiUrl}${environment.endpoints.dashboard}/stats`,
@@ -310,9 +265,6 @@ export class BankingApiService {
     );
   }
 
-  /**
-   * Get customers summary
-   */
   getCustomersSummary(): Observable<CustomersSummaryDTO> {
     return this.http.get<CustomersSummaryDTO>(
       `${this.apiUrl}${environment.endpoints.dashboard}/customers-summary`,

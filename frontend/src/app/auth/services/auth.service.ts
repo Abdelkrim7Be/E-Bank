@@ -108,7 +108,6 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.setToken(response.token, true);
-          // Convert AuthResponse to User format
           const user: User = {
             id: 0, // Will be set from JWT payload
             username: response.username,
@@ -151,7 +150,6 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.setToken(response.token, true);
-          // Convert AuthResponse to User format
           const user: User = {
             id: 0,
             username: response.username,
@@ -264,7 +262,6 @@ export class AuthService {
     }
   }
 
-  /** Updates user in whichever storage currently holds the token (for profile updates). */
   private setCurrentUserInSameStorage(user: User): void {
     const serialized = JSON.stringify(user);
     if (sessionStorage.getItem(this.TOKEN_KEY)) {

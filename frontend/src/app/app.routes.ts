@@ -171,7 +171,6 @@ export const routes: Routes = [
             (c) => c.CustomerDebitComponent,
           ),
       },
-      // Keep withdraw route for backward compatibility (redirect to debit)
       {
         path: "withdraw",
         redirectTo: "debit",

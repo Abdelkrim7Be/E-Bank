@@ -49,7 +49,6 @@ export class TransferComponent implements OnInit {
       reference: [""],
     });
 
-    // Add custom validator for amount vs balance
     this.transferForm.get("amount")?.valueChanges.subscribe(() => {
       this.validateAmount();
     });
@@ -79,7 +78,6 @@ export class TransferComponent implements OnInit {
   }
 
   loadAccounts(): void {
-    // Try active accounts first
     this.bankingApiService.getActiveAccountsForSelection().subscribe({
       next: (raw: any[]) => {
         console.log("Loaded accounts:", raw); // Debug log
@@ -93,13 +91,11 @@ export class TransferComponent implements OnInit {
           status: a.status ?? "CREATED",
         }));
 
-        // Filter for active accounts (backend uses ACTIVATED)
         this.accounts = mapped.filter((acc) => acc.status === "ACTIVATED");
         console.log("Filtered active accounts:", this.accounts); // Debug log
 
         if (this.accounts.length === 0) {
           console.warn("No active accounts found, trying all accounts");
-          // Fallback to all accounts
           this.loadAllAccounts();
         }
       },
@@ -108,7 +104,6 @@ export class TransferComponent implements OnInit {
           "Error loading active accounts, trying all accounts:",
           error,
         );
-        // Fallback to all accounts
         this.loadAllAccounts();
       },
     });
@@ -217,7 +212,6 @@ export class TransferComponent implements OnInit {
     this.router.navigate(["/accounts"]);
   }
 
-  // Getter methods for form controls
   get fromAccountId() {
     return this.transferForm.get("fromAccountId");
   }

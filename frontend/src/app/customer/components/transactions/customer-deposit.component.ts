@@ -82,7 +82,6 @@ export class CustomerDepositComponent implements OnInit {
             'No active accounts found. Please contact support to create an account.';
         }
 
-        // Pre-select account if provided in route
         if (this.preSelectedAccountId && this.accounts.length > 0) {
           const account = this.accounts.find(
             (acc) => acc.id === this.preSelectedAccountId
@@ -177,7 +176,6 @@ export class CustomerDepositComponent implements OnInit {
           this.successMessage = `Credit completed successfully!`;
           this.creditForm.reset();
 
-          // Redirect to accounts page after 3 seconds
           setTimeout(() => {
             this.router.navigate(['/customer/accounts']);
           }, 3000);
@@ -195,7 +193,6 @@ export class CustomerDepositComponent implements OnInit {
     this.router.navigate(['/customer/dashboard']);
   }
 
-  // Getter methods for form controls
   get accountId() {
     return this.creditForm.get('accountId');
   }

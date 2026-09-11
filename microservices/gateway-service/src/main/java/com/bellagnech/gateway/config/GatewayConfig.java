@@ -7,11 +7,9 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Gateway route and rate-limit config. */
 @Configuration
 public class GatewayConfig {
 
-    /** Higher rate limit for admin list+detail flows. */
     private static RateLimitingFilter.Config adminHighLimitConfig() {
         RateLimitingFilter.Config c = new RateLimitingFilter.Config();
         c.setRateLimit(500);

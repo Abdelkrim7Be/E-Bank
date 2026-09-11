@@ -31,10 +31,6 @@ public class GlobalExceptionHandler {
                 .body(Map.of("message", ex.getMessage() != null ? ex.getMessage() : "Insufficient balance"));
     }
 
-    /**
-     * Handle Feign client errors (e.g. account-service unavailable or returned 4xx/5xx).
-     * Without this, any FeignException is returned as 500 to the client.
-     */
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex) {
         int status = ex.status();
@@ -47,7 +43,6 @@ public class GlobalExceptionHandler {
             return ResponseEntity.status(status)
                     .body(Map.of("message", "Account service rejected the request. Check account IDs and try again."));
         }
-        // status -1 (e.g. connection refused) or 5xx
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                 .body(Map.of("message", "Account service temporarily unavailable. Please try again."));
     }

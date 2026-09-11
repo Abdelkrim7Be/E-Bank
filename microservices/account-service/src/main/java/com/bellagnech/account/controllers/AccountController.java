@@ -51,6 +51,13 @@ public class AccountController {
         return ResponseEntity.ok(accountService.bankAccountList());
     }
 
+    @GetMapping("/by-ids")
+    public ResponseEntity<List<BankAccountDTO>> getAccountsByIds(@RequestParam List<String> ids) {
+        identity().requireAdmin();
+        if (ids.size() > 500) throw new IllegalArgumentException("Too many ids in one batch request");
+        return ResponseEntity.ok(accountService.getAccountsByIds(ids));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<BankAccountDTO> getAccount(@PathVariable String id) throws BankAccountNotFoundException {
         log.info("Retrieving account with ID: {}", id);

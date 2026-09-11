@@ -9,4 +9,7 @@ public class CustomerOwnership {
     public boolean canRead(Long id, String username) {
         return customers.findByUser_Username(username).map(c -> c.getId().equals(id)).orElse(false);
     }
+    public boolean canReadAll(java.util.List<Long> ids, String username) {
+        return ids.size() == 1 && canRead(ids.get(0), username);
+    }
 }

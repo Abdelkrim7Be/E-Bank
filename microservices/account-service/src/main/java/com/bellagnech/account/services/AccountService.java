@@ -96,6 +96,15 @@ public class AccountService {
         return dto;
     }
 
+    public List<BankAccountDTO> getAccountsByIds(List<String> ids) {
+        log.info("Retrieving {} accounts by id", ids.size());
+        List<BankAccountDTO> list = bankAccountRepository.findAllById(ids).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+        enrichWithCustomerNames(list);
+        return list;
+    }
+
     public List<BankAccountDTO> bankAccountList() {
         log.info("Retrieving all accounts");
         List<BankAccountDTO> list = bankAccountRepository.findAll().stream()
@@ -167,18 +176,16 @@ public class AccountService {
 
     private void enrichWithCustomerNames(List<BankAccountDTO> dtos) {
         if (dtos == null || dtos.isEmpty()) return;
+        List<Long> ids = dtos.stream().map(BankAccountDTO::getCustomerId).filter(java.util.Objects::nonNull).distinct().toList();
+        if (ids.isEmpty()) return;
         Map<Long, CustomerServiceClient.CustomerDTO> cache = new HashMap<>();
+        try {
+            for (CustomerServiceClient.CustomerDTO c : customerServiceClient.getCustomersByIds(ids)) cache.put(c.id, c);
+        } catch (Exception e) {
+            log.debug("Could not batch-resolve {} customers: {}", ids.size(), e.getMessage());
+        }
         for (BankAccountDTO dto : dtos) {
-            if (dto.getCustomerId() == null) continue;
-            CustomerServiceClient.CustomerDTO c = cache.get(dto.getCustomerId());
-            if (c == null) {
-                try {
-                    c = customerServiceClient.getCustomer(dto.getCustomerId());
-                    if (c != null) cache.put(dto.getCustomerId(), c);
-                } catch (Exception e) {
-                    log.debug("Could not resolve customer {}: {}", dto.getCustomerId(), e.getMessage());
-                }
-            }
+            CustomerServiceClient.CustomerDTO c = dto.getCustomerId() == null ? null : cache.get(dto.getCustomerId());
             if (c != null) {
                 dto.setCustomerName(c.name);
                 dto.setCustomerEmail(c.email);

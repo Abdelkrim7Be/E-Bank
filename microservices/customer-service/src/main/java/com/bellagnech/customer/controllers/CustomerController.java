@@ -28,6 +28,13 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @customerOwnership.canReadAll(#ids, authentication.name)")
+    @GetMapping("/by-ids")
+    public ResponseEntity<List<CustomerDTO>> getCustomersByIds(@RequestParam List<Long> ids) {
+        if (ids.size() > 500) throw new IllegalArgumentException("Too many ids in one batch request");
+        return ResponseEntity.ok(customerService.listCustomersByIds(ids));
+    }
+
     @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @customerOwnership.canRead(#id, authentication.name)")
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) throws CustomerNotFoundException {

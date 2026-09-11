@@ -80,44 +80,44 @@ public class TransactionService {
         return PageRequest.of(page, size);
     }
 
-    /** Resolve and set customerName for each DTO from account-service (cached per request to avoid N+1). */
+    /** Resolve and set customerName for each DTO from account-service (batched to avoid N+1 Feign calls). */
     private void enrichWithCustomerNames(List<AccountOperationDTO> dtos) {
         if (dtos == null || dtos.isEmpty()) return;
+        List<String> accountIds = dtos.stream().map(AccountOperationDTO::getBankAccountId)
+                .filter(id -> id != null && !id.isBlank()).distinct().toList();
+        if (accountIds.isEmpty()) return;
         Map<String, String> cache = new ConcurrentHashMap<>();
-        for (AccountOperationDTO dto : dtos) {
-            String accountId = dto.getBankAccountId();
-            if (accountId == null || accountId.isBlank()) continue;
-            String name = cache.get(accountId);
-            if (name == null) {
-                try {
-                    AccountServiceClient.AccountDTO account = accountServiceClient.getAccount(accountId);
-                    if (account != null) {
-                        name = (account.customerName != null && !account.customerName.isBlank())
-                                ? account.customerName
-                                : null;
-                        if (name == null && account.customerId != null) {
-                            try {
-                                CustomerServiceClient.CustomerDTO customer = customerServiceClient.getCustomer(account.customerId);
-                                name = customer != null && customer.name != null && !customer.name.isBlank()
-                                        ? customer.name
-                                        : dto.getPerformedBy();
-                            } catch (Exception e) {
-                                log.debug("Could not resolve customer {} for account {}: {}", account.customerId, accountId, e.getMessage());
-                                name = dto.getPerformedBy();
-                            }
-                        }
-                        if (name == null) name = dto.getPerformedBy();
-                    } else {
-                        name = dto.getPerformedBy();
-                    }
-                } catch (Exception e) {
-                    log.debug("Could not resolve customer name for account {}: {}", accountId, e.getMessage());
-                    name = dto.getPerformedBy();
-                }
-                cache.put(accountId, name != null ? name : "");
+        List<AccountServiceClient.AccountDTO> accounts = null;
+        if (accountIds.size() > 1) {
+            try { accounts = accountServiceClient.getAccountsByIds(accountIds); }
+            catch (Exception e) { log.debug("Could not batch-resolve {} accounts: {}", accountIds.size(), e.getMessage()); }
+        }
+        if (accounts != null) {
+            for (AccountServiceClient.AccountDTO account : accounts) resolveCustomerName(account, cache);
+        } else {
+            for (String accountId : accountIds) {
+                try { resolveCustomerName(accountServiceClient.getAccount(accountId), cache); }
+                catch (Exception e) { log.debug("Could not resolve customer name for account {}: {}", accountId, e.getMessage()); }
             }
+        }
+        for (AccountOperationDTO dto : dtos) {
+            String name = cache.get(dto.getBankAccountId());
             dto.setCustomerName(name != null && !name.isEmpty() ? name : dto.getPerformedBy());
         }
+    }
+
+    private void resolveCustomerName(AccountServiceClient.AccountDTO account, Map<String, String> cache) {
+        if (account == null || account.id == null) return;
+        String name = account.customerName;
+        if ((name == null || name.isBlank()) && account.customerId != null) {
+            try {
+                CustomerServiceClient.CustomerDTO customer = customerServiceClient.getCustomer(account.customerId);
+                name = customer != null ? customer.name : null;
+            } catch (Exception e) {
+                log.debug("Could not resolve customer {} for account {}: {}", account.customerId, account.id, e.getMessage());
+            }
+        }
+        cache.put(account.id, name != null ? name : "");
     }
 
     private void saveTransferLeg(String accountId, BigDecimal amount, OperationType type, String description) {

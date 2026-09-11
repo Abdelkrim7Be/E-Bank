@@ -73,6 +73,14 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
+    public List<CustomerDTO> listCustomersByIds(List<Long> ids) {
+        log.info("Retrieving {} customers by id", ids.size());
+        return customerRepository.findAllById(ids).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException {
         log.info("Retrieving customer with ID: {}", customerId);
         Customer customer = customerRepository.findById(customerId)

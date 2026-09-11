@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CustomerServiceClient {
     @GetMapping("/api/customers/{id}")
     CustomerDTO getCustomer(@PathVariable Long id);
-    
+
+    @GetMapping("/api/customers/by-ids")
+    java.util.List<CustomerDTO> getCustomersByIds(@org.springframework.web.bind.annotation.RequestParam java.util.List<Long> ids);
+
     class CustomerDTO {
         public Long id;
         public String name;

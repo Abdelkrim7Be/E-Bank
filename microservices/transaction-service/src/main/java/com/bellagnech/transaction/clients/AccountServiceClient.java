@@ -30,6 +30,9 @@ public interface AccountServiceClient {
     @GetMapping("/api/accounts/customer/{customerId}")
     java.util.List<AccountDTO> getCustomerAccounts(@PathVariable Long customerId);
 
+    @GetMapping("/api/accounts/by-ids")
+    java.util.List<AccountDTO> getAccountsByIds(@org.springframework.web.bind.annotation.RequestParam java.util.List<String> ids);
+
     class AccountDTO {
         public String id;
         public BigDecimal balance;

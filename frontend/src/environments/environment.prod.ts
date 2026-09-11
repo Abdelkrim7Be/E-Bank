@@ -38,5 +38,8 @@ export const environment = {
       transfer: "/accounts",
       history: "/accounts",
     },
+    reports: {
+      reconciliation: "/reports/reconciliation",
+    },
   },
 };

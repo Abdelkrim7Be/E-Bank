@@ -9,6 +9,7 @@ import { User } from "../../../auth/models/auth.model";
 import {
   DashboardService,
   DashboardStats,
+  ReconciliationReport,
 } from "../../../shared/services/dashboard.service";
 import { AdminAccountService } from "../../services/account.service";
 import { AccountService } from "../../../shared/services/account.service";
@@ -44,6 +45,7 @@ export class AdminDashboardComponent
   };
 
   recentTransactions: any[] = [];
+  reconciliation: ReconciliationReport | null = null;
 
   accountIdToCustomerName: Record<string, string> = {};
 
@@ -61,6 +63,14 @@ export class AdminDashboardComponent
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     this.loadDashboardData();
+    this.loadReconciliation();
+  }
+
+  private loadReconciliation(): void {
+    this.dashboardService.getReconciliationReport().subscribe({
+      next: (report) => (this.reconciliation = report),
+      error: () => (this.reconciliation = null),
+    });
   }
 
   ngAfterViewInit(): void {

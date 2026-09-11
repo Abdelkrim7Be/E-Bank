@@ -87,6 +87,28 @@ public class ReportingService {
             "averageAmount",total==0 ? BigDecimal.ZERO : volume.divide(BigDecimal.valueOf(total),2,RoundingMode.HALF_EVEN)));
         return result;
     }
+    public Map<String,Object> getReconciliationReport() {
+        var result = metadata("Ledger Reconciliation");
+        var rows = sql.query("""
+            select a.id,a.initial_balance,a.balance,
+              a.initial_balance + coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0) expected
+            from projected_accounts a left join projected_transactions t on t.account_id=a.id
+            where a.initial_balance is not null
+            group by a.id,a.initial_balance,a.balance
+            having abs(a.balance - (a.initial_balance + coalesce(sum(case when t.type='CREDIT' then t.amount when t.type='DEBIT' then -t.amount else 0 end),0))) > 0.01
+            order by a.id
+            """, (rs,n) -> Map.<String,Object>of("accountId",rs.getString("id"),
+                "expectedBalance",rs.getBigDecimal("expected"),"actualBalance",rs.getBigDecimal("balance"),
+                "difference",rs.getBigDecimal("balance").subtract(rs.getBigDecimal("expected"))));
+        long reconcilable = count("select count(*) from projected_accounts where initial_balance is not null");
+        long unreconciled = rows.size();
+        result.put("accountsChecked", reconcilable);
+        result.put("accountsBalanced", reconcilable - unreconciled);
+        result.put("mismatches", rows);
+        result.put("status", unreconciled == 0 ? "BALANCED" : "MISMATCH");
+        return result;
+    }
+
     public Map<String,Object> getTransactionsSummary() {
         var report = getTransactionAnalysisReport(3650);
         @SuppressWarnings("unchecked") var summary = (Map<String,Object>) report.get("summary");

@@ -46,6 +46,12 @@ public class ReportingController {
         return ResponseEntity.ok(reportingService.getAccountBalanceReport());
     }
 
+    @GetMapping("/reconciliation")
+    public ResponseEntity<Map<String, Object>> getReconciliationReport() {
+        log.info("Ledger reconciliation report requested");
+        return ResponseEntity.ok(reportingService.getReconciliationReport());
+    }
+
     @GetMapping("/transaction-analysis")
     public ResponseEntity<Map<String, Object>> getTransactionAnalysisReport(
             @RequestParam(defaultValue = "30") int days) {

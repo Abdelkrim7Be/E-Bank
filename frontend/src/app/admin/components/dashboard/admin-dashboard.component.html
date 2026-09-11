@@ -111,6 +111,79 @@
         </div>
       </div>
 
+      <div class="row mb-4" *ngIf="reconciliation">
+        <div class="col-12">
+          <div
+            class="card border-0 shadow-sm"
+            [ngClass]="
+              reconciliation.status === 'BALANCED'
+                ? 'border-start border-success border-4'
+                : 'border-start border-danger border-4'
+            "
+          >
+            <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div class="d-flex align-items-center">
+                <i
+                  class="bi me-2 fs-4"
+                  [ngClass]="
+                    reconciliation.status === 'BALANCED'
+                      ? 'bi-shield-check text-success'
+                      : 'bi-exclamation-triangle text-danger'
+                  "
+                ></i>
+                <div>
+                  <div class="fw-semibold">
+                    Ledger reconciliation:
+                    {{
+                      reconciliation.status === "BALANCED"
+                        ? "All accounts balanced"
+                        : "Mismatch detected"
+                    }}
+                  </div>
+                  <div class="small text-muted">
+                    {{ reconciliation.accountsBalanced }} /
+                    {{ reconciliation.accountsChecked }} accounts reconcile
+                    initial balance + ledger history to the current balance
+                  </div>
+                </div>
+              </div>
+              <span
+                class="badge"
+                [ngClass]="
+                  reconciliation.status === 'BALANCED'
+                    ? 'bg-success'
+                    : 'bg-danger'
+                "
+                >{{ reconciliation.status }}</span
+              >
+            </div>
+            <div
+              class="table-responsive"
+              *ngIf="reconciliation.mismatches.length"
+            >
+              <table class="table table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>Account</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Difference</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let m of reconciliation.mismatches">
+                    <td>{{ m.accountId }}</td>
+                    <td>{{ m.expectedBalance | currency }}</td>
+                    <td>{{ m.actualBalance | currency }}</td>
+                    <td class="text-danger">{{ m.difference | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-lg-8 mb-4">
           <div class="card border-0 shadow-sm">

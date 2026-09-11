@@ -40,6 +40,21 @@ class ReportingServiceTest {
             .isInstanceOf(IllegalArgumentException.class);
         assertThat(sql.queryForObject("select count(*) from projection_events",Long.class)).isZero();
     }
+    @Test void reconciliationFlagsAccountsWhoseLedgerDoesNotMatchBalance() throws Exception {
+        projections.accept("account-events", account("bal1", 1, "100.00"));
+        projections.accept("account-events", account("bal2", 2, "150.00"));
+        sql.update("update projected_accounts set id='b1' where id='a'");
+        String credit = "{\"schemaVersion\":1,\"eventId\":\"tx1\",\"aggregateId\":\"b1\",\"accountId\":\"b1\",\"type\":\"CREDIT\",\"amount\":50.00,\"occurredAt\":\"2026-09-09T00:00:00Z\"}";
+        projections.accept("transaction-events", credit);
+        var balanced = reports.getReconciliationReport();
+        assertThat(balanced.get("status")).isEqualTo("BALANCED");
+        assertThat(balanced.get("accountsChecked")).isEqualTo(1L);
+
+        sql.update("update projected_accounts set balance=999.99 where id='b1'");
+        var mismatched = reports.getReconciliationReport();
+        assertThat(mismatched.get("status")).isEqualTo("MISMATCH");
+        assertThat((java.util.List<?>) mismatched.get("mismatches")).hasSize(1);
+    }
     @Test void emptyProjectionExplicitlySignalsWaiting() {
         assertThat(reports.getDashboardStats().get("projectionStatus")).isEqualTo("WAITING_FOR_EVENTS");
         assertThat(reports.getDashboardStats().get("projectionUpdatedAt")).isNull();

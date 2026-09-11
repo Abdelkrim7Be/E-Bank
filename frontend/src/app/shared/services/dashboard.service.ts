@@ -47,6 +47,18 @@ export interface CustomerDashboardData {
   }[];
 }
 
+export interface ReconciliationReport {
+  status: 'BALANCED' | 'MISMATCH';
+  accountsChecked: number;
+  accountsBalanced: number;
+  mismatches: {
+    accountId: string;
+    expectedBalance: number;
+    actualBalance: number;
+    difference: number;
+  }[];
+}
+
 export interface AdminDashboardData {
   stats: DashboardStats;
   accountsSummary: AccountsSummary;
@@ -133,6 +145,12 @@ export class DashboardService {
   ): Observable<{ month: string; count: number }[]> {
     return this.http.get<{ month: string; count: number }[]>(
       `${this.API_URL}${environment.endpoints.admin.dashboard}/customer-growth?months=${months}`
+    );
+  }
+
+  getReconciliationReport(): Observable<ReconciliationReport> {
+    return this.http.get<ReconciliationReport>(
+      `${this.API_URL}${environment.endpoints.reports.reconciliation}`
     );
   }
 

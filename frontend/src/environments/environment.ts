@@ -37,6 +37,9 @@ export const environment = {
       transfer: "/accounts",
       history: "/accounts",
     },
+    reports: {
+      reconciliation: "/reports/reconciliation",
+    },
   },
   testCredentials: {
     admin: { username: "admin", password: "password" },

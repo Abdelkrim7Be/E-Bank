@@ -195,7 +195,15 @@ export class AccountService {
       customerName: op.customerName,
       performedBy: op.performedBy,
       customer: op.customer,
+      requestId: op.requestId,
     } as Transaction;
+  }
+
+  getTransactionAudit(requestId: string): Observable<{
+    request: { id: string; type: string; status: string; accountId: string; destinationId?: string; amount: number; createdAt: string; completedAt?: string };
+    legs: { id: number; bankAccountId: string; type: string; amount: number; description: string; operationDate: string }[];
+  }> {
+    return this.http.get<any>(`${this.apiUrl}/transactions/audit/${requestId}`);
   }
 
   getTransactionById(id: number): Observable<Transaction> {

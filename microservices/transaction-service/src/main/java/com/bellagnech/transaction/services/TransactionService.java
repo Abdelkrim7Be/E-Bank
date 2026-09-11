@@ -143,6 +143,7 @@ public class TransactionService {
         dto.setType(operation.getType());
         dto.setBankAccountId(operation.getBankAccountId());
         dto.setPerformedBy(operation.getPerformedBy());
+        dto.setRequestId(operation.getRequestId());
         return dto;
     }
 }

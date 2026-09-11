@@ -201,6 +201,7 @@ public class CustomerPortalController {
                         map.put("accountId", t.getBankAccountId());
                         map.put("performedBy", t.getPerformedBy());
                         map.put("customerName", t.getCustomerName());
+                        map.put("requestId", t.getRequestId());
                         map.put("status", "COMPLETED");
                         merged.add(map);
                     }

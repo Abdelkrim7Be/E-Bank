@@ -46,6 +46,9 @@ public class AccountOperation {
 
     private String performedBy;
 
+    /** Links both legs of a transfer back to the OperationRequest that created them. */
+    private String requestId;
+
     @PrePersist
     protected void onCreate() {
         if (operationDate == null) {

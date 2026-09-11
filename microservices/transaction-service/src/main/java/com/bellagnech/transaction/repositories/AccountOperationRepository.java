@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface AccountOperationRepository extends JpaRepository<AccountOperation, Long> {
     List<AccountOperation> findByBankAccountIdOrderByOperationDateDescIdDesc(String bankAccountId);
+    List<AccountOperation> findByRequestIdOrderByIdAsc(String requestId);
     Page<AccountOperation> findByBankAccountIdOrderByOperationDateDescIdDesc(String bankAccountId, Pageable pageable);
     Page<AccountOperation> findAllByOrderByOperationDateDescIdDesc(Pageable pageable);
 

@@ -77,6 +77,7 @@ public class OperationJournal {
         var operation = new AccountOperation();
         operation.setBankAccountId(account); operation.setAmount(request.getAmount());
         operation.setType(type); operation.setDescription(description);
+        operation.setRequestId(request.getId());
         history.save(operation);
         events.sendTransactionEvent(account, TransactionEvent.builder().type(type.name()).accountId(account)
             .amount(request.getAmount()).correlationId(request.getId()).description(description).build());

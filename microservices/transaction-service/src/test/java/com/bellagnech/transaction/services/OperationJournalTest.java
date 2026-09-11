@@ -68,6 +68,8 @@ class OperationJournalTest {
         verify(accounts,times(2)).applyOperation(eq("transfer"),argThat(body -> key.equals(body.get("operationId"))));
         assertThat(history.count()).isEqualTo(2);
         assertThat(history.findAll()).allMatch(operation -> operation.getDescription().contains("Test"));
+        assertThat(history.findByRequestIdOrderByIdAsc(key)).hasSize(2)
+            .allMatch(operation -> key.equals(operation.getRequestId()));
         assertThat(outbox.count()).isEqualTo(2);
         assertThatThrownBy(() -> journal.prepare(key,"TRANSFER","a","b",BigDecimal.ONE,"Test"))
             .isInstanceOf(org.springframework.web.server.ResponseStatusException.class);

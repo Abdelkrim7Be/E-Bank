@@ -27,6 +27,7 @@ public interface TransactionServiceClient {
         private String bankAccountId;
         private String performedBy;
         private String customerName;
+        private String requestId;
 
         public String getId() {
             return id;
@@ -90,6 +91,14 @@ public interface TransactionServiceClient {
 
         public void setCustomerName(String customerName) {
             this.customerName = customerName;
+        }
+
+        public String getRequestId() {
+            return requestId;
+        }
+
+        public void setRequestId(String requestId) {
+            this.requestId = requestId;
         }
     }
 }

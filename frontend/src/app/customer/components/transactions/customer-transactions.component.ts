@@ -23,6 +23,8 @@ import { AuthService } from "../../../auth/services/auth.service";
 export class CustomerTransactionsComponent implements OnInit {
   @ViewChild("details") details!: ElementRef<HTMLDialogElement>;
   selectedTransaction: Transaction | null = null;
+  audit: any = null;
+  auditLoading = false;
   transactions: Transaction[] = [];
   pagedResponse: PagedResponse<Transaction> | null = null;
   loading = true;
@@ -180,7 +182,21 @@ export class CustomerTransactionsComponent implements OnInit {
 
   viewTransactionDetails(transaction: Transaction): void {
     this.selectedTransaction = transaction;
+    this.audit = null;
     this.details.nativeElement.showModal();
+  }
+
+  loadAuditTrail(requestId: string): void {
+    this.auditLoading = true;
+    this.accountService.getTransactionAudit(requestId).subscribe({
+      next: (result) => {
+        this.audit = result;
+        this.auditLoading = false;
+      },
+      error: () => {
+        this.auditLoading = false;
+      },
+    });
   }
 
   getTransactionTypeBadge(type: string): string {

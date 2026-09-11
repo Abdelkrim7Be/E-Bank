@@ -30,6 +30,16 @@ public class TransactionController {
         com.bellagnech.transaction.security.ApiIdentity.current().requireOwner(account.customerId);
     }
     private final com.bellagnech.transaction.repositories.AccountOperationRepository operationRepository;
+    private final com.bellagnech.transaction.repositories.OperationRequestRepository requestRepository;
+
+    @GetMapping("/audit/{requestId}")
+    public ResponseEntity<java.util.Map<String, Object>> getAudit(@PathVariable String requestId) {
+        var request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND));
+        owner(request.getAccountId());
+        var legs = operationRepository.findByRequestIdOrderByIdAsc(requestId);
+        return ResponseEntity.ok(java.util.Map.of("request", request, "legs", legs));
+    }
 
     @GetMapping("/statistics/accounts")
     public java.util.Map<String, Long> getAccountCounts() {

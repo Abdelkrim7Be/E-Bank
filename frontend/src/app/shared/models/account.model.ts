@@ -73,6 +73,7 @@ export interface Transaction {
   toAccountId?: string | number;
   fromAccountNumber?: string;
   toAccountNumber?: string;
+  requestId?: string;
 }
 
 export interface CreateTransactionDto {

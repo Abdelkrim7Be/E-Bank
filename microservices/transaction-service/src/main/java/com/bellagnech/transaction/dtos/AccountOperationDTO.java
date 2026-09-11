@@ -20,5 +20,6 @@ public class AccountOperationDTO {
     private String bankAccountId;
     private String performedBy;
     private String customerName;
+    private String requestId;
 }
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './auth/services/auth.service';
+import { ActivityFeedService } from './core/services/activity-feed.service';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { NotificationsComponent } from './shared/components/notifications/notifications.component';
@@ -25,7 +26,11 @@ export class AppComponent implements OnInit {
   title = 'E-Bank';
   showNavigation = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private activityFeed: ActivityFeedService,
+  ) {}
 
   ngOnInit(): void {
     this.router.events

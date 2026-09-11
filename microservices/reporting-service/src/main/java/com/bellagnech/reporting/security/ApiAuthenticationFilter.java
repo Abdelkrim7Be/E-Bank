@@ -22,7 +22,6 @@ public class ApiAuthenticationFilter extends OncePerRequestFilter {
             if (claims.getExpiration() == null || claims.getSubject() == null) throw new IllegalArgumentException();
         } catch (Exception invalid) { response.sendError(401, "Authentication required"); return; }
         var identity = new ApiIdentity(claims.getSubject(),claims.get("role",String.class),claims.get("customerId",Long.class));
-        if (!identity.admin()) { response.sendError(403); return; }
         request.setAttribute("identity",identity);
         chain.doFilter(request,response);
     }

@@ -1,6 +1,7 @@
 package com.bellagnech.reporting.controllers;
 
 import com.bellagnech.reporting.messaging.DomainEventListeners;
+import com.bellagnech.reporting.security.ApiIdentity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class KafkaDebugController {
 
     @GetMapping("/events")
     public List<String> getLastEvents() {
+        ApiIdentity.current().requireAdmin();
         return domainEventListeners.snapshotLastEvents();
     }
 }

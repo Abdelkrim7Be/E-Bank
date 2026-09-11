@@ -87,6 +87,18 @@ public class ReportingService {
             "averageAmount",total==0 ? BigDecimal.ZERO : volume.divide(BigDecimal.valueOf(total),2,RoundingMode.HALF_EVEN)));
         return result;
     }
+    public List<Map<String,Object>> getRecentActivity(Long customerId, Instant since) {
+        return sql.query("""
+            select t.event_id,t.account_id,t.type,t.amount,t.occurred_at
+            from projected_transactions t join projected_accounts a on a.id=t.account_id
+            where a.customer_id=? and t.occurred_at>=?
+            order by t.occurred_at desc limit 50
+            """, (rs,n) -> Map.<String,Object>of("eventId",rs.getString("event_id"),
+                "accountId",rs.getString("account_id"),"type",rs.getString("type"),
+                "amount",rs.getBigDecimal("amount"),"occurredAt",rs.getObject("occurred_at",OffsetDateTime.class)),
+            customerId, OffsetDateTime.ofInstant(since, ZoneOffset.UTC));
+    }
+
     public Map<String,Object> getReconciliationReport() {
         var result = metadata("Ledger Reconciliation");
         var rows = sql.query("""

@@ -1,4 +1,3 @@
-# Minimal Kafka + Zookeeper for run-with-kafka.sh (single broker, port 9092)
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0

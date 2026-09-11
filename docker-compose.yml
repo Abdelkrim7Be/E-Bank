@@ -1,17 +1,6 @@
-# ============================================================================
-# Digital Banking — Full Docker Compose (with Kafka)
-# ============================================================================
-# Usage:
-#   docker compose up -d --build      # Build & start everything
-#   docker compose logs -f            # Follow all logs
-#   docker compose down               # Stop while preserving volumes
-# ============================================================================
 
 services:
 
-  # ──────────────────────────────────────────────────────────
-  #  Infrastructure: Zookeeper + Kafka
-  # ──────────────────────────────────────────────────────────
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     ports:
@@ -56,9 +45,6 @@ services:
       retries: 10
       start_period: 30s
 
-  # ──────────────────────────────────────────────────────────
-  #  Service Discovery (Eureka)
-  # ──────────────────────────────────────────────────────────
   discovery-service:
     build:
       context: ./microservices
@@ -76,9 +62,6 @@ services:
       retries: 10
       start_period: 30s
 
-  # ──────────────────────────────────────────────────────────
-  #  API Gateway
-  # ──────────────────────────────────────────────────────────
   gateway-service:
     build:
       context: ./microservices
@@ -89,13 +72,11 @@ services:
       SPRING_PROFILES_ACTIVE: kafka
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
-      APP_DEMO_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
       MANAGEMENT_TRACING_ENABLED: "false"
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
-      # Disable Redis (rate limiting) — not needed in this compose setup
       SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration,org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
-      # CORS — allow both direct and proxied access
       SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_ORIGINS: http://localhost:4200,http://localhost
       SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS
       SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_HEADERS: "*"
@@ -114,9 +95,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ──────────────────────────────────────────────────────────
-  #  Customer Service (Kafka Producer)
-  # ──────────────────────────────────────────────────────────
   customer-service:
     build:
       context: ./microservices
@@ -133,7 +111,7 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
-      APP_DEMO_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
       MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
@@ -150,9 +128,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ──────────────────────────────────────────────────────────
-  #  Account Service (Kafka Producer)
-  # ──────────────────────────────────────────────────────────
   account-service:
     build:
       context: ./microservices
@@ -169,7 +144,7 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
-      APP_DEMO_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
       MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
@@ -188,9 +163,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ──────────────────────────────────────────────────────────
-  #  Transaction Service (Kafka Producer)
-  # ──────────────────────────────────────────────────────────
   transaction-service:
     build:
       context: ./microservices
@@ -207,7 +179,7 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
-      APP_DEMO_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
       MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
@@ -226,9 +198,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ──────────────────────────────────────────────────────────
-  #  Reporting Service (Kafka Consumer — all topics)
-  # ──────────────────────────────────────────────────────────
   reporting-service:
     build:
       context: ./microservices
@@ -244,7 +213,7 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_ENABLED: "true"
-      APP_DEMO_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
       MANAGEMENT_TRACING_ENABLED: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
@@ -261,9 +230,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ──────────────────────────────────────────────────────────
-  #  Angular Frontend (Nginx)
-  # ──────────────────────────────────────────────────────────
   frontend:
     build:
       context: ./frontend
@@ -273,6 +239,14 @@ services:
     depends_on:
       gateway-service:
         condition: service_healthy
+      customer-service:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
+      transaction-service:
+        condition: service_healthy
+      reporting-service:
+        condition: service_healthy
     networks:
       - banking-net
     healthcheck:
@@ -281,9 +255,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # ──────────────────────────────────────────────────────────
-  #  Kafka UI — Visualize topics, messages, consumer groups
-  # ──────────────────────────────────────────────────────────
   kafka-ui:
     image: provectuslabs/kafka-ui:v0.7.2
     ports:
@@ -299,9 +270,6 @@ services:
     networks:
       - banking-net
 
-# ──────────────────────────────────────────────────────────
-#  Shared Network
-# ──────────────────────────────────────────────────────────
 networks:
   banking-net:
     driver: bridge

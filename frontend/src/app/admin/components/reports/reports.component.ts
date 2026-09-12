@@ -80,7 +80,7 @@ export class AdminReportsComponent {
         ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
         : value.toLocaleString('en-US');
     }
-    return String(value ?? '—');
+    return String(value ?? 'N/A');
   }
 
   objectEntries(value: Record<string, unknown>): [string, unknown][] {

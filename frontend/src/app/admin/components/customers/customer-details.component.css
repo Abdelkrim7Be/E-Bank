@@ -1,0 +1,18 @@
+.card {
+        border: 1px solid var(--eb-border);
+        box-shadow: none;
+      }
+
+      .form-label {
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .btn {
+        border-radius: var(--bs-btn-border-radius);
+      }
+
+      .badge {
+        font-size: 0.75rem;
+      }

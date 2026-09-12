@@ -1,0 +1,40 @@
+<div class="notification-container">
+      <div 
+        *ngFor="let notification of notifications" 
+        class="alert notification-alert"
+        [ngClass]="getAlertClass(notification.type)"
+        [attr.role]="'alert'">
+        
+        <div class="d-flex align-items-start">
+          <div class="notification-icon me-3">
+            <i [ngClass]="getIconClass(notification.type)"></i>
+          </div>
+          
+          <div class="flex-grow-1">
+            <div class="notification-title" *ngIf="notification.title">
+              <strong>{{ notification.title }}</strong>
+            </div>
+            <div class="notification-message">
+              {{ notification.message }}
+            </div>
+          </div>
+          
+          <button 
+            *ngIf="notification.dismissible"
+            type="button" 
+            class="btn-close" 
+            [attr.aria-label]="'Close'"
+            (click)="dismiss(notification.id)">
+          </button>
+        </div>
+        
+        <div 
+          *ngIf="notification.duration && notification.duration > 0"
+          class="notification-progress">
+          <div 
+            class="progress-bar"
+            [style.animation-duration.ms]="notification.duration">
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,205 @@
+<div class="auth-container">
+      <div class="container-fluid">
+        <div class="row auth-grid">
+          <aside class="col-lg-6 auth-story">
+            <a routerLink="/auth/login" class="auth-brand"><img src="brand/e-bank-mark-light.svg" width="48" height="48" alt="" /> E-Bank</a>
+            <div class="auth-story-copy">
+              <span class="auth-eyebrow">YOUR EVERYDAY BANK</span>
+              <h1>Your money.<br>Your plans.<br><span>Your next chapter.</span></h1>
+              <p>A clear view of your accounts.<br>A little more room for what matters.</p>
+            </div>
+
+            <div class="auth-story-footer">Closer to your everyday.</div>
+          </aside>
+
+          <div
+            class="col-lg-6 auth-form-side d-flex align-items-center justify-content-center"
+          >
+            <div class="auth-form-container w-100" style="max-width: 400px;">
+              <div class="text-start mb-4">
+                <img src="brand/e-bank-mark.svg" width="48" height="48" alt="E-Bank" class="mb-3" />
+                <h2 class="fw-bold text-dark">Your personal space</h2>
+                <p class="text-muted">Welcome back. Let’s pick up where you left off.</p>
+              </div>
+
+              <div
+                *ngIf="errorMessage"
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+                <button
+                  type="button"
+                  class="btn-close" aria-label="Dismiss message"
+                  (click)="errorMessage = ''"
+                ></button>
+              </div>
+
+              <div
+                *ngIf="successMessage"
+                class="alert alert-success alert-dismissible fade show"
+                role="alert"
+              >
+                <i class="bi bi-check-circle me-2"></i>
+                {{ successMessage }}
+                <button
+                  type="button"
+                  class="btn-close" aria-label="Dismiss message"
+                  (click)="successMessage = ''"
+                ></button>
+              </div>
+
+              <form
+                [formGroup]="loginForm"
+                (ngSubmit)="onSubmit()"
+                class="needs-validation"
+                novalidate
+              >
+                <div class="mb-3">
+                  <label for="username" class="form-label">
+                    <i class="bi bi-person me-2"></i>Username
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    class="form-control form-control-lg"
+                    formControlName="username"
+                    [class.is-invalid]="
+                      username?.invalid &&
+                      (username?.dirty || username?.touched)
+                    "
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                  />
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      username?.invalid &&
+                      (username?.dirty || username?.touched)
+                    "
+                  >
+                    <div *ngIf="username?.errors?.['required']">
+                      Username is required
+                    </div>
+                    <div *ngIf="username?.errors?.['minlength']">
+                      Username must be at least 3 characters
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="password" class="form-label">
+                    <i class="bi bi-lock me-2"></i>Password
+                  </label>
+                  <div class="input-group">
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      id="password"
+                      class="form-control form-control-lg"
+                      formControlName="password"
+                      [class.is-invalid]="
+                        password?.invalid &&
+                        (password?.dirty || password?.touched)
+                      "
+                      placeholder="Enter your password"
+                      autocomplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showPassword"
+                    >
+                      <i
+                        class="bi"
+                        [class.bi-eye]="!showPassword"
+                        [class.bi-eye-slash]="showPassword"
+                      ></i>
+                    </button>
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      password?.invalid &&
+                      (password?.dirty || password?.touched)
+                    "
+                  >
+                    <div *ngIf="password?.errors?.['required']">
+                      Password is required
+                    </div>
+                    <div *ngIf="password?.errors?.['minlength']">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="rememberMe"
+                      formControlName="rememberMe"
+                    />
+                    <label class="form-check-label" for="rememberMe">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg w-100 mb-3"
+                  [disabled]="loading"
+                >
+                  <span
+                    *ngIf="loading"
+                    class="spinner-border spinner-border-sm me-2"
+                  ></span>
+                  <i *ngIf="!loading" class="bi bi-box-arrow-in-right me-2"></i>
+                  {{ loading ? "Signing In..." : "Sign In" }}
+                </button>
+
+                <div class="text-center">
+                  <p class="mb-0">
+                    Don't have an account?
+                    <a
+                      routerLink="/auth/register"
+                      class="text-primary text-decoration-none fw-semibold"
+                      >Sign up</a
+                    >
+                  </p>
+                </div>
+              </form>
+
+              <div class="mt-4">
+                <h6 class="text-muted mb-2">Try E-Bank</h6>
+                <div class="row">
+                  <div class="col-6">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm w-100 mb-2"
+                      (click)="loginAsAdmin()" [disabled]="loading"
+                    >
+                      <i class="bi bi-shield-check me-1"></i>Admin
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      type="button"
+                      class="btn btn-outline-success btn-sm w-100 mb-2"
+                      (click)="loginAsCustomer()" [disabled]="loading"
+                    >
+                      <i class="bi bi-person me-1"></i>Customer
+                    </button>
+                  </div>
+                </div>
+                <small class="text-muted"
+                  >Explore with a demonstration account</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

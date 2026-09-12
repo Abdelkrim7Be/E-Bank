@@ -1,0 +1,424 @@
+<div class="customer-transactions">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="h4 mb-1">Transaction History</h2>
+          <p class="text-muted mb-0">View all your transaction history</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-outline-primary"
+            (click)="exportTransactions()"
+          >
+            <i class="bi bi-download me-2"></i>Export
+          </button>
+          <button class="btn btn-primary" routerLink="/customer/transfer">
+            <i class="bi bi-plus-circle me-2"></i>New Transaction
+          </button>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white">
+          <h6 class="card-title mb-0">
+            <i class="bi bi-funnel me-2"></i>Filter Transactions
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label">Account</label>
+              <select
+                class="form-select"
+                [(ngModel)]="filter.accountId"
+                (change)="applyFilters()"
+              >
+                <option [ngValue]="undefined">All Accounts</option>
+                <option
+                  *ngFor="let account of customerAccounts"
+                  [ngValue]="account.id"
+                >
+                  {{ account.id }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Transaction Type</label>
+              <select
+                class="form-select"
+                [(ngModel)]="filter.type"
+                (change)="applyFilters()"
+              >
+                <option value="">All Types</option>
+                <option value="DEPOSIT">Deposits</option>
+                <option value="WITHDRAWAL">Withdrawals</option>
+                <option value="TRANSFER">Transfers</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Start Date</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="filter.startDate"
+                (change)="applyFilters()"
+              />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">End Date</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="filter.endDate"
+                (change)="applyFilters()"
+              />
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <button
+                class="btn btn-outline-secondary btn-sm me-2"
+                (click)="clearFilters()"
+              >
+                <i class="bi bi-x-circle me-1"></i>Clear Filters
+              </button>
+              <button class="btn btn-primary btn-sm" (click)="applyFilters()">
+                <i class="bi bi-search me-1"></i>Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading transactions...</p>
+      </div>
+
+      <div *ngIf="error && !loading" class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ error }}
+        <button
+          class="btn btn-outline-danger btn-sm ms-2"
+          (click)="loadTransactions()"
+        >
+          <i class="bi bi-arrow-clockwise me-1"></i>Retry
+        </button>
+      </div>
+
+      <div
+        *ngIf="successMessage"
+        class="alert alert-success alert-dismissible fade show"
+      >
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage }}
+        <button
+          type="button"
+          class="btn-close"
+          (click)="successMessage = ''"
+        ></button>
+      </div>
+
+      <div *ngIf="!loading && !error" class="card border-0 shadow-sm">
+        <div
+          class="card-header bg-white d-flex justify-content-between align-items-center"
+        >
+          <h6 class="card-title mb-0">
+            Transactions
+            <span class="badge bg-primary ms-2">{{
+              pagedResponse?.totalElements || 0
+            }}</span>
+          </h6>
+          <div class="d-flex align-items-center gap-2">
+            <small class="text-muted">Sort by:</small>
+            <select
+              class="form-select form-select-sm"
+              style="width: auto;"
+              [(ngModel)]="filter.sortBy"
+              (change)="applyFilters()"
+            >
+              <option value="operationDate">Date</option>
+              <option value="amount">Amount</option>
+              <option value="type">Type</option>
+            </select>
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              (click)="toggleSortDirection()"
+            >
+              <i
+                class="bi"
+                [class.bi-sort-down]="filter.sortDirection === 'desc'"
+                [class.bi-sort-up]="filter.sortDirection === 'asc'"
+              ></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions">
+                  <td>
+                    <div class="fw-semibold">
+                      {{ transaction.operationDate | date: "shortDate" }}
+                    </div>
+                    <small class="text-muted">{{
+                      transaction.operationDate | date: "shortTime"
+                    }}</small>
+                  </td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class]="getTransactionTypeBadge(transaction.type)"
+                    >
+                      <i
+                        class="bi"
+                        [class]="getTransactionTypeIcon(transaction.type)"
+                      ></i>
+                      {{ transaction.type }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="fw-semibold">
+                      {{
+                        transaction.description ||
+                          getTransactionDescription(transaction.type)
+                      }}
+                    </div>
+                    <small class="text-muted" *ngIf="transaction.accountId">
+                      Account: ****{{
+                        getAccountIdSuffix(transaction.accountId)
+                      }}
+                    </small>
+                  </td>
+                  <td>
+                    <span
+                      class="fw-bold"
+                      [class]="getAmountClass(transaction.type)"
+                    >
+                      {{ getAmountPrefix(transaction.type)
+                      }}{{ transaction.amount | currency }}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class]="getTransactionStatusBadge(transaction.status)"
+                    >
+                      {{ transaction.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-outline-primary btn-sm"
+                      (click)="viewTransactionDetails(transaction)"
+                    >
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            *ngIf="
+              !loading && !error && transactions && transactions.length === 0
+            "
+            class="text-center py-5"
+          >
+            <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+            <h5>No Transactions Found</h5>
+            <p class="text-muted mb-4">
+              No transactions match your current filters.
+            </p>
+            <button class="btn btn-outline-primary" (click)="clearFilters()">
+              <i class="bi bi-funnel me-2"></i>Clear Filters
+            </button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="pagedResponse && pagedResponse.totalPages > 1"
+          class="card-footer bg-white"
+        >
+          <div class="row align-items-center">
+            <div class="col-md-6 mb-2 mb-md-0">
+              <div class="pagination-info">
+                <small class="text-muted">
+                  Showing {{ getStartRecord() }} to {{ getEndRecord() }} of
+                  {{ pagedResponse.totalElements }} transactions
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <nav aria-label="Transaction pagination">
+                <ul
+                  class="pagination pagination-sm justify-content-md-end justify-content-center mb-0"
+                >
+                  <li class="page-item" [class.disabled]="pagedResponse.first">
+                    <button
+                      class="page-link"
+                      (click)="goToPage(0)"
+                      [disabled]="pagedResponse.first"
+                      title="First page"
+                    >
+                      <i class="bi bi-chevron-double-left"></i>
+                    </button>
+                  </li>
+
+                  <li class="page-item" [class.disabled]="pagedResponse.first">
+                    <button
+                      class="page-link"
+                      (click)="goToPage(pagedResponse.number - 1)"
+                      [disabled]="pagedResponse.first"
+                      title="Previous page"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                  </li>
+
+                  <li
+                    *ngFor="let page of getVisiblePages()"
+                    class="page-item"
+                    [class.active]="page === pagedResponse.number + 1"
+                  >
+                    <button
+                      *ngIf="page !== '...'; else ellipsis"
+                      class="page-link"
+                      (click)="goToPage(+page - 1)"
+                      [disabled]="page === pagedResponse.number + 1"
+                    >
+                      {{ page }}
+                    </button>
+                    <ng-template #ellipsis>
+                      <span class="page-link">...</span>
+                    </ng-template>
+                  </li>
+
+                  <li class="page-item" [class.disabled]="pagedResponse.last">
+                    <button
+                      class="page-link"
+                      (click)="goToPage(pagedResponse.number + 1)"
+                      [disabled]="pagedResponse.last"
+                      title="Next page"
+                    >
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </li>
+
+                  <li class="page-item" [class.disabled]="pagedResponse.last">
+                    <button
+                      class="page-link"
+                      (click)="goToPage(pagedResponse.totalPages - 1)"
+                      [disabled]="pagedResponse.last"
+                      title="Last page"
+                    >
+                      <i class="bi bi-chevron-double-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="form-label me-2 mb-0">Items per page:</label>
+                <select
+                  class="form-select form-select-sm"
+                  style="width: auto;"
+                  [(ngModel)]="filter.size"
+                  (change)="changePageSize()"
+                >
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-md-end">
+                <label class="form-label me-2 mb-0">Go to page:</label>
+                <div class="input-group" style="width: 120px;">
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [value]="pagedResponse.number + 1"
+                    (keyup.enter)="jumpToPage($event)"
+                    [min]="1"
+                    [max]="pagedResponse.totalPages"
+                    placeholder="Page"
+                  />
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    type="button"
+                    (click)="jumpToPage($event)"
+                    title="Go to page"
+                  >
+                    <i class="bi bi-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<dialog #details aria-labelledby="transaction-title" class="transaction-dialog">
+  <div class="d-flex justify-content-between align-items-center gap-4 mb-4"><h2 class="h5 mb-0" id="transaction-title">Transaction details</h2><button type="button" class="btn-close" aria-label="Close transaction details" (click)="details.close()"></button></div>
+  <dl *ngIf="selectedTransaction as transaction">
+    <dt>Reference</dt><dd>{{ transaction.id }}</dd>
+    <dt>Account</dt><dd>{{ transaction.accountId }}</dd>
+    <dt>Amount</dt><dd>{{ transaction.amount | currency }}</dd>
+    <dt>Type</dt><dd>{{ transaction.type }}</dd>
+    <dt>Date</dt><dd>{{ transaction.operationDate | date:'medium' }}</dd>
+    <dt>Description</dt><dd>{{ transaction.description }}</dd>
+    <dt>Status</dt><dd>{{ transaction.status }}</dd>
+  </dl>
+  <div *ngIf="selectedTransaction?.requestId" class="mt-3">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-secondary"
+      (click)="loadAuditTrail(selectedTransaction!.requestId!)"
+      [disabled]="auditLoading"
+    >
+      <span *ngIf="auditLoading" class="spinner-border spinner-border-sm me-1"></span>
+      {{ audit ? "Refresh audit trail" : "View audit trail" }}
+    </button>
+    <div *ngIf="audit" class="mt-3 small">
+      <div class="mb-2">
+        <strong>Request</strong> {{ audit.request.id }} —
+        <span class="badge" [ngClass]="audit.request.status === 'COMPLETED' ? 'bg-success' : 'bg-warning'">{{ audit.request.status }}</span>
+      </div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>Leg</th><th>Account</th><th>Type</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let leg of audit.legs">
+            <td>{{ leg.id }}</td>
+            <td>{{ leg.bankAccountId }}</td>
+            <td>{{ leg.type }}</td>
+            <td>{{ leg.amount | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary mt-3" (click)="details.close()">Done</button>
+</dialog>

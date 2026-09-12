@@ -1,307 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { AdminCustomerService } from '../../services/customer.service';
-import { User } from '../../../auth/models/auth.model';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule, ActivatedRoute, Router } from "@angular/router";
+import { AdminCustomerService } from "../../services/customer.service";
+import { User } from "../../../auth/models/auth.model";
 
 @Component({
-  selector: 'app-admin-customer-details',
+  selector: "app-admin-customer-details",
   standalone: true,
   imports: [CommonModule, RouterModule],
-  template: `
-    <div class="container-fluid mt-4">
-      <div class="row">
-        <div class="col-12">
-          <!-- Header -->
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-              <h1 class="h3 mb-0">Customer Details</h1>
-              <p class="text-muted mb-0">
-                View and manage customer information
-              </p>
-            </div>
-            <div class="d-flex gap-2">
-              <button
-                class="btn btn-outline-secondary"
-                routerLink="/admin/customers"
-              >
-                <i class="bi bi-arrow-left me-2"></i>Back to Customers
-              </button>
-              @if (customer) {
-              <button
-                class="btn btn-primary me-2"
-                [routerLink]="['/admin/customers', customer.id, 'edit']"
-              >
-                <i class="bi bi-pencil me-2"></i>Edit Customer
-              </button>
-              <button
-                class="btn me-2"
-                [class]="customer.enabled ? 'btn-warning' : 'btn-success'"
-                (click)="toggleCustomerStatus()"
-              >
-                <i
-                  class="bi"
-                  [class]="
-                    customer.enabled ? 'bi-pause-circle' : 'bi-play-circle'
-                  "
-                ></i>
-                {{ customer.enabled ? ' Suspend' : ' Activate' }}
-              </button>
-              <button class="btn btn-danger" (click)="deleteCustomer()">
-                <i class="bi bi-trash me-2"></i>Delete Customer
-              </button>
-              }
-            </div>
-          </div>
-
-          <!-- Error Alert -->
-          @if (error) {
-          <div
-            class="alert alert-danger alert-dismissible fade show"
-            role="alert"
-          >
-            {{ error }}
-            <button
-              type="button"
-              class="btn-close"
-              (click)="error = null"
-            ></button>
-          </div>
-          }
-
-          <!-- Loading Spinner -->
-          @if (loading) {
-          <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-3 text-muted">Loading customer details...</p>
-          </div>
-          }
-
-          <!-- Customer Details -->
-          @if (customer && !loading) {
-          <div class="row">
-            <!-- Customer Information Card -->
-            <div class="col-lg-8 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">Customer Information</h5>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Username</label>
-                      <p class="fw-semibold">{{ customer.username }}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Email</label>
-                      <p class="fw-semibold">{{ customer.email }}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Full Name</label>
-                      <p class="fw-semibold">
-                        {{ customer.firstName }} {{ customer.lastName }}
-                      </p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Role</label>
-                      <span class="badge bg-info">{{ customer.role }}</span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Status</label>
-                      <span
-                        class="badge"
-                        [class]="getStatusBadge(customer.status)"
-                      >
-                        {{ customer.status }}
-                      </span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label text-muted">Created Date</label>
-                      <p class="fw-semibold">
-                        {{ customer.createdAt | date : 'medium' }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Quick Stats Card -->
-            <div class="col-lg-4 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">Quick Stats</h5>
-                </div>
-                <div class="card-body">
-                  <div class="mb-3">
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                      <span class="text-muted">Total Accounts</span>
-                      <span class="badge bg-primary">{{
-                        customer.accountCount || 0
-                      }}</span>
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                      <span class="text-muted">Total Balance</span>
-                      <span class="fw-bold text-success">{{
-                        customer.totalBalance | currency
-                      }}</span>
-                    </div>
-                  </div>
-                  <hr />
-                  <div class="d-grid gap-2">
-                    <button
-                      class="btn btn-outline-primary btn-sm"
-                      routerLink="/admin/accounts"
-                      [queryParams]="{ customerId: customer.id }"
-                    >
-                      <i class="bi bi-credit-card me-2"></i>View Accounts
-                    </button>
-                    <button
-                      class="btn btn-outline-info btn-sm"
-                      routerLink="/admin/transactions"
-                      [queryParams]="{ customerId: customer.id }"
-                    >
-                      <i class="bi bi-clock-history me-2"></i>Transaction
-                      History
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Account Information -->
-          <div class="row">
-            <div class="col-12">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <h5 class="card-title mb-0">Bank Accounts</h5>
-                    <button
-                      class="btn btn-primary btn-sm"
-                      routerLink="/admin/accounts/new"
-                      [queryParams]="{ customerId: customer.id }"
-                    >
-                      <i class="bi bi-plus-circle me-2"></i>Add Account
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  @if (accounts && accounts.length > 0) {
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead class="table-light">
-                        <tr>
-                          <th>Account ID</th>
-                          <th>Type</th>
-                          <th>Balance</th>
-                          <th>Status</th>
-                          <th>Created</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let account of accounts">
-                          <td class="font-monospace">{{ account.id }}</td>
-                          <td>
-                            <span
-                              class="badge"
-                              [class]="getAccountTypeBadge(account.type)"
-                              >{{ account.type }}</span
-                            >
-                          </td>
-                          <td class="fw-semibold">
-                            {{ account.balance | currency }}
-                          </td>
-                          <td>
-                            <span
-                              class="badge"
-                              [class]="getAccountStatusBadge(account.status)"
-                              >{{ account.status }}</span
-                            >
-                          </td>
-                          <td>{{ account.createdDate | date : 'short' }}</td>
-                          <td>
-                            <div class="btn-group btn-group-sm">
-                              <button
-                                class="btn btn-outline-primary"
-                                [routerLink]="['/admin/accounts', account.id]"
-                                title="View Details"
-                              >
-                                <i class="bi bi-eye"></i>
-                              </button>
-                              <button
-                                class="btn btn-outline-secondary"
-                                (click)="editAccount(account)"
-                                title="Edit"
-                              >
-                                <i class="bi bi-pencil"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  } @else {
-                  <div class="text-center py-4">
-                    <i
-                      class="bi bi-credit-card text-muted"
-                      style="font-size: 3rem;"
-                    ></i>
-                    <p class="text-muted mt-3">
-                      No bank accounts found for this customer.
-                    </p>
-                    <button
-                      class="btn btn-primary"
-                      routerLink="/admin/accounts/new"
-                      [queryParams]="{ customerId: customer.id }"
-                    >
-                      <i class="bi bi-plus-circle me-2"></i>Create First Account
-                    </button>
-                  </div>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-          }
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      .card {
-        border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-      }
-
-      .form-label {
-        font-weight: 500;
-        font-size: 0.875rem;
-        margin-bottom: 0.25rem;
-      }
-
-      .btn {
-        border-radius: 0.375rem;
-      }
-
-      .badge {
-        font-size: 0.75rem;
-      }
-    `,
-  ],
+  templateUrl: "./customer-details.component.html",
+  styleUrl: "./customer-details.component.css",
 })
 export class AdminCustomerDetailsComponent implements OnInit {
   customer: User | null = null;
@@ -313,7 +21,7 @@ export class AdminCustomerDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private customerService: AdminCustomerService
+    private customerService: AdminCustomerService,
   ) {}
 
   ngOnInit(): void {
@@ -321,9 +29,9 @@ export class AdminCustomerDetailsComponent implements OnInit {
   }
 
   private loadCustomerDetails(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get("id");
     if (!id) {
-      this.error = 'Invalid customer ID';
+      this.error = "Invalid customer ID";
       return;
     }
 
@@ -331,11 +39,11 @@ export class AdminCustomerDetailsComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    console.log('Loading customer details for ID:', this.customerId);
+    console.log("Loading customer details for ID:", this.customerId);
 
     this.customerService.getCustomerById(this.customerId).subscribe({
       next: (customer) => {
-        console.log('Customer details loaded successfully:', customer);
+        console.log("Customer details loaded successfully:", customer);
         this.customer = {
           ...customer,
           accountCount: 0,
@@ -344,23 +52,22 @@ export class AdminCustomerDetailsComponent implements OnInit {
         this.loadCustomerAccounts();
       },
       error: (err) => {
-        console.error('Error loading customer details:', err);
+        console.error("Error loading customer details:", err);
 
-        // Enhanced error handling
-        let errorMessage = 'Failed to load customer details';
+        let errorMessage = "Failed to load customer details";
 
         if (err.status === 0) {
           errorMessage =
-            'Unable to connect to server. Please check your connection.';
+            "Unable to connect to server. Please check your connection.";
         } else if (err.status === 404) {
-          errorMessage = 'Customer not found.';
+          errorMessage = "Customer not found.";
         } else if (err.status === 403) {
-          errorMessage = 'You do not have permission to view this customer.';
+          errorMessage = "You do not have permission to view this customer.";
         } else if (err.status === 500) {
-          errorMessage = 'Server error. Please try again later.';
-        } else if (err.message && err.message.includes('parsing')) {
+          errorMessage = "Server error. Please try again later.";
+        } else if (err.message && err.message.includes("parsing")) {
           errorMessage =
-            'Server returned invalid data. The customer service will attempt to fix this automatically.';
+            "Server returned invalid data. The customer service will attempt to fix this automatically.";
         }
 
         this.error = errorMessage;
@@ -379,13 +86,13 @@ export class AdminCustomerDetailsComponent implements OnInit {
           this.customer.accountCount = accounts.length;
           this.customer.totalBalance = accounts.reduce(
             (sum, account) => sum + (account.balance || 0),
-            0
+            0,
           );
         }
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading customer accounts:', err);
+        console.error("Error loading customer accounts:", err);
         this.accounts = [];
         this.loading = false;
       },
@@ -396,28 +103,28 @@ export class AdminCustomerDetailsComponent implements OnInit {
     if (!this.customer || !this.customerId) return;
 
     const customerName =
-      `${this.customer.firstName || ''} ${
-        this.customer.lastName || ''
+      `${this.customer.firstName || ""} ${
+        this.customer.lastName || ""
       }`.trim() || this.customer.username;
 
     if (
       confirm(
-        `Are you sure you want to delete customer "${customerName}"? This action cannot be undone.`
+        `Are you sure you want to delete customer "${customerName}"? This action cannot be undone.`,
       )
     ) {
       this.customerService.deleteCustomer(this.customerId).subscribe({
         next: () => {
-          alert('Customer deleted successfully');
-          this.router.navigate(['/admin/customers']);
+          alert("Customer deleted successfully");
+          this.router.navigate(["/admin/customers"]);
         },
         error: (err) => {
-          console.error('Error deleting customer:', err);
+          console.error("Error deleting customer:", err);
           if (err.status === 400) {
             alert(
-              'Cannot delete customer with existing accounts. Please close all accounts first.'
+              "Cannot delete customer with existing accounts. Please close all accounts first.",
             );
           } else {
-            alert('Failed to delete customer. Please try again.');
+            alert("Failed to delete customer. Please try again.");
           }
         },
       });
@@ -437,28 +144,26 @@ export class AdminCustomerDetailsComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.error('Error updating customer status:', err);
-          console.error('Error details:', {
+          console.error("Error updating customer status:", err);
+          console.error("Error details:", {
             status: err.status,
             statusText: err.statusText,
             url: err.url,
             error: err.error,
           });
 
-          // Log validation errors specifically
           if (err.error && err.error.errors) {
-            console.error('Validation errors:', err.error.errors);
+            console.error("Validation errors:", err.error.errors);
           }
 
           let errorMessage =
-            'Failed to update customer status. Please try again.';
+            "Failed to update customer status. Please try again.";
 
           if (err.status === 0) {
             errorMessage =
-              'Connection error. The backend server may not be running or there may be a CORS issue. Please check the server status.';
+              "Connection error. The backend server may not be running or there may be a CORS issue. Please check the server status.";
           } else if (err.status === 400) {
             if (err.error && err.error.errors) {
-              // Format validation errors
               const validationErrors = err.error.errors;
               let errorMessages: string[] = [];
 
@@ -467,37 +172,37 @@ export class AdminCustomerDetailsComponent implements OnInit {
                 if (Array.isArray(fieldErrors)) {
                   fieldErrors.forEach((error) => {
                     errorMessages.push(
-                      `• ${this.formatFieldName(field)}: ${error}`
+                      `• ${this.formatFieldName(field)}: ${error}`,
                     );
                   });
                 } else {
                   errorMessages.push(
-                    `• ${this.formatFieldName(field)}: ${fieldErrors}`
+                    `• ${this.formatFieldName(field)}: ${fieldErrors}`,
                   );
                 }
               });
 
               if (errorMessages.length > 0) {
                 errorMessage = `Validation errors:\n${errorMessages.join(
-                  '\n'
+                  "\n",
                 )}`;
               } else {
                 errorMessage =
                   err.error.message ||
-                  'Invalid request. Please check the customer data.';
+                  "Invalid request. Please check the customer data.";
               }
             } else if (err.error && err.error.message) {
               errorMessage = `Bad request: ${err.error.message}`;
             } else {
-              errorMessage = 'Invalid request. Please check the customer data.';
+              errorMessage = "Invalid request. Please check the customer data.";
             }
           } else if (err.status === 403) {
             errorMessage =
-              'You do not have permission to update customer status.';
+              "You do not have permission to update customer status.";
           } else if (err.status === 404) {
-            errorMessage = 'Customer not found.';
+            errorMessage = "Customer not found.";
           } else if (err.status === 500) {
-            errorMessage = 'Server error. Please try again later.';
+            errorMessage = "Server error. Please try again later.";
           }
 
           alert(errorMessage);
@@ -505,53 +210,58 @@ export class AdminCustomerDetailsComponent implements OnInit {
       });
   }
 
+  getFullName(customer: User): string {
+    const first = (customer.firstName || "").trim();
+    const last = (customer.lastName || "").trim();
+    if (first || last) return `${first} ${last}`.trim();
+    return (customer as { name?: string }).name || "Not provided";
+  }
+
   getStatusBadge(status: string): string {
     switch (status?.toUpperCase()) {
-      case 'ACTIVE':
-        return 'bg-success';
-      case 'SUSPENDED':
-        return 'bg-warning';
-      case 'INACTIVE':
-        return 'bg-secondary';
+      case "ACTIVE":
+        return "bg-success";
+      case "SUSPENDED":
+        return "bg-warning";
+      case "INACTIVE":
+        return "bg-secondary";
       default:
-        return 'bg-secondary';
+        return "bg-secondary";
     }
   }
 
   getAccountTypeBadge(type: string): string {
     switch (type?.toUpperCase()) {
-      case 'CURRENT':
-        return 'bg-primary';
-      case 'SAVING':
-        return 'bg-success';
+      case "CURRENT":
+        return "bg-primary";
+      case "SAVING":
+        return "bg-success";
       default:
-        return 'bg-secondary';
+        return "bg-secondary";
     }
   }
 
   getAccountStatusBadge(status: string): string {
     switch (status?.toUpperCase()) {
-      case 'CREATED':
-      case 'ACTIVE':
-        return 'bg-success';
-      case 'SUSPENDED':
-        return 'bg-warning';
-      case 'CLOSED':
-        return 'bg-danger';
+      case "CREATED":
+      case "ACTIVE":
+        return "bg-success";
+      case "SUSPENDED":
+        return "bg-warning";
+      case "CLOSED":
+        return "bg-danger";
       default:
-        return 'bg-secondary';
+        return "bg-secondary";
     }
   }
 
   editAccount(account: any): void {
-    // Navigate to account edit page (if it exists) or show edit modal
-    this.router.navigate(['/admin/accounts', account.id, 'edit']);
+    this.router.navigate(["/admin/accounts", account.id, "edit"]);
   }
 
   private formatFieldName(field: string): string {
-    // Convert camelCase to readable format
     return field
-      .replace(/([A-Z])/g, ' $1')
+      .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase())
       .trim();
   }

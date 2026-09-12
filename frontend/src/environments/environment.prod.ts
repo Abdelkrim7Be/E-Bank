@@ -1,45 +1,45 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8085/api', // Update this for production deployment
+  testCredentials: { customers: [] as { username: string; password: string }[] },
+  apiUrl: "/api",
   useMockApi: false,
-  appName: 'Digital Banking',
-  version: '1.0.0',
-  tokenKey: 'digital-banking-token',
-  // Backend endpoint configuration matching TODO.md specifications
+  appName: "E-Bank",
+  version: "1.0.0",
+  cloudinary: { cloudName: "", uploadPreset: "" },
+  tokenKey: "digital-banking-token",
   endpoints: {
-    // Public endpoints
     auth: {
-      login: '/auth/login',
-      register: '/auth/register',
-      refresh: '/auth/refresh',
-      changePassword: '/auth/change-password',
-      profile: '/auth/profile',
+      login: "/auth/login",
+      register: "/auth/register",
+      refresh: "/auth/refresh",
+      changePassword: "/auth/change-password",
+      profile: "/auth/profile",
     },
-    // Admin only endpoints
     admin: {
-      users: '/admin/users',
-      customers: '/admin/customers',
-      usersByRole: '/admin/users/role',
-      userStatus: '/admin/users',
-      dashboard: '/admin/dashboard',
+      users: "/admin/users",
+      accounts: "/admin/accounts",
+      customers: "/admin/customers",
+      usersByRole: "/admin/users/role",
+      userStatus: "/admin/users",
+      dashboard: "/admin/dashboard",
     },
-    // Customer endpoints
     customer: {
-      accounts: '/customer/accounts',
-      transactions: '/customer/transactions',
-      dashboard: '/customer/dashboard',
+      accounts: "/customer/accounts",
+      transactions: "/customer/transactions",
+      dashboard: "/customer/dashboard",
     },
-    // Admin + Customer endpoints
-    customers: '/customers',
-    accounts: '/accounts',
-    transactions: '/transactions',
-    dashboard: '/dashboard',
-    // Banking operations
+    customers: "/customers",
+    accounts: "/accounts",
+    transactions: "/transactions",
+    dashboard: "/dashboard",
     operations: {
-      debit: '/accounts',
-      credit: '/accounts',
-      transfer: '/accounts',
-      history: '/accounts',
+      debit: "/accounts",
+      credit: "/accounts",
+      transfer: "/accounts",
+      history: "/accounts",
+    },
+    reports: {
+      reconciliation: "/reports/reconciliation",
     },
   },
 };

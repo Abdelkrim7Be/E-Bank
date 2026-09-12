@@ -1,0 +1,216 @@
+<div class="customer-account-form">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="h4 mb-1">Open New Account</h2>
+          <p class="text-muted mb-0">Create a new bank account</p>
+        </div>
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+          <i class="bi bi-arrow-left me-2"></i>Back
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage }}
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-plus-circle me-2"></i>
+                Account Information
+              </h5>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <label for="accountType" class="form-label"
+                    >Account Type</label
+                  >
+                  <select
+                    class="form-select"
+                    id="accountType"
+                    formControlName="accountType"
+                    [class.is-invalid]="
+                      accountType?.invalid && accountType?.touched
+                    "
+                  >
+                    <option value="">Choose account type...</option>
+                    <option value="CURRENT">Checking Account</option>
+                    <option value="SAVING">Savings Account</option>
+                  </select>
+                  <div
+                    *ngIf="accountType?.invalid && accountType?.touched"
+                    class="invalid-feedback"
+                  >
+                    Please select an account type.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="initialBalance" class="form-label"
+                    >Initial Balance</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="initialBalance"
+                      formControlName="initialBalance"
+                      placeholder="0.00"
+                      step="0.01"
+                      min="0"
+                      [class.is-invalid]="
+                        initialBalance?.invalid && initialBalance?.touched
+                      "
+                    />
+                  </div>
+                  <div
+                    *ngIf="initialBalance?.invalid && initialBalance?.touched"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="initialBalance?.errors?.['required']">
+                      Initial balance is required.
+                    </div>
+                    <div *ngIf="initialBalance?.errors?.['min']">
+                      Initial balance must be at least $0.00.
+                    </div>
+                  </div>
+                  <div class="form-text">Minimum initial balance: $0.00</div>
+                </div>
+
+                <div class="mb-3" *ngIf="accountType?.value === 'CURRENT'">
+                  <label for="overdraft" class="form-label"
+                    >Overdraft Limit</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="overdraft"
+                      formControlName="overdraft"
+                      placeholder="0.00"
+                      step="0.01"
+                      min="0"
+                      [class.is-invalid]="
+                        overdraft?.invalid && overdraft?.touched
+                      "
+                    />
+                  </div>
+                  <div
+                    *ngIf="overdraft?.invalid && overdraft?.touched"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="overdraft?.errors?.['min']">
+                      Overdraft limit must be at least $0.00.
+                    </div>
+                  </div>
+                  <div class="form-text">
+                    Optional overdraft protection for checking accounts
+                  </div>
+                </div>
+
+                <div class="mb-3" *ngIf="accountType?.value === 'SAVING'">
+                  <label for="interestRate" class="form-label"
+                    >Interest Rate (%)</label
+                  >
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="interestRate"
+                      formControlName="interestRate"
+                      placeholder="2.5"
+                      step="0.01"
+                      min="0"
+                      max="10"
+                      [class.is-invalid]="
+                        interestRate?.invalid && interestRate?.touched
+                      "
+                    />
+                    <span class="input-group-text">%</span>
+                  </div>
+                  <div
+                    *ngIf="interestRate?.invalid && interestRate?.touched"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="interestRate?.errors?.['min']">
+                      Interest rate must be at least 0%.
+                    </div>
+                    <div *ngIf="interestRate?.errors?.['max']">
+                      Interest rate cannot exceed 10%.
+                    </div>
+                  </div>
+                  <div class="form-text">
+                    Annual interest rate for savings accounts (0% - 10%)
+                  </div>
+                </div>
+
+                <div class="card bg-light mb-4" *ngIf="accountForm.valid">
+                  <div class="card-body">
+                    <h6 class="card-title">Account Summary</h6>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <strong>Account Type:</strong>
+                        {{ getAccountTypeDisplay() }}<br />
+                        <strong>Initial Balance:</strong>
+                        {{
+                          initialBalance?.value
+                            | currency : 'USD' : 'symbol' : '1.2-2'
+                        }}<br />
+                      </div>
+                      <div class="col-md-6">
+                        <div *ngIf="accountType?.value === 'CURRENT'">
+                          <strong>Overdraft Limit:</strong>
+                          {{
+                            overdraft?.value
+                              | currency : 'USD' : 'symbol' : '1.2-2'
+                          }}
+                        </div>
+                        <div *ngIf="accountType?.value === 'SAVING'">
+                          <strong>Interest Rate:</strong>
+                          {{ interestRate?.value }}% per year
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary me-md-2"
+                    (click)="goBack()"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="accountForm.invalid || loading"
+                  >
+                    <span
+                      *ngIf="loading"
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <i *ngIf="!loading" class="bi bi-plus-circle me-2"></i>
+                    {{ loading ? 'Creating...' : 'Create Account' }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

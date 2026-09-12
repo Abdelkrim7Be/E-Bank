@@ -1,0 +1,24 @@
+.card {
+        border: 1px solid var(--eb-border);
+        box-shadow: none;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--primary-red);
+        box-shadow: none;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--eb-navy);
+        border-color: var(--eb-navy);
+      }
+
+      .bg-light {
+        background-color: var(--primary-white) !important;
+      }

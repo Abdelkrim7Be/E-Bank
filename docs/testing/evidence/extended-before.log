@@ -1,0 +1,120 @@
+
+Running 7 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/extended.spec.ts:16:7 › Admin navigation links, logo, keyboard and responsive accessibility (11.0s)
+  ✓  2 [chromium] › e2e/extended.spec.ts:16:7 › Customer navigation links, logo, keyboard and responsive accessibility (10.1s)
+  ✘  3 [chromium] › e2e/extended.spec.ts:54:5 › dashboard active account count matches persisted statuses (16.6s)
+  ✘  4 [chromium] › e2e/extended.spec.ts:62:5 › admin creates a customer who can log in with the chosen password (20.3s)
+  ✓  5 [chromium] › e2e/extended.spec.ts:88:5 › withdrawal persists and invalid money commands leave balances unchanged (6.4s)
+  ✓  6 [chromium] › e2e/extended.spec.ts:119:5 › API rejects unauthenticated, admin-only and other-customer access (4.0s)
+  ✘  7 [chromium] › e2e/extended.spec.ts:134:5 › transfer description is retained in account history (2.4s)
+
+
+  1) [chromium] › e2e/extended.spec.ts:54:5 › dashboard active account count matches persisted statuses 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.summary-item').filter({ hasText: 'Active Accounts' })
+    Expected substring: "2"
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('.summary-item').filter({ hasText: 'Active Accounts' }) with timeout 15000ms
+      - waiting for locator('.summary-item').filter({ hasText: 'Active Accounts' })
+
+
+      57 |   expect(response.ok()).toBe(true);
+      58 |   const active = (await response.json()).filter((a: any) => a.status === 'ACTIVATED').length;
+    > 59 |   await expect(page.locator('.summary-item').filter({ hasText: 'Active Accounts' })).toContainText(String(active));
+         |                                                                                      ^
+      60 | });
+      61 |
+      62 | test('admin creates a customer who can log in with the chosen password', async ({ page }) => {
+        at /home/abdelkrim/Documents/Digital-Banking/frontend/e2e/extended.spec.ts:59:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/extended-dashboard-active--36613--matches-persisted-statuses-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/extended-dashboard-active--36613--matches-persisted-statuses-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/extended-dashboard-active--36613--matches-persisted-statuses-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/extended-dashboard-active--36613--matches-persisted-statuses-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e/extended.spec.ts:62:5 › admin creates a customer who can log in with the chosen password 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/customer\/dashboard$/
+    Received string:  "http://127.0.0.1:34200/auth/login"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" data-beasties-container="">…</html>
+           - unexpected value "http://127.0.0.1:34200/auth/login"
+
+
+      81 |   await page.getByLabel('Password', { exact: true }).fill('E2eChosenPassword42');
+      82 |   await page.locator('button[type="submit"]').click();
+    > 83 |   await expect(page).toHaveURL(/\/customer\/dashboard$/);
+         |                      ^
+      84 |   await page.goto('/customer/accounts');
+      85 |   await expect(page.locator('main')).toContainText(/no accounts/i);
+      86 | });
+        at /home/abdelkrim/Documents/Digital-Banking/frontend/e2e/extended.spec.ts:83:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/extended-admin-creates-a-c-e7f92-in-with-the-chosen-password-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/extended-admin-creates-a-c-e7f92-in-with-the-chosen-password-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/extended-admin-creates-a-c-e7f92-in-with-the-chosen-password-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/extended-admin-creates-a-c-e7f92-in-with-the-chosen-password-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e/extended.spec.ts:134:5 › transfer description is retained in account history ─
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      144 |   const history = await page.request.get(`/api/transactions/account/${source.id}/history?size=10`, { headers: auth });
+      145 |   expect(history.ok()).toBe(true);
+    > 146 |   expect((await history.json()).content.some((row: any) => row.description.includes(description))).toBe(true);
+          |                                                                                                    ^
+      147 | });
+      148 |
+        at /home/abdelkrim/Documents/Digital-Banking/frontend/e2e/extended.spec.ts:146:100
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/extended-transfer-description-is-retained-in-account-history-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/extended-transfer-description-is-retained-in-account-history-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/extended-transfer-description-is-retained-in-account-history-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/extended-transfer-description-is-retained-in-account-history-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › e2e/extended.spec.ts:54:5 › dashboard active account count matches persisted statuses 
+    [chromium] › e2e/extended.spec.ts:62:5 › admin creates a customer who can log in with the chosen password 
+    [chromium] › e2e/extended.spec.ts:134:5 › transfer description is retained in account history ──
+  4 passed (1.3m)

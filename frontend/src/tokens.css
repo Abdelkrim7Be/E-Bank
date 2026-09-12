@@ -1,0 +1,24 @@
+:root {
+  --eb-navy: #003b7a;
+  --eb-blue: #164fa3;
+  --eb-yellow: #ffcc00;
+  --eb-ink: #30313a;
+  --eb-muted: #62636b;
+  --eb-background: #f5f5f7;
+  --eb-border: #e1e2e7;
+  --primary-red: var(--eb-blue);
+  --primary-white: #fff;
+  --dark-gray: var(--eb-ink);
+  --light-gray: var(--eb-background);
+  --border-color: var(--eb-border);
+  --success-green: #177451;
+  --warning-yellow: #ffcc00;
+  --danger-red: #c82032;
+  --danger-orange: #b32937;
+  --bs-primary: var(--eb-blue);
+  --bs-primary-rgb: 59, 81, 213;
+  --bs-body-color: var(--eb-ink);
+  --bs-body-font-family: "Montserrat", Arial, sans-serif;
+  --bs-link-color: var(--eb-blue);
+  --bs-link-hover-color: var(--eb-navy);
+}

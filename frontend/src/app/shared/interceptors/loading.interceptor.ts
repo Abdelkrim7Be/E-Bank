@@ -9,18 +9,15 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loaderService = inject(LoaderService);
   const alertService = inject(AlertService);
 
-  // Don't show loader for certain requests if needed
   if (!req.url.includes('skip-loader')) {
     loaderService.show();
   }
 
   return next(req).pipe(
     catchError((error) => {
-      // Handle different types of errors
       let errorMessage = 'An error occurred. Please try again later.';
 
       if (error.error instanceof ErrorEvent) {
-        // Client-side error
         errorMessage = `Error: ${error.error.message}`;
       } else {
         // Server-side error

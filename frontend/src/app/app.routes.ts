@@ -1,274 +1,250 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
 import {
   AuthGuard,
   AdminGuard,
   CustomerGuard,
   GuestGuard,
-} from './auth/guards/auth.guard';
-import { UserRole } from './auth/models/auth.model';
-import { AuthDiagnosticComponent } from './debug/auth-diagnostic.component';
+} from "./auth/guards/auth.guard";
+import { UserRole } from "./auth/models/auth.model";
+import { AuthDiagnosticComponent } from "./debug/auth-diagnostic.component";
 
 export const routes: Routes = [
-  // Default redirect
+  { path: "", redirectTo: "/auth/login", pathMatch: "full" },
+  { path: "diagnostic", component: AuthDiagnosticComponent },
   {
-    path: '',
-    redirectTo: '/auth/login',
-    pathMatch: 'full',
-  },
-
-  // Diagnostic route (no guards - always accessible)
-  {
-    path: 'diagnostic',
-    component: AuthDiagnosticComponent,
-  },
-
-  // Authentication routes (for guests only)
-  {
-    path: 'auth',
+    path: "auth",
     canActivate: [GuestGuard],
     children: [
       {
-        path: 'login',
+        path: "login",
         loadComponent: () =>
-          import('./auth/components/login/login.component').then(
-            (m) => m.LoginComponent
+          import("./auth/components/login/login.component").then(
+            (m) => m.LoginComponent,
           ),
       },
       {
-        path: 'register',
+        path: "register",
         loadComponent: () =>
-          import('./auth/components/register/register.component').then(
-            (m) => m.RegisterComponent
+          import("./auth/components/register/register.component").then(
+            (m) => m.RegisterComponent,
           ),
       },
       {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full',
+        path: "",
+        redirectTo: "login",
+        pathMatch: "full",
       },
     ],
   },
 
-  // Admin routes
   {
-    path: 'admin',
+    path: "admin",
     canActivate: [AdminGuard],
     children: [
       {
-        path: 'dashboard',
+        path: "dashboard",
         loadComponent: () =>
-          import('./admin/components/dashboard/admin-dashboard.component').then(
-            (m) => m.AdminDashboardComponent
+          import("./admin/components/dashboard/admin-dashboard.component").then(
+            (m) => m.AdminDashboardComponent,
           ),
       },
       {
-        path: 'customers',
+        path: "customers",
         loadComponent: () =>
-          import('./admin/components/customers/customer-list.component').then(
-            (m) => m.CustomerListComponent
+          import("./admin/components/customers/customer-list.component").then(
+            (m) => m.CustomerListComponent,
           ),
       },
       {
-        path: 'customers/new',
+        path: "customers/new",
         loadComponent: () =>
-          import('./admin/components/customers/customer-form.component').then(
-            (m) => m.AdminCustomerFormComponent
+          import("./admin/components/customers/customer-form.component").then(
+            (m) => m.AdminCustomerFormComponent,
           ),
       },
       {
-        path: 'customers/:id/edit',
+        path: "customers/:id/edit",
         loadComponent: () =>
-          import('./admin/components/customers/customer-form.component').then(
-            (m) => m.AdminCustomerFormComponent
+          import("./admin/components/customers/customer-form.component").then(
+            (m) => m.AdminCustomerFormComponent,
           ),
       },
       {
-        path: 'customers/:id',
+        path: "customers/:id",
         loadComponent: () =>
-          import(
-            './admin/components/customers/customer-details.component'
-          ).then((m) => m.AdminCustomerDetailsComponent),
-      },
-      {
-        path: 'accounts',
-        loadComponent: () =>
-          import('./admin/components/accounts/account-list.component').then(
-            (c) => c.AdminAccountListComponent
+          import("./admin/components/customers/customer-details.component").then(
+            (m) => m.AdminCustomerDetailsComponent,
           ),
       },
       {
-        path: 'accounts/new',
+        path: "accounts",
         loadComponent: () =>
-          import('./admin/components/accounts/account-form.component').then(
-            (m) => m.AdminAccountFormComponent
+          import("./admin/components/accounts/account-list.component").then(
+            (c) => c.AdminAccountListComponent,
           ),
       },
       {
-        path: 'accounts/:id/edit',
+        path: "accounts/new",
         loadComponent: () =>
-          import('./admin/components/accounts/account-form.component').then(
-            (m) => m.AdminAccountFormComponent
+          import("./admin/components/accounts/account-form.component").then(
+            (m) => m.AdminAccountFormComponent,
           ),
       },
       {
-        path: 'accounts/:id',
+        path: "accounts/:id/edit",
         loadComponent: () =>
-          import('./admin/components/accounts/account-details.component').then(
-            (m) => m.AdminAccountDetailsComponent
+          import("./admin/components/accounts/account-form.component").then(
+            (m) => m.AdminAccountFormComponent,
           ),
       },
       {
-        path: 'transactions',
+        path: "accounts/:id",
         loadComponent: () =>
-          import(
-            './admin/components/transactions/admin-transactions.component'
-          ).then((c) => c.AdminTransactionsComponent),
-      },
-      {
-        path: 'reports',
-        loadComponent: () =>
-          import('./admin/components/reports/reports.component').then(
-            (m) => m.AdminReportsComponent
+          import("./admin/components/accounts/account-details.component").then(
+            (m) => m.AdminAccountDetailsComponent,
           ),
       },
       {
-        path: 'transfer',
+        path: "transactions",
         loadComponent: () =>
-          import('./transfer/transfer.component').then(
-            (c) => c.TransferComponent
+          import("./admin/components/transactions/admin-transactions.component").then(
+            (c) => c.AdminTransactionsComponent,
           ),
       },
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
+        path: "reports",
+        loadComponent: () =>
+          import("./admin/components/reports/reports.component").then(
+            (m) => m.AdminReportsComponent,
+          ),
+      },
+      {
+        path: "transfer",
+        loadComponent: () =>
+          import("./transfer/transfer.component").then(
+            (c) => c.TransferComponent,
+          ),
+      },
+      {
+        path: "",
+        redirectTo: "dashboard",
+        pathMatch: "full",
       },
     ],
   },
-
-  // Customer routes
   {
-    path: 'customer',
+    path: "customer",
     canActivate: [CustomerGuard],
     children: [
       {
-        path: 'dashboard',
+        path: "dashboard",
         loadComponent: () =>
-          import(
-            './customer/components/dashboard/customer-dashboard.component'
-          ).then((m) => m.CustomerDashboardComponent),
+          import("./customer/components/dashboard/customer-dashboard.component").then(
+            (m) => m.CustomerDashboardComponent,
+          ),
       },
       {
-        path: 'deposit',
+        path: "deposit",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-deposit.component'
-          ).then((c) => c.CustomerDepositComponent),
+          import("./customer/components/transactions/customer-deposit.component").then(
+            (c) => c.CustomerDepositComponent,
+          ),
       },
       {
-        path: 'deposit/:accountId',
+        path: "deposit/:accountId",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-deposit.component'
-          ).then((c) => c.CustomerDepositComponent),
+          import("./customer/components/transactions/customer-deposit.component").then(
+            (c) => c.CustomerDepositComponent,
+          ),
       },
       {
-        path: 'debit',
+        path: "debit",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-debit.component'
-          ).then((c) => c.CustomerDebitComponent),
+          import("./customer/components/transactions/customer-debit.component").then(
+            (c) => c.CustomerDebitComponent,
+          ),
       },
       {
-        path: 'debit/:accountId',
+        path: "debit/:accountId",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-debit.component'
-          ).then((c) => c.CustomerDebitComponent),
-      },
-      // Keep withdraw route for backward compatibility (redirect to debit)
-      {
-        path: 'withdraw',
-        redirectTo: 'debit',
-        pathMatch: 'full',
+          import("./customer/components/transactions/customer-debit.component").then(
+            (c) => c.CustomerDebitComponent,
+          ),
       },
       {
-        path: 'withdraw/:accountId',
-        redirectTo: 'debit/:accountId',
-        pathMatch: 'full',
+        path: "withdraw",
+        redirectTo: "debit",
+        pathMatch: "full",
       },
       {
-        path: 'accounts',
+        path: "withdraw/:accountId",
+        redirectTo: "debit/:accountId",
+        pathMatch: "full",
+      },
+      {
+        path: "accounts",
         loadComponent: () =>
-          import(
-            './customer/components/accounts/customer-accounts.component'
-          ).then((c) => c.CustomerAccountsComponent),
+          import("./customer/components/accounts/customer-accounts.component").then(
+            (c) => c.CustomerAccountsComponent,
+          ),
       },
       {
-        path: 'accounts/new',
+        path: "accounts/new",
         loadComponent: () =>
-          import(
-            './customer/components/accounts/customer-account-form.component'
-          ).then((c) => c.CustomerAccountFormComponent),
+          import("./customer/components/accounts/customer-account-form.component").then(
+            (c) => c.CustomerAccountFormComponent,
+          ),
       },
       {
-        path: 'accounts/:id',
+        path: "accounts/:id",
         loadComponent: () =>
-          import(
-            './customer/components/accounts/customer-account-details.component'
-          ).then((c) => c.CustomerAccountDetailsComponent),
+          import("./customer/components/accounts/customer-account-details.component").then(
+            (c) => c.CustomerAccountDetailsComponent,
+          ),
       },
       {
-        path: 'transaction-history',
+        path: "transaction-history",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-transactions.component'
-          ).then((c) => c.CustomerTransactionsComponent),
+          import("./customer/components/transactions/customer-transactions.component").then(
+            (c) => c.CustomerTransactionsComponent,
+          ),
       },
       {
-        path: 'transfer',
+        path: "transfer",
         loadComponent: () =>
-          import(
-            './customer/components/transactions/customer-transfer.component'
-          ).then((c) => c.CustomerTransferComponent),
+          import("./customer/components/transactions/customer-transfer.component").then(
+            (c) => c.CustomerTransferComponent,
+          ),
       },
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
+        path: "",
+        redirectTo: "dashboard",
+        pathMatch: "full",
       },
     ],
   },
 
-  // Profile routes (accessible to all authenticated users)
   {
-    path: 'profile',
+    path: "profile",
     canActivate: [AuthGuard],
     loadComponent: () =>
-      import('./shared/components/profile/profile.component').then(
-        (m) => m.ProfileComponent
+      import("./shared/components/profile/profile.component").then(
+        (m) => m.ProfileComponent,
       ),
   },
-
-  // Error pages
   {
-    path: 'unauthorized',
+    path: "unauthorized",
     loadComponent: () =>
-      import('./shared/components/error/unauthorized.component').then(
-        (m) => m.UnauthorizedComponent
+      import("./shared/components/error/unauthorized.component").then(
+        (m) => m.UnauthorizedComponent,
       ),
   },
   {
-    path: 'not-found',
+    path: "not-found",
     loadComponent: () =>
-      import('./core/not-found/not-found.component').then(
-        (m) => m.NotFoundComponent
+      import("./core/not-found/not-found.component").then(
+        (m) => m.NotFoundComponent,
       ),
   },
-
-  // Wildcard route - must be last
-  {
-    path: '**',
-    redirectTo: '/not-found',
-  },
+  { path: "**", redirectTo: "/not-found" },
 ];

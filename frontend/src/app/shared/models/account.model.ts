@@ -14,14 +14,12 @@ export interface Account {
   interestRate?: number;
   overdraftLimit?: number;
   overDraft?: number; // Backend field name for current accounts
-  // Additional fields to match Spring Boot entity
   createdBy?: string;
   lastModifiedBy?: string;
   version?: number;
   customerDTO?: any; // Backend includes customer info
 }
 
-// Type alias for backward compatibility
 export type BankAccount = Account;
 
 export interface CreateAccountDto {
@@ -75,6 +73,7 @@ export interface Transaction {
   toAccountId?: string | number;
   fromAccountNumber?: string;
   toAccountNumber?: string;
+  requestId?: string;
 }
 
 export interface CreateTransactionDto {

@@ -1,27 +1,283 @@
-services:
-  digital-banking-backend:
-    build: ./backend
-    container_name: digital-banking-backend
-    ports:
-      - "8085:8085"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    restart: unless-stopped
-    networks:
-      - digital-banking-network
 
-  digital-banking-frontend:
-    build: ./frontend
-    container_name: digital-banking-frontend
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
     ports:
-      - "4200:80"
-    depends_on:
-      - digital-banking-backend
-    restart: unless-stopped
+      - "127.0.0.1:${ZOOKEEPER_PORT:-22181}:2181"
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - digital-banking-network
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "echo srvr | nc localhost 2181 | grep Mode"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    ports:
+      - "127.0.0.1:${KAFKA_PORT:-29092}:29092"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:${KAFKA_PORT:-29092}
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  discovery-service:
+    build:
+      context: ./microservices
+      dockerfile: discovery-service/Dockerfile
+    ports:
+      - "127.0.0.1:${DISCOVERY_PORT:-18761}:8761"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8761/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  gateway-service:
+    build:
+      context: ./microservices
+      dockerfile: gateway-service/Dockerfile
+    ports:
+      - "127.0.0.1:${GATEWAY_PORT:-18080}:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: kafka
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration,org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
+      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_ORIGINS: http://localhost:4200,http://localhost
+      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS
+      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOWED_HEADERS: "*"
+      SPRING_CLOUD_GATEWAY_GLOBALCORS_CORS_CONFIGURATIONS_[/**]_ALLOW_CREDENTIALS: "true"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  customer-service:
+    build:
+      context: ./microservices
+      dockerfile: customer-service/Dockerfile
+    ports:
+      - "127.0.0.1:${CUSTOMER_PORT:-18081}:8081"
+    volumes:
+      - customer-data:/app/data
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/customerdb;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: kafka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  account-service:
+    build:
+      context: ./microservices
+      dockerfile: account-service/Dockerfile
+    ports:
+      - "127.0.0.1:${ACCOUNT_PORT:-18082}:8082"
+    volumes:
+      - account-data:/app/data
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/accountdb;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: kafka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      customer-service:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8082/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  transaction-service:
+    build:
+      context: ./microservices
+      dockerfile: transaction-service/Dockerfile
+    ports:
+      - "127.0.0.1:${TRANSACTION_PORT:-18083}:8083"
+    volumes:
+      - transaction-data:/app/data
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/transactiondb;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: kafka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8083/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  reporting-service:
+    build:
+      context: ./microservices
+      dockerfile: reporting-service/Dockerfile
+    ports:
+      - "127.0.0.1:${REPORTING_PORT:-18084}:8084"
+    volumes:
+      - reporting-data:/app/data
+    environment:
+      REPORTING_DATABASE_URL: jdbc:h2:file:/app/data/reportingdb;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_PROFILES_ACTIVE: kafka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_ENABLED: "true"
+      APP_DEMO_ENABLED: "${APP_DEMO_ENABLED:-true}"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8084/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-4200}:80"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+      customer-service:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
+      transaction-service:
+        condition: service_healthy
+      reporting-service:
+        condition: service_healthy
+    networks:
+      - banking-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    ports:
+      - "127.0.0.1:${KAFKA_UI_PORT:-19090}:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: digital-banking
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: "true"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - banking-net
 
 networks:
-  digital-banking-network:
+  banking-net:
     driver: bridge
 
+volumes:
+  customer-data:
+  account-data:
+  transaction-data:
+  kafka-data:
+  zookeeper-data:
+  reporting-data:

@@ -1,5 +1,4 @@
 export const MOCK_DATA = {
-  // User accounts
   '/api/accounts': [
     {
       id: 1,
@@ -21,7 +20,6 @@ export const MOCK_DATA = {
     },
   ],
 
-  // User profile
   '/api/users/current': {
     id: 101,
     username: 'johndoe',
@@ -33,7 +31,6 @@ export const MOCK_DATA = {
     createdDate: '2023-01-10T09:15:00',
   },
 
-  // Transactions
   '/api/transactions': [
     {
       id: 1001,
@@ -64,7 +61,6 @@ export const MOCK_DATA = {
     },
   ],
 
-  // Transfer money endpoint
   '/api/transactions/transfer': {
     id: 1004,
     amount: 100.0,

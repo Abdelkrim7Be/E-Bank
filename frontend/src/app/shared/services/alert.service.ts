@@ -18,12 +18,10 @@ export class AlertService {
   private subject = new Subject<Alert>();
   private defaultId = 'default-alert';
 
-  // Enable subscribing to alerts observable
   onAlert(id = this.defaultId): Observable<Alert> {
     return this.subject.asObservable().pipe(filter((x) => x && x.id === id));
   }
 
-  // Convenience methods
   success(message: string, options?: Partial<Alert>): void {
     this.alert({ type: 'success', message, ...options });
   }
@@ -40,7 +38,6 @@ export class AlertService {
     this.alert({ type: 'warning', message, ...options });
   }
 
-  // Main alert method
   alert(alert: Partial<Alert>): void {
     alert.id = alert.id || this.defaultId;
     alert.autoClose = alert.autoClose === undefined ? true : alert.autoClose;
@@ -50,7 +47,6 @@ export class AlertService {
     this.subject.next(alert as Alert);
   }
 
-  // Clear alerts
   clear(id = this.defaultId): void {
     this.subject.next({ id } as Alert);
   }

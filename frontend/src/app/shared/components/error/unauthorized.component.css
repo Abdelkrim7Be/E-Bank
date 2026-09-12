@@ -1,0 +1,91 @@
+.error-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: var(--eb-navy);
+        padding: 2rem 0;
+      }
+
+      .error-content {
+        padding: 3rem 2rem;
+        background: white;
+        border-radius: 6px;
+        box-shadow: none;
+      }
+
+      .error-icon {
+        font-size: 6rem;
+        color: var(--danger-red);
+      }
+
+      .error-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .error-subtitle {
+        font-size: 1.5rem;
+        color: var(--danger-red);
+        margin-bottom: 1.5rem;
+      }
+
+      .error-description {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .error-actions .btn {
+        margin-bottom: 0.5rem;
+      }
+
+      .help-section {
+        border-top: 1px solid var(--border-color);
+        padding-top: 2rem;
+      }
+
+      .help-section h5 {
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+      }
+
+      .contact-info .btn-link {
+        color: var(--primary-red);
+        text-decoration: none;
+      }
+
+      .contact-info .btn-link:hover {
+        color: var(--eb-navy);
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .error-page {
+          padding: 1rem;
+        }
+
+        .error-content {
+          padding: 2rem 1rem;
+        }
+
+        .error-title {
+          font-size: 2rem;
+        }
+
+        .error-subtitle {
+          font-size: 1.25rem;
+        }
+
+        .error-icon {
+          font-size: 4rem;
+        }
+
+        .error-actions .btn {
+          display: block;
+          width: 100%;
+          margin-bottom: 0.75rem;
+        }
+      }

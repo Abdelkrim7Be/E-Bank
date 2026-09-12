@@ -1,0 +1,23 @@
+
+.customer-dashboard { padding: 0; }
+.welcome-section { padding: 0 0 24px; border-bottom: 0; }
+.account-card { border: 1px solid var(--eb-border); }
+.balance-amount { color: var(--eb-navy); font-weight: 600; font-size: 32px; letter-spacing: -1px; }
+.transaction-icon { width: 36px; height: 36px; display: grid; place-items: center; background: var(--eb-background); border-radius: 4px; color: var(--eb-blue); }
+.transaction-icon.deposit { color: var(--success-green); }
+.transaction-icon.withdrawal { color: var(--danger-red); }
+.stat-item { padding: 8px 0; }
+.quick-actions .btn { display: flex; align-items: center; gap: 12px; min-height: 60px; text-align: left; }
+.quick-action-card { border: 1px solid var(--eb-border); border-radius: 999px; }
+.quick-action-card i { font-size: 24px !important; }
+@media(max-width: 767px) { .welcome-section .header-actions { justify-content: flex-start !important; } }
+
+.transaction-item { border-bottom: 1px solid var(--eb-border); }
+.transaction-item > div { padding: 20px 24px !important; border-bottom: 0 !important; gap: 10px; }
+.transaction-item .flex-grow-1 { min-width: 0; overflow-wrap: anywhere; }
+.transaction-item .text-end { flex-shrink: 0; }
+.transaction-item:last-child { border-bottom: 0; }
+.account-card .card-title { color: var(--eb-navy) !important; font-weight: 600; }
+.balance-section { padding: 20px 0 10px; }
+
+.activity-chart { position: relative; height: 300px; width: 100%; }

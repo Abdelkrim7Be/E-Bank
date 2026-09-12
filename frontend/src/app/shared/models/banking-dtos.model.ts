@@ -1,9 +1,4 @@
-/**
- * Data Transfer Objects (DTOs) matching the Spring Boot backend
- * Based on TODO.md specifications
- */
 
-// Authentication DTOs
 export interface LoginRequest {
   username: string;
   password: string;
@@ -13,7 +8,7 @@ export interface RegisterRequest {
   username: string;
   email: string;
   password: string;
-  role: 'ADMIN' | 'CUSTOMER';
+  role: "ADMIN" | "CUSTOMER";
   name?: string;
   phone?: string;
 }
@@ -26,7 +21,6 @@ export interface AuthResponse {
   message?: string;
 }
 
-// Core Business DTOs
 export interface CustomerDTO {
   id?: number;
   name: string;
@@ -41,9 +35,9 @@ export interface BankAccountDTO {
   id: string;
   balance: number;
   createDate: Date;
-  status: 'CREATED' | 'ACTIVATED' | 'SUSPENDED' | 'BLOCKED';
+  status: "CREATED" | "ACTIVATED" | "SUSPENDED" | "BLOCKED";
   customer: CustomerDTO;
-  type: 'CURRENT' | 'SAVING';
+  type: "CURRENT" | "SAVING";
   customerUsername?: string; // Added for dropdown selection
   customerName?: string; // Added for better display
 }
@@ -61,10 +55,9 @@ export interface AccountOperationDTO {
   operationDate: Date;
   amount: number;
   description: string;
-  type: 'CREDIT' | 'DEBIT';
+  type: "CREDIT" | "DEBIT";
 }
 
-// Banking Operation Request DTOs
 export interface DebitRequest {
   amount: number;
   description: string;
@@ -75,18 +68,16 @@ export interface CreditRequest {
   description: string;
 }
 
-// Account Selection DTO for dropdowns
 export interface AccountSelectionDTO {
   accountId: string;
   customerUsername: string;
   customerName: string;
   accountType: string;
   balance: number;
-  status: 'CREATED' | 'ACTIVATED' | 'SUSPENDED' | 'BLOCKED';
+  status: "CREATED" | "ACTIVATED" | "SUSPENDED" | "BLOCKED";
   displayText?: string; // Computed display format
 }
 
-// Transfer Request DTO
 export interface TransferRequestDTO {
   sourceAccountId: string;
   destinationAccountId: string;
@@ -95,12 +86,12 @@ export interface TransferRequestDTO {
 }
 
 export interface TransferRequest {
+  sourceAccountId: string;
+  destinationAccountId: string;
   amount: number;
   description: string;
-  destinationAccountId: string;
 }
 
-// Dashboard DTOs
 export interface BankingStatsDTO {
   totalCustomers: number;
   totalAccounts: number;
@@ -125,12 +116,11 @@ export interface CustomersSummaryDTO {
   customersWithAccounts: number;
 }
 
-// Pagination DTOs
 export interface PageRequest {
   page: number;
   size: number;
   sort?: string;
-  direction?: 'ASC' | 'DESC';
+  direction?: "ASC" | "DESC";
 }
 
 export interface PageResponse<T> {
@@ -144,7 +134,6 @@ export interface PageResponse<T> {
   numberOfElements: number;
 }
 
-// Search DTOs
 export interface CustomerSearchRequest {
   name?: string;
   email?: string;
@@ -155,20 +144,19 @@ export interface CustomerSearchRequest {
 
 export interface AccountSearchRequest {
   customerId?: number;
-  accountType?: 'CURRENT' | 'SAVING';
-  status?: 'CREATED' | 'ACTIVATED' | 'SUSPENDED' | 'BLOCKED';
+  accountType?: "CURRENT" | "SAVING";
+  status?: "CREATED" | "ACTIVATED" | "SUSPENDED" | "BLOCKED";
   minBalance?: number;
   maxBalance?: number;
   page?: number;
   size?: number;
 }
 
-// User Management DTOs (Admin only)
 export interface UserDTO {
   id: number;
   username: string;
   email: string;
-  role: 'ADMIN' | 'CUSTOMER';
+  role: "ADMIN" | "CUSTOMER";
   enabled: boolean;
   createdDate: Date;
   lastLoginDate?: Date;
@@ -178,7 +166,6 @@ export interface UserStatusUpdateRequest {
   enabled: boolean;
 }
 
-// Account Creation DTOs
 export interface CreateCurrentAccountRequest {
   initialBalance: number;
   overDraft: number;
@@ -191,14 +178,13 @@ export interface CreateSavingAccountRequest {
   customerId: number;
 }
 
-// Transaction History DTOs
 export interface TransactionHistoryRequest {
   accountId: string;
   page?: number;
   size?: number;
   startDate?: Date;
   endDate?: Date;
-  operationType?: 'CREDIT' | 'DEBIT';
+  operationType?: "CREDIT" | "DEBIT";
 }
 
 export interface TransactionHistoryResponse {
@@ -210,15 +196,13 @@ export interface TransactionHistoryResponse {
   currentPage: number;
 }
 
-// Health Check DTO
 export interface HealthCheckResponse {
-  status: 'UP' | 'DOWN';
-  database: 'UP' | 'DOWN';
-  diskSpace: 'UP' | 'DOWN';
+  status: "UP" | "DOWN";
+  database: "UP" | "DOWN";
+  diskSpace: "UP" | "DOWN";
   timestamp: Date;
 }
 
-// Error Response DTO
 export interface ErrorResponse {
   timestamp: Date;
   status: number;
@@ -227,27 +211,24 @@ export interface ErrorResponse {
   path: string;
 }
 
-// Export DTOs
 export interface ExportRequest {
-  format: 'CSV' | 'PDF' | 'EXCEL';
+  format: "CSV" | "PDF" | "EXCEL";
   startDate?: Date;
   endDate?: Date;
   accountId?: string;
   customerId?: number;
 }
 
-// Notification DTOs
 export interface NotificationDTO {
   id: number;
   title: string;
   message: string;
-  type: 'INFO' | 'WARNING' | 'ERROR' | 'SUCCESS';
+  type: "INFO" | "WARNING" | "ERROR" | "SUCCESS";
   read: boolean;
   createdDate: Date;
   userId: number;
 }
 
-// Dashboard Chart Data DTOs
 export interface ChartDataDTO {
   labels: string[];
   datasets: {
@@ -259,7 +240,7 @@ export interface ChartDataDTO {
 }
 
 export interface AccountDistributionDTO {
-  accountType: 'CURRENT' | 'SAVING';
+  accountType: "CURRENT" | "SAVING";
   count: number;
   percentage: number;
   totalBalance: number;
@@ -274,7 +255,6 @@ export interface MonthlyTransactionVolumeDTO {
   debitTransactions: number;
 }
 
-// Form Validation DTOs
 export interface ValidationErrorDTO {
   field: string;
   message: string;

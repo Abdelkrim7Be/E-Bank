@@ -1,0 +1,278 @@
+<div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/dashboard">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a routerLink="/accounts">Accounts</a>
+              </li>
+              <li class="breadcrumb-item active">Transfer Money</li>
+            </ol>
+          </nav>
+          <h2 class="mb-1">Transfer Money</h2>
+          <p class="text-muted mb-0">
+            Transfer funds between your accounts or to other accounts
+          </p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="bi bi-arrow-left-right me-2"></i>
+                Transfer Details
+              </h5>
+            </div>
+            <div class="card-body">
+              <app-inline-alert
+                *ngIf="successMessage"
+                type="success"
+                [message]="successMessage"
+                [dismissible]="true"
+                (dismissed)="successMessage = ''"
+              >
+              </app-inline-alert>
+
+              <app-inline-alert
+                *ngIf="errorMessage"
+                type="danger"
+                [message]="errorMessage"
+                [dismissible]="true"
+                (dismissed)="errorMessage = ''"
+              >
+              </app-inline-alert>
+
+              <p *ngIf="receiptId" role="status">Référence du virement : <strong>{{ receiptId }}</strong></p>
+<form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+<fieldset [disabled]="reviewing || loading">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="fromAccount" class="form-label"
+                      >From Account *</label
+                    >
+                    <select
+                      id="fromAccount"
+                      class="form-select"
+                      formControlName="fromAccountId"
+                      [class.is-invalid]="
+                        fromAccountId?.invalid &&
+                        (fromAccountId?.dirty || fromAccountId?.touched)
+                      "
+                    >
+                      <option value="">Select source account</option>
+                      <option
+                        *ngFor="let account of accounts"
+                        [value]="account.accountId"
+                      >
+                        {{ account.accountId }}:
+                        {{ account.customerName || account.accountId }} ({{
+                          account.accountType
+                        }}:
+                        {{
+                          account.balance
+                            | currency: "USD" : "symbol" : "1.2-2"
+                        }})
+                      </option>
+                    </select>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        fromAccountId?.invalid &&
+                        (fromAccountId?.dirty || fromAccountId?.touched)
+                      "
+                    >
+                      <div *ngIf="fromAccountId?.errors?.['required']">
+                        Please select a source account
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="toAccount" class="form-label"
+                      >To Account *</label
+                    >
+                    <select
+                      id="toAccount"
+                      class="form-select"
+                      formControlName="toAccountId"
+                      [class.is-invalid]="
+                        toAccountId?.invalid &&
+                        (toAccountId?.dirty || toAccountId?.touched)
+                      "
+                    >
+                      <option value="">Select destination account</option>
+                      <option
+                        *ngFor="let account of getAvailableToAccounts()"
+                        [value]="account.accountId"
+                      >
+                        {{ account.accountId }}:
+                        {{ account.customerName || account.accountId }} ({{
+                          account.accountType
+                        }}:
+                        {{
+                          account.balance
+                            | currency: "USD" : "symbol" : "1.2-2"
+                        }})
+                      </option>
+                    </select>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        toAccountId?.invalid &&
+                        (toAccountId?.dirty || toAccountId?.touched)
+                      "
+                    >
+                      <div *ngIf="toAccountId?.errors?.['required']">
+                        Please select a destination account
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="amount" class="form-label">Amount *</label>
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      id="amount"
+                      class="form-control"
+                      formControlName="amount"
+                      [class.is-invalid]="
+                        amount?.invalid && (amount?.dirty || amount?.touched)
+                      "
+                      placeholder="0.00"
+                      step="0.01"
+                      min="0.01"
+                    />
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      amount?.invalid && (amount?.dirty || amount?.touched)
+                    "
+                  >
+                    <div *ngIf="amount?.errors?.['required']">
+                      Amount is required
+                    </div>
+                    <div *ngIf="amount?.errors?.['min']">
+                      Amount must be greater than 0
+                    </div>
+                    <div *ngIf="amount?.errors?.['max']">
+                      Amount exceeds available balance
+                    </div>
+                  </div>
+                  <div class="form-text" *ngIf="getSelectedFromAccount()">
+                    Available balance:
+                    {{
+                      getSelectedFromAccount()?.balance
+                        | currency: "USD" : "symbol" : "1.2-2"
+                    }}
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="description" class="form-label"
+                    >Description *</label
+                  >
+                  <input
+                    type="text"
+                    id="description"
+                    class="form-control"
+                    formControlName="description"
+                    [class.is-invalid]="
+                      description?.invalid &&
+                      (description?.dirty || description?.touched)
+                    "
+                    placeholder="Enter transfer description"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      description?.invalid &&
+                      (description?.dirty || description?.touched)
+                    "
+                  >
+                    <div *ngIf="description?.errors?.['required']">
+                      Description is required
+                    </div>
+                    <div *ngIf="description?.errors?.['minlength']">
+                      Description must be at least 3 characters
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="reference" class="form-label"
+                    >Reference (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="reference"
+                    class="form-control"
+                    formControlName="reference"
+                    placeholder="Enter reference number or note"
+                  />
+                </div>
+
+                <div class="card bg-light mb-4" *ngIf="transferForm.valid">
+                  <div class="card-body">
+                    <h6 class="card-title">Transfer Summary</h6>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <strong>From:</strong>
+                        {{
+                          getSelectedFromAccount()?.customerName ||
+                            getSelectedFromAccount()?.customerUsername
+                        }}<br />
+                        <strong>To:</strong>
+                        {{
+                          getSelectedToAccount()?.customerName ||
+                            getSelectedToAccount()?.customerUsername
+                        }}<br />
+                      </div>
+                      <div class="col-md-6">
+                        <strong>Amount:</strong>
+                        {{ amount?.value | currency: "USD" : "symbol" : "1.2-2"
+                        }}<br />
+                        <strong>Description:</strong> {{ description?.value
+                        }}<br />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+</fieldset>
+                <div class="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="goBack()"
+                  >
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="transferForm.invalid || loading"
+                  >
+                    <span
+                      *ngIf="loading"
+                      class="spinner-border spinner-border-sm me-2"
+                    ></span>
+                    <i class="bi bi-send me-2" *ngIf="!loading"></i>
+                    {{ loading ? "Processing..." : (reviewing ? "Confirm transfer" : "Review transfer") }}
+                  </button>
+                </div>
+              <button *ngIf="reviewing" type="button" class="btn btn-link" (click)="reviewing = false" [disabled]="loading">Edit transfer</button></form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

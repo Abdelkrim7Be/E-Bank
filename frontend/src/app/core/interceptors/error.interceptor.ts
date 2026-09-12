@@ -11,10 +11,6 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
-/**
- * HTTP Error Interceptor as specified in TODO.md
- * Handles global error responses and provides user feedback
- */
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
@@ -29,7 +25,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         let shouldRedirect = false;
 
         if (error.error instanceof ErrorEvent) {
-          // Client-side error
           errorMessage = `Network Error: ${error.error.message}`;
         } else {
           // Server-side error - Enhanced handling as per TODO.md
@@ -38,7 +33,6 @@ export class ErrorInterceptor implements HttpInterceptor {
               if (error.error?.message) {
                 errorMessage = error.error.message;
               } else if (error.error?.errors) {
-                // Handle validation errors
                 const validationErrors = error.error.errors;
                 if (Array.isArray(validationErrors)) {
                   errorMessage = validationErrors
@@ -54,9 +48,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             case 401:
               errorMessage = 'Unauthorized access - Please login again';
               shouldRedirect = true;
-              // Clear stored tokens as per TODO.md specifications
               localStorage.removeItem(environment.tokenKey);
               localStorage.removeItem('current_user');
+              sessionStorage.removeItem(environment.tokenKey);
+              sessionStorage.removeItem('current_user');
               break;
             case 403:
               errorMessage = 'Access forbidden - You do not have permission';
@@ -96,7 +91,6 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
         }
 
-        // Log the error for debugging
         console.error('HTTP Error:', {
           status: error.status,
           message: errorMessage,
@@ -104,15 +98,12 @@ export class ErrorInterceptor implements HttpInterceptor {
           error: error.error,
         });
 
-        // Show user notification (console for now, can be replaced with toast/snackbar)
         console.error('User Error:', errorMessage);
 
-        // Redirect to login if unauthorized
         if (shouldRedirect) {
           this.router.navigate(['/auth/login']);
         }
 
-        // Return enhanced error with user message
         const enhancedError = {
           ...error,
           userMessage: errorMessage,

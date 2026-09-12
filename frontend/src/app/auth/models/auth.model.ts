@@ -4,12 +4,12 @@ export interface User {
   email: string;
   firstName?: string;
   lastName?: string;
+  avatarUrl?: string;
   role: UserRole;
   status: UserStatus;
   enabled: boolean;
   createdAt: string;
   updatedAt: string;
-  // Additional properties for admin management
   accountCount?: number;
   totalBalance?: number;
   selected?: boolean;
@@ -27,7 +27,6 @@ export interface RegisterRequest {
   firstName?: string;
   lastName?: string;
   role?: UserRole;
-  // Optional fields for customer creation
   name?: string;
   phone?: string;
   address?: string;
@@ -69,6 +68,7 @@ export interface ProfileUpdateRequest {
   firstName: string;
   lastName: string;
   email: string;
+  avatarUrl?: string;
 }
 
 export interface CustomerUpdateRequest {
@@ -80,6 +80,5 @@ export interface CustomerUpdateRequest {
   name?: string;
   phone?: string;
   address?: string;
-  // Password is optional for updates
   password?: string;
 }

@@ -1,0 +1,35 @@
+{
+  "requests": 200,
+  "workers": 10,
+  "elapsedSeconds": 2.26,
+  "endpoints": {
+    "/api/accounts?size=20": {
+      "requests": 50,
+      "failures": 0,
+      "p50Ms": 290.1,
+      "p95Ms": 519.5,
+      "maxMs": 538.5
+    },
+    "/api/customers/page?size=20": {
+      "requests": 50,
+      "failures": 0,
+      "p50Ms": 33.1,
+      "p95Ms": 129.8,
+      "maxMs": 134.8
+    },
+    "/api/transactions?page=0&size=20": {
+      "requests": 50,
+      "failures": 0,
+      "p50Ms": 61.3,
+      "p95Ms": 113.9,
+      "maxMs": 163.3
+    },
+    "/api/reports/dashboard": {
+      "requests": 50,
+      "failures": 0,
+      "p50Ms": 14.5,
+      "p95Ms": 26.7,
+      "maxMs": 39.6
+    }
+  }
+}

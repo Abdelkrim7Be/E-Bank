@@ -1,0 +1,9 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/extended.spec.ts:54:5 › dashboard active account count matches persisted statuses (1.9s)
+  ✓  2 [chromium] › e2e/extended.spec.ts:206:5 › dashboard shows an account failure and recovers without fabricated balances (1.7s)
+  ✓  3 [mobile] › e2e/extended.spec.ts:54:5 › dashboard active account count matches persisted statuses (1.7s)
+  ✓  4 [mobile] › e2e/extended.spec.ts:206:5 › dashboard shows an account failure and recovers without fabricated balances (1.8s)
+
+  4 passed (10.3s)

@@ -1,7 +1,6 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  // Routes with parameters should use Server rendering instead of prerendering
   {
     path: 'users/:id/edit',
     renderMode: RenderMode.Server,
@@ -10,7 +9,6 @@ export const serverRoutes: ServerRoute[] = [
     path: 'users/:id/view',
     renderMode: RenderMode.Server,
   },
-  // Customer routes with parameters
   {
     path: 'customers/:id/edit',
     renderMode: RenderMode.Server,
@@ -20,7 +18,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
 
-  // Change these problematic routes to Server rendering
   {
     path: 'users',
     renderMode: RenderMode.Server,
@@ -34,7 +31,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
 
-  // Static routes can use prerendering
   {
     path: '',
     renderMode: RenderMode.Prerender,
@@ -52,7 +48,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
 
-  // Default route for any other paths
   {
     path: '**',
     renderMode: RenderMode.Server,

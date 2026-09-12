@@ -1,0 +1,3 @@
+PASS: money command committed while Kafka was paused
+PASS: outbox delivery recovered and retry returned the same receipt
+PASS: reporting restart preserved balances and transaction counts

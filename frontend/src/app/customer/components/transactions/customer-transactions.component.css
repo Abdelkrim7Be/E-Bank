@@ -1,0 +1,31 @@
+.customer-transactions {
+        padding: 0;
+      }
+
+      .table th {
+        border-top: none;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .table td {
+        vertical-align: middle;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+      }
+
+      @media (max-width: 768px) {
+        .customer-transactions {
+          padding: 0;
+        }
+
+        .table-responsive {
+          font-size: 0.875rem;
+        }
+      }
+
+.transaction-dialog { width: min(480px,calc(100% - 32px)); margin: auto; border: 1px solid var(--eb-border); border-radius: 8px; padding: 24px; color: var(--eb-ink); }
+.transaction-dialog::backdrop { background: #092c6880; }
+.transaction-dialog dd { overflow-wrap: anywhere; }

@@ -1,0 +1,11 @@
+<div class="app-container">
+      <a class="skip-link" href="#main-content">Skip to content</a>
+      <app-navigation *ngIf="showNavigation"></app-navigation>
+
+      <main id="main-content" tabindex="-1" class="main-content" [class.with-nav]="showNavigation">
+        <router-outlet></router-outlet>
+      </main>
+
+      <app-loader></app-loader>
+      <app-notifications></app-notifications>
+    </div>

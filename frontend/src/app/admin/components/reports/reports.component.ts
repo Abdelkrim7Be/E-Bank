@@ -1,323 +1,200 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { environment } from '../../../../environments/environment';
+import { jsPDF } from 'jspdf';
 
 @Component({
-  selector: 'app-admin-reports',
-  standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
-  template: `
-    <div class="container-fluid mt-4">
-      <div class="row">
-        <div class="col-12">
-          <!-- Header -->
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-              <h1 class="h3 mb-0">Reports & Analytics</h1>
-              <p class="text-muted mb-0">Generate and view system reports</p>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-download me-2"></i>Export All
-              </button>
-              <button class="btn btn-primary">
-                <i class="bi bi-plus-circle me-2"></i>Custom Report
-              </button>
-            </div>
-          </div>
-
-          <!-- Quick Stats -->
-          <div class="row mb-4">
-            <div class="col-md-3 mb-3">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body text-center">
-                  <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
-                  <h4 class="mt-2 mb-1">{{ totalCustomers }}</h4>
-                  <p class="text-muted mb-0">Total Customers</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body text-center">
-                  <i class="bi bi-credit-card text-success" style="font-size: 2rem;"></i>
-                  <h4 class="mt-2 mb-1">{{ totalAccounts }}</h4>
-                  <p class="text-muted mb-0">Total Accounts</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body text-center">
-                  <i class="bi bi-arrow-left-right text-info" style="font-size: 2rem;"></i>
-                  <h4 class="mt-2 mb-1">{{ totalTransactions }}</h4>
-                  <p class="text-muted mb-0">Total Transactions</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body text-center">
-                  <i class="bi bi-currency-dollar text-warning" style="font-size: 2rem;"></i>
-                  <h4 class="mt-2 mb-1">{{ totalBalance | currency }}</h4>
-                  <p class="text-muted mb-0">Total Balance</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Report Categories -->
-          <div class="row">
-            <!-- Customer Reports -->
-            <div class="col-lg-6 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">
-                    <i class="bi bi-people me-2 text-primary"></i>Customer Reports
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="list-group list-group-flush">
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Customer Summary Report</h6>
-                        <p class="mb-1 text-muted">Overview of all customers and their accounts</p>
-                      </div>
-                      <i class="bi bi-download text-primary"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">New Customer Report</h6>
-                        <p class="mb-1 text-muted">Customers registered in the last 30 days</p>
-                      </div>
-                      <i class="bi bi-download text-primary"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Customer Activity Report</h6>
-                        <p class="mb-1 text-muted">Customer transaction activity analysis</p>
-                      </div>
-                      <i class="bi bi-download text-primary"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Account Reports -->
-            <div class="col-lg-6 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">
-                    <i class="bi bi-credit-card me-2 text-success"></i>Account Reports
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="list-group list-group-flush">
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Account Balance Report</h6>
-                        <p class="mb-1 text-muted">Current balances across all accounts</p>
-                      </div>
-                      <i class="bi bi-download text-success"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Account Type Analysis</h6>
-                        <p class="mb-1 text-muted">Distribution of account types</p>
-                      </div>
-                      <i class="bi bi-download text-success"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Dormant Accounts</h6>
-                        <p class="mb-1 text-muted">Accounts with no recent activity</p>
-                      </div>
-                      <i class="bi bi-download text-success"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Transaction Reports -->
-            <div class="col-lg-6 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">
-                    <i class="bi bi-arrow-left-right me-2 text-info"></i>Transaction Reports
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="list-group list-group-flush">
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Daily Transaction Summary</h6>
-                        <p class="mb-1 text-muted">Transaction volume and amounts by day</p>
-                      </div>
-                      <i class="bi bi-download text-info"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Large Transaction Report</h6>
-                        <p class="mb-1 text-muted">Transactions above specified threshold</p>
-                      </div>
-                      <i class="bi bi-download text-info"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Failed Transaction Report</h6>
-                        <p class="mb-1 text-muted">Analysis of failed transactions</p>
-                      </div>
-                      <i class="bi bi-download text-info"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Financial Reports -->
-            <div class="col-lg-6 mb-4">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">
-                    <i class="bi bi-graph-up me-2 text-warning"></i>Financial Reports
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="list-group list-group-flush">
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Monthly Financial Summary</h6>
-                        <p class="mb-1 text-muted">Monthly revenue and expense analysis</p>
-                      </div>
-                      <i class="bi bi-download text-warning"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Interest Calculation Report</h6>
-                        <p class="mb-1 text-muted">Interest earned and paid analysis</p>
-                      </div>
-                      <i class="bi bi-download text-warning"></i>
-                    </button>
-                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      <div>
-                        <h6 class="mb-1">Profit & Loss Statement</h6>
-                        <p class="mb-1 text-muted">Comprehensive P&L analysis</p>
-                      </div>
-                      <i class="bi bi-download text-warning"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Custom Report Builder -->
-          <div class="row">
-            <div class="col-12">
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                  <h5 class="card-title mb-0">
-                    <i class="bi bi-tools me-2"></i>Custom Report Builder
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label class="form-label">Report Type</label>
-                      <select class="form-select" [(ngModel)]="customReport.type">
-                        <option value="">Select report type</option>
-                        <option value="customer">Customer Report</option>
-                        <option value="account">Account Report</option>
-                        <option value="transaction">Transaction Report</option>
-                        <option value="financial">Financial Report</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label class="form-label">Date Range</label>
-                      <select class="form-select" [(ngModel)]="customReport.dateRange">
-                        <option value="7">Last 7 days</option>
-                        <option value="30">Last 30 days</option>
-                        <option value="90">Last 3 months</option>
-                        <option value="365">Last year</option>
-                        <option value="custom">Custom range</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label class="form-label">Format</label>
-                      <select class="form-select" [(ngModel)]="customReport.format">
-                        <option value="pdf">PDF</option>
-                        <option value="excel">Excel</option>
-                        <option value="csv">CSV</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" (click)="generateCustomReport()">
-                      <i class="bi bi-gear me-2"></i>Generate Report
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .card {
-      border: none;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    }
-    
-    .list-group-item {
-      border: none;
-      border-bottom: 1px solid #dee2e6;
-    }
-    
-    .list-group-item:hover {
-      background-color: #f8f9fa;
-    }
-    
-    .btn {
-      border-radius: 0.375rem;
-    }
-  `]
+  selector: 'app-admin-reports', standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './reports.component.html', styleUrl: './reports.component.css'
 })
-export class AdminReportsComponent implements OnInit {
-  totalCustomers = 156;
-  totalAccounts = 324;
-  totalTransactions = 1247;
-  totalBalance = 2456789.50;
+export class AdminReportsComponent {
+  private readonly http = inject(HttpClient);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly reports = [
+    { id: 'customer-summary', title: 'Customer summary', description: 'Customers, accounts and transaction counts.' },
+    { id: 'account-balance', title: 'Account balances', description: 'Balances and distribution by account type.' },
+    { id: 'transaction-analysis', title: 'Transaction analysis', description: 'Activity and volumes over a selected period.' },
+  ];
+  selected = 'customer-summary';
+  days = 30;
+  loading = false;
+  error = '';
+  result: Record<string, unknown> | null = null;
+  generatedTitle = '';
+  generatedId = '';
 
-  customReport = {
-    type: '',
-    dateRange: '30',
-    format: 'pdf'
-  };
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.loadReportStats();
+  generate(): void {
+    if (this.loading) return;
+    this.loading = true;
+    this.error = '';
+    this.result = null;
+    const report = this.reports.find(r => r.id === this.selected)!;
+    this.http.get<Record<string, unknown>>(`${environment.apiUrl}/reports/${report.id}`, {
+      params: report.id === 'transaction-analysis' ? { days: String(this.days) } : {}
+    }).pipe(takeUntilDestroyed(this.destroyRef), finalize(() => this.loading = false)).subscribe({
+      next: result => { this.result = result; this.generatedTitle = report.title; this.generatedId = report.id; },
+      error: () => this.error = 'The report could not be generated. Please try again.'
+    });
   }
 
-  private loadReportStats(): void {
-    // TODO: Load actual stats from service
-    // This would typically call an API to get real statistics
+  get entries(): [string, unknown][] {
+    return Object.entries(this.result ?? {});
   }
 
-  generateCustomReport(): void {
-    if (!this.customReport.type) {
-      alert('Please select a report type');
-      return;
+  formatLabel(key: string): string {
+    return key.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase());
+  }
+
+  formatValue(value: unknown): string {
+    return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value ?? 'Not available');
+  }
+
+  isObjectArray(value: unknown): value is Record<string, unknown>[] {
+    return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null;
+  }
+
+  isPlainObject(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  }
+
+  isSimpleList(value: unknown): boolean {
+    return Array.isArray(value) && !this.isObjectArray(value);
+  }
+
+  tableColumns(rows: Record<string, unknown>[]): string[] {
+    return Object.keys(rows[0]).filter(key => key !== 'id');
+  }
+
+  isMoneyField(key: string): boolean {
+    return /balance|amount|volume/i.test(key);
+  }
+
+  formatCell(key: string, value: unknown): string {
+    if (typeof value === 'number') {
+      return this.isMoneyField(key)
+        ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+        : value.toLocaleString('en-US');
+    }
+    return String(value ?? '—');
+  }
+
+  objectEntries(value: Record<string, unknown>): [string, unknown][] {
+    return Object.entries(value);
+  }
+
+  formatList(value: unknown[]): string {
+    return value.map(item => String(item)).join(', ');
+  }
+
+  download(): void {
+    if (!this.result) return;
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
+    const margin = 18;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    let y = 20;
+    const footer = () => {
+      pdf.setDrawColor(225, 226, 231);
+      pdf.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8); pdf.setTextColor(98, 99, 107);
+      pdf.text('E-Bank · Confidential', margin, pageHeight - 9);
+      pdf.text(`Page ${pdf.getNumberOfPages()}`, pageWidth - margin - 15, pageHeight - 9);
+    };
+    const header = () => {
+      pdf.setFillColor(31, 54, 139); pdf.rect(0, 0, pageWidth, 10, 'F');
+      pdf.setFillColor(255, 204, 0); pdf.rect(margin, 0, 3, 10, 'F');
+      pdf.setTextColor(31, 54, 139); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(22); pdf.text('E-BANK', margin, 25);
+      pdf.setFontSize(15); pdf.text(this.generatedTitle, margin, 34);
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9); pdf.setTextColor(98, 99, 107);
+      pdf.text(`Prepared ${new Date().toLocaleString('fr-FR')}`, margin, 41);
+      y = 52;
+    };
+    const newPage = () => { footer(); pdf.addPage(); header(); };
+    const ensure = (height: number) => { if (y + height > pageHeight - 22) newPage(); };
+    header();
+
+    const numericEntries = this.entries.filter(([, value]) => typeof value === 'number').slice(0, 4);
+    if (numericEntries.length) {
+      const gap = 4; const width = (pageWidth - margin * 2 - gap * (numericEntries.length - 1)) / numericEntries.length;
+      numericEntries.forEach(([key, value], index) => {
+        const x = margin + index * (width + gap);
+        pdf.setFillColor(247, 249, 252); pdf.roundedRect(x, y, width, 22, 3, 3, 'F');
+        pdf.setTextColor(98, 99, 107); pdf.setFontSize(8); pdf.text(this.formatLabel(key).toUpperCase(), x + 4, y + 7);
+        pdf.setTextColor(31, 54, 139); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(13); pdf.text(this.formatValue(value), x + 4, y + 16);
+        pdf.setFont('helvetica', 'normal');
+      });
+      y += 32;
     }
 
-    // TODO: Implement custom report generation
-    console.log('Generating custom report:', this.customReport);
-    alert('Custom report generation would be implemented here');
+    const sectionTitle = (label: string) => {
+      ensure(16);
+      pdf.setFillColor(31, 54, 139); pdf.rect(margin, y - 4, 2, 11, 'F');
+      pdf.setTextColor(31, 54, 139); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(10); pdf.text(label, margin + 6, y + 3);
+      y += 10;
+    };
+
+    const drawObjectTable = (rows: Record<string, unknown>[]) => {
+      const columns = this.tableColumns(rows);
+      const tableX = margin + 6, tableWidth = pageWidth - margin * 2 - 6;
+      const colWidth = tableWidth / columns.length;
+      const rowHeight = 7;
+      const drawHeader = () => {
+        pdf.setFillColor(247, 249, 252); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F');
+        pdf.setFont('helvetica', 'bold'); pdf.setFontSize(7.5); pdf.setTextColor(98, 99, 107);
+        columns.forEach((col, i) => pdf.text(this.formatLabel(col).toUpperCase(), tableX + i * colWidth + 2, y - 1));
+        y += rowHeight;
+      };
+      drawHeader();
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8.5); pdf.setTextColor(48, 49, 58);
+      rows.forEach((row, index) => {
+        if (y + rowHeight > pageHeight - 22) { newPage(); sectionTitle(this.generatedTitle + ' (continued)'); drawHeader(); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8.5); pdf.setTextColor(48, 49, 58); }
+        if (index % 2 === 1) { pdf.setFillColor(250, 251, 253); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F'); }
+        columns.forEach((col, i) => {
+          const text = this.formatCell(col, row[col]);
+          const truncated = pdf.splitTextToSize(text, colWidth - 4)[0];
+          pdf.text(truncated, tableX + i * colWidth + 2, y - 1);
+        });
+        y += rowHeight;
+      });
+      y += 6;
+    };
+
+    const drawKeyValueTable = (pairs: [string, unknown][]) => {
+      const tableX = margin + 6, tableWidth = pageWidth - margin * 2 - 6;
+      const rowHeight = 7;
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9);
+      pairs.forEach((pair, index) => {
+        ensure(rowHeight);
+        if (index % 2 === 1) { pdf.setFillColor(250, 251, 253); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F'); }
+        pdf.setTextColor(98, 99, 107); pdf.text(this.formatLabel(pair[0]), tableX + 2, y - 1);
+        pdf.setTextColor(48, 49, 58); pdf.text(this.formatCell(pair[0], pair[1]), tableX + tableWidth * 0.45, y - 1);
+        y += rowHeight;
+      });
+      y += 6;
+    };
+
+    for (const [key, value] of this.entries) {
+      if (typeof value === 'number') continue;
+      if (['reportType', 'generatedDate', 'projectionStatus', 'projectionUpdatedAt'].includes(key)) continue;
+      sectionTitle(this.formatLabel(key));
+      if (this.isObjectArray(value)) {
+        drawObjectTable(value);
+      } else if (this.isPlainObject(value)) {
+        drawKeyValueTable(this.objectEntries(value));
+      } else {
+        const valueText = Array.isArray(value) ? this.formatList(value) : this.formatCell(key, value);
+        const lines = pdf.splitTextToSize(valueText, pageWidth - margin * 2 - 8);
+        pdf.setTextColor(48, 49, 58); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9);
+        for (const line of lines) { ensure(6); pdf.text(line, margin + 6, y); y += 4.5; }
+        y += 6;
+      }
+    }
+    footer();
+    pdf.save(`e-bank-${this.generatedId}.pdf`);
   }
 }

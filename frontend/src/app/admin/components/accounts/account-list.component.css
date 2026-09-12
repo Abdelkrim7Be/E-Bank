@@ -1,0 +1,22 @@
+.card {
+        border: 1px solid var(--eb-border);
+        box-shadow: none;
+      }
+
+      .table th {
+        border-top: none;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+      }
+
+      .btn-group-sm .btn {
+        padding: 0.25rem 0.5rem;
+      }
+
+      code {
+        font-size: 0.875rem;
+      }

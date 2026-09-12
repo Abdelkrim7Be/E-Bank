@@ -23,7 +23,35 @@
       <div *ngIf="!result" class="empty-report"><i class="bi bi-file-earmark-bar-graph" aria-hidden="true"></i><h2 class="h5">{{ loading ? 'Preparing your report' : 'Your report appears here' }}</h2><p class="text-muted">Select a report and generate it to view the latest available data.</p></div>
       <ng-container *ngIf="result">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3"><div><p class="result-kicker mb-1">E-BANK REPORT</p><h2 class="h5 mb-0">{{ generatedTitle }}</h2></div><button type="button" class="btn btn-primary" (click)="download()"><i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>Download PDF</button></div>
-        <dl class="card-body mb-0"><div *ngFor="let entry of entries" class="report-field"><dt>{{ formatLabel(entry[0]) }}</dt><dd><pre>{{ formatValue(entry[1]) }}</pre></dd></div></dl>
+        <div class="card-body mb-0">
+          <div *ngFor="let entry of entries" class="report-field">
+            <ng-container *ngIf="entry[1] !== null && entry[1] !== undefined && !(typeof entry[1] === 'string' && entry[0].endsWith('At')) && entry[0] !== 'reportType' && entry[0] !== 'generatedDate' && entry[0] !== 'projectionStatus' && entry[0] !== 'projectionUpdatedAt'">
+              <h3 class="report-field-title">{{ formatLabel(entry[0]) }}</h3>
+              <div *ngIf="isObjectArray(entry[1])" class="table-responsive">
+                <table class="table table-sm report-table">
+                  <thead><tr><th *ngFor="let col of tableColumns($any(entry[1]))">{{ formatLabel(col) }}</th></tr></thead>
+                  <tbody>
+                    <tr *ngFor="let row of $any(entry[1])">
+                      <td *ngFor="let col of tableColumns($any(entry[1]))">{{ formatCell(col, row[col]) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="isPlainObject(entry[1])" class="table-responsive">
+                <table class="table table-sm report-table">
+                  <tbody>
+                    <tr *ngFor="let pair of objectEntries($any(entry[1]))">
+                      <th scope="row">{{ formatLabel(pair[0]) }}</th>
+                      <td>{{ formatCell(pair[0], pair[1]) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p *ngIf="isSimpleList(entry[1])" class="mb-0">{{ formatList($any(entry[1])) }}</p>
+              <p *ngIf="!isObjectArray(entry[1]) && !isPlainObject(entry[1]) && !isSimpleList(entry[1])" class="mb-0">{{ formatCell(entry[0], entry[1]) }}</p>
+            </ng-container>
+          </div>
+        </div>
       </ng-container>
     </div>
   </div>

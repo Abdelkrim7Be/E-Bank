@@ -13,5 +13,11 @@
 .report-field:last-child { border: 0; }
 dt { color: var(--eb-muted); font-size: 13px; } dd { margin: 6px 0 0; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font-size: 13px; }
+.report-field-title { font-size: 12px; font-weight: 700; letter-spacing: .6px; color: var(--eb-muted); text-transform: uppercase; margin: 0 0 10px; }
+.report-table { margin: 0; font-size: 13px; }
+.report-table thead th { background: #f7f9fc; color: var(--eb-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; border-bottom: 2px solid var(--eb-border); }
+.report-table td, .report-table th { vertical-align: middle; }
+.report-table tbody th { color: var(--eb-muted); font-weight: 500; width: 40%; }
+.report-table tbody tr:nth-child(even) { background: #fafbfd; }
 .result-kicker { color: var(--eb-muted); font-size: 10px; font-weight: 700; letter-spacing: 1.4px; }
 @media(max-width: 767px) { .report-heading { align-items: flex-start; } .report-heading-mark { width: 52px; height: 52px; font-size: 24px; } .report-layout { grid-template-columns: 1fr; } .report-controls { position: static; } }

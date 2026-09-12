@@ -54,6 +54,43 @@ export class AdminReportsComponent {
     return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value ?? 'Not available');
   }
 
+  isObjectArray(value: unknown): value is Record<string, unknown>[] {
+    return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null;
+  }
+
+  isPlainObject(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  }
+
+  isSimpleList(value: unknown): boolean {
+    return Array.isArray(value) && !this.isObjectArray(value);
+  }
+
+  tableColumns(rows: Record<string, unknown>[]): string[] {
+    return Object.keys(rows[0]).filter(key => key !== 'id');
+  }
+
+  isMoneyField(key: string): boolean {
+    return /balance|amount|volume/i.test(key);
+  }
+
+  formatCell(key: string, value: unknown): string {
+    if (typeof value === 'number') {
+      return this.isMoneyField(key)
+        ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+        : value.toLocaleString('en-US');
+    }
+    return String(value ?? '—');
+  }
+
+  objectEntries(value: Record<string, unknown>): [string, unknown][] {
+    return Object.entries(value);
+  }
+
+  formatList(value: unknown[]): string {
+    return value.map(item => String(item)).join(', ');
+  }
+
   download(): void {
     if (!this.result) return;
     const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -94,17 +131,68 @@ export class AdminReportsComponent {
       y += 32;
     }
 
-    for (const [key, value] of this.entries) {
-      if (typeof value === 'number') continue;
-      const label = this.formatLabel(key);
-      const valueText = Array.isArray(value) ? value.map(item => typeof item === 'object' ? JSON.stringify(item) : String(item)).join(' · ') : this.formatValue(value);
-      const lines = pdf.splitTextToSize(valueText, pageWidth - margin * 2 - 8);
-      ensure(16 + lines.length * 4.5);
+    const sectionTitle = (label: string) => {
+      ensure(16);
       pdf.setFillColor(31, 54, 139); pdf.rect(margin, y - 4, 2, 11, 'F');
       pdf.setTextColor(31, 54, 139); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(10); pdf.text(label, margin + 6, y + 3);
-      y += 10; pdf.setTextColor(48, 49, 58); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9);
-      for (const line of lines) { ensure(6); pdf.text(line, margin + 6, y); y += 4.5; }
+      y += 10;
+    };
+
+    const drawObjectTable = (rows: Record<string, unknown>[]) => {
+      const columns = this.tableColumns(rows);
+      const tableX = margin + 6, tableWidth = pageWidth - margin * 2 - 6;
+      const colWidth = tableWidth / columns.length;
+      const rowHeight = 7;
+      const drawHeader = () => {
+        pdf.setFillColor(247, 249, 252); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F');
+        pdf.setFont('helvetica', 'bold'); pdf.setFontSize(7.5); pdf.setTextColor(98, 99, 107);
+        columns.forEach((col, i) => pdf.text(this.formatLabel(col).toUpperCase(), tableX + i * colWidth + 2, y - 1));
+        y += rowHeight;
+      };
+      drawHeader();
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8.5); pdf.setTextColor(48, 49, 58);
+      rows.forEach((row, index) => {
+        if (y + rowHeight > pageHeight - 22) { newPage(); sectionTitle(this.generatedTitle + ' (continued)'); drawHeader(); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8.5); pdf.setTextColor(48, 49, 58); }
+        if (index % 2 === 1) { pdf.setFillColor(250, 251, 253); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F'); }
+        columns.forEach((col, i) => {
+          const text = this.formatCell(col, row[col]);
+          const truncated = pdf.splitTextToSize(text, colWidth - 4)[0];
+          pdf.text(truncated, tableX + i * colWidth + 2, y - 1);
+        });
+        y += rowHeight;
+      });
       y += 6;
+    };
+
+    const drawKeyValueTable = (pairs: [string, unknown][]) => {
+      const tableX = margin + 6, tableWidth = pageWidth - margin * 2 - 6;
+      const rowHeight = 7;
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9);
+      pairs.forEach((pair, index) => {
+        ensure(rowHeight);
+        if (index % 2 === 1) { pdf.setFillColor(250, 251, 253); pdf.rect(tableX, y - 5, tableWidth, rowHeight, 'F'); }
+        pdf.setTextColor(98, 99, 107); pdf.text(this.formatLabel(pair[0]), tableX + 2, y - 1);
+        pdf.setTextColor(48, 49, 58); pdf.text(this.formatCell(pair[0], pair[1]), tableX + tableWidth * 0.45, y - 1);
+        y += rowHeight;
+      });
+      y += 6;
+    };
+
+    for (const [key, value] of this.entries) {
+      if (typeof value === 'number') continue;
+      if (['reportType', 'generatedDate', 'projectionStatus', 'projectionUpdatedAt'].includes(key)) continue;
+      sectionTitle(this.formatLabel(key));
+      if (this.isObjectArray(value)) {
+        drawObjectTable(value);
+      } else if (this.isPlainObject(value)) {
+        drawKeyValueTable(this.objectEntries(value));
+      } else {
+        const valueText = Array.isArray(value) ? this.formatList(value) : this.formatCell(key, value);
+        const lines = pdf.splitTextToSize(valueText, pageWidth - margin * 2 - 8);
+        pdf.setTextColor(48, 49, 58); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9);
+        for (const line of lines) { ensure(6); pdf.text(line, margin + 6, y); y += 4.5; }
+        y += 6;
+      }
     }
     footer();
     pdf.save(`e-bank-${this.generatedId}.pdf`);

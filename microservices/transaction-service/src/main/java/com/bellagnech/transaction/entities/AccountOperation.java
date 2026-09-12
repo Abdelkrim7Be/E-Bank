@@ -16,7 +16,7 @@ import java.util.Date;
 @Table(name = "account_operations", indexes = {
     @Index(name = "idx_operation_account_date", columnList = "bankAccountId,operationDate,id"),
     @Index(name = "idx_operation_date", columnList = "operationDate,id")
-})
+}, uniqueConstraints = @UniqueConstraint(name = "uq_operation_request_leg", columnNames = {"requestId", "type", "bankAccountId"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

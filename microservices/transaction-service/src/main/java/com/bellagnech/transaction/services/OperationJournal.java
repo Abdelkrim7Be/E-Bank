@@ -45,7 +45,17 @@ public class OperationJournal {
         var o = new OperationRequest();
         o.setId(id); o.setType(type); o.setAccountId(accountId); o.setDestinationId(destinationId);
         o.setAmount(amount); o.setDescription(description);
-        return requests.saveAndFlush(o);
+        // OperationRequest has a manually-assigned id with no @Version, so Spring Data's isNew() heuristic
+        // would route saveAndFlush() through merge() (a silent upsert) instead of a real insert. A concurrent
+        // racer's "first" attempt could then silently overwrite the winner's row instead of hitting the
+        // unique-key violation this method's caller retries on, so persist explicitly to force insert semantics.
+        try { entityManager.persist(o); entityManager.flush(); }
+        catch (jakarta.persistence.PersistenceException collision) {
+            // Bypassing the repository layer also bypasses Spring's exception translation; translate manually
+            // so the caller's retry-on-DataIntegrityViolationException logic still sees a consistent type.
+            throw new org.springframework.dao.DataIntegrityViolationException("Idempotency key already in use", collision);
+        }
+        return o;
     }
 
     // Retrying a pending request reuses the account command ID after a lost response.
@@ -58,14 +68,20 @@ public class OperationJournal {
         Map<String,Object> command = new HashMap<>();
         command.put("operationId", id); command.put("accountId", o.getAccountId());
         command.put("destinationId", o.getDestinationId()); command.put("amount", o.getAmount());
-        accounts.applyOperation(o.getType().toLowerCase(Locale.ROOT), command);
-        if ("TRANSFER".equals(o.getType())) {
-            leg(o, o.getAccountId(), OperationType.DEBIT, "Transfer to " + o.getDestinationId() + transferNote(o));
-            leg(o, o.getDestinationId(), OperationType.CREDIT, "Transfer from " + o.getAccountId() + transferNote(o));
-        } else {
-            leg(o, o.getAccountId(), OperationType.valueOf(o.getType()), o.getDescription());
+        var receipt = accounts.applyOperation(o.getType().toLowerCase(Locale.ROOT), command);
+        // account-service's idempotent receipt is the sole authority on who actually mutated balances:
+        // only that one racer writes ledger legs, so concurrent completions can never duplicate them.
+        if (receipt.firstApplication) {
+            if ("TRANSFER".equals(o.getType())) {
+                leg(o, o.getAccountId(), OperationType.DEBIT, "Transfer to " + o.getDestinationId() + transferNote(o));
+                leg(o, o.getDestinationId(), OperationType.CREDIT, "Transfer from " + o.getAccountId() + transferNote(o));
+            } else {
+                leg(o, o.getAccountId(), OperationType.valueOf(o.getType()), o.getDescription());
+            }
         }
-        o.setStatus("COMPLETED"); o.setCompletedAt(Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MICROS));
+        o.setStatus("COMPLETED");
+        o.setCompletedAt((receipt.completedAt != null ? receipt.completedAt : Instant.now())
+            .truncatedTo(java.time.temporal.ChronoUnit.MICROS));
         return o;
     }
 

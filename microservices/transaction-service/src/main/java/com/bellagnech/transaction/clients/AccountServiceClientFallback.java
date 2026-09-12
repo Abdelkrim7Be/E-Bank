@@ -12,7 +12,7 @@ public class AccountServiceClientFallback implements AccountServiceClient {
     public java.util.List<AccountDTO> getCustomerAccounts(Long customerId) { throw new IllegalStateException("Account service unavailable"); }
     public java.util.List<AccountDTO> getAccountsByIds(java.util.List<String> ids) { throw new IllegalStateException("Account service unavailable"); }
     @Override
-    public void applyOperation(String type, Map<String, Object> command) {
+    public BalanceReceipt applyOperation(String type, Map<String, Object> command) {
         throw new IllegalStateException("Account service unavailable; operation was not confirmed");
     }
 

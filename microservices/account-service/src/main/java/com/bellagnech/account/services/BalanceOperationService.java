@@ -58,12 +58,15 @@ public class BalanceOperationService {
             publish(destination, oldDestination, "TRANSFER");
         }
         publish(source, oldSource, type);
-        return receipts.save(new com.bellagnech.account.entities.BalanceReceipt(operationId, fingerprint,
-            source.getBalance(), transfer ? locked.get(destinationId).getBalance() : null, java.time.Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MICROS)));
+        var saved = receipts.save(new com.bellagnech.account.entities.BalanceReceipt(operationId, fingerprint,
+            source.getBalance(), transfer ? locked.get(destinationId).getBalance() : null, java.time.Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MICROS), false));
+        saved.setFirstApplication(true);
+        return saved;
     }
     private com.bellagnech.account.entities.BalanceReceipt replay(com.bellagnech.account.entities.BalanceReceipt receipt, String fingerprint) {
         if (!receipt.getRequestFingerprint().equals(fingerprint))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Operation ID already used for a different request");
+        receipt.setFirstApplication(false);
         return receipt;
     }
     private void publish(BankAccount account, BigDecimal previous, String reason) {

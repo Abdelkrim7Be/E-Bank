@@ -25,7 +25,7 @@ public interface AccountServiceClient {
     void updateBalance(@PathVariable String id, @RequestBody Map<String, BigDecimal> balanceUpdate);
 
     @org.springframework.web.bind.annotation.PostMapping("/api/accounts/operations/{type}")
-    void applyOperation(@PathVariable("type") String type, @RequestBody Map<String, Object> command);
+    BalanceReceipt applyOperation(@PathVariable("type") String type, @RequestBody Map<String, Object> command);
 
     @GetMapping("/api/accounts/customer/{customerId}")
     java.util.List<AccountDTO> getCustomerAccounts(@PathVariable Long customerId);
@@ -40,6 +40,13 @@ public interface AccountServiceClient {
         public Long customerId;
         public String type;
         public String customerName;
+    }
+
+    /** Mirrors account-service's BalanceReceipt; firstApplication is true only for the racer that actually mutated balances. */
+    class BalanceReceipt {
+        public String operationId;
+        public java.time.Instant completedAt;
+        public boolean firstApplication;
     }
 }
 

@@ -39,11 +39,28 @@ public class TransactionService {
 
     public com.bellagnech.transaction.entities.OperationRequest execute(String key, String type, String accountId,
             String destinationId, BigDecimal amount, String description) {
-        try { journal.prepare(key, type, accountId, destinationId, amount, description); }
-        catch (org.springframework.dao.DataIntegrityViolationException duplicate) {
-            journal.prepare(key, type, accountId, destinationId, amount, description);
+        // Under heavy concurrency a racer's insert can collide with another racer's still-uncommitted row;
+        // retry (with backoff, to avoid a thundering herd) until the winner's transaction is visible.
+        for (int attempt = 1; ; attempt++) {
+            try { journal.prepare(key, type, accountId, destinationId, amount, description); break; }
+            catch (org.springframework.dao.DataIntegrityViolationException duplicate) {
+                retryOrGiveUp(duplicate, attempt);
+            }
         }
-        return journal.complete(key);
+        // Same reasoning: the unique constraint on (requestId, type, bankAccountId) can reject our leg
+        // insert before the winning racer's transaction is visible as COMPLETED; retry until it is.
+        for (int attempt = 1; ; attempt++) {
+            try { return journal.complete(key); }
+            catch (org.springframework.dao.DataIntegrityViolationException duplicate) {
+                retryOrGiveUp(duplicate, attempt);
+            }
+        }
+    }
+
+    private static void retryOrGiveUp(org.springframework.dao.DataIntegrityViolationException conflict, int attempt) {
+        if (attempt >= 20) throw conflict;
+        try { Thread.sleep(Math.min(attempt * 5L, 50L)); }
+        catch (InterruptedException e) { Thread.currentThread().interrupt(); throw conflict; }
     }
 
     public List<AccountOperationDTO> getAccountHistory(String accountId) {

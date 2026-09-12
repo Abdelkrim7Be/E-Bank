@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BalanceReceipt {
@@ -15,4 +16,7 @@ public class BalanceReceipt {
     @Column(precision = 19, scale = 2, nullable = false) private BigDecimal sourceBalance;
     @Column(precision = 19, scale = 2) private BigDecimal destinationBalance;
     @Column(nullable = false) private Instant completedAt;
+
+    /** True only for the single call that actually mutated balances; false for every idempotent replay. */
+    @Transient private boolean firstApplication;
 }

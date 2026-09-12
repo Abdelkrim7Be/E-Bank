@@ -100,10 +100,13 @@
                   <div class="h4 mb-0">
                     {{ stats.totalTransactions | number }}
                   </div>
-                  <div class="small text-warning">
-                    <i class="bi bi-clock"></i>
-                    {{ stats.pendingTransactions }} pending
+                  <div class="small" [ngClass]="reconciliation.status === 'MISMATCH' ? 'text-danger' : 'text-success'" *ngIf="reconciliation; else reconciliationPending">
+                    <i class="bi" [ngClass]="reconciliation.status === 'MISMATCH' ? 'bi-exclamation-triangle' : 'bi-shield-check'"></i>
+                    {{ reconciliation.status === 'MISMATCH' ? 'Ledger mismatch' : 'Ledger balanced' }}
                   </div>
+                  <ng-template #reconciliationPending>
+                    <div class="small text-muted"><i class="bi bi-hourglass-split"></i> Checking ledger…</div>
+                  </ng-template>
                 </div>
               </div>
             </div>
@@ -313,16 +316,4 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-lg-12 mb-4">
-          <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white">
-              <h5 class="card-title mb-0">Monthly Growth Trends</h5>
-            </div>
-            <div class="card-body">
-              <canvas id="growthTrendsChart" width="400" height="150"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>

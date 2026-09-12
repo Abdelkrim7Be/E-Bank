@@ -51,7 +51,6 @@ export class AdminDashboardComponent
 
   accountTypesChart: Chart | null = null;
   transactionVolumeChart: Chart | null = null;
-  growthTrendsChart: Chart | null = null;
 
   constructor(
     private authService: AuthService,
@@ -88,9 +87,6 @@ export class AdminDashboardComponent
     }
     if (this.transactionVolumeChart) {
       this.transactionVolumeChart.destroy();
-    }
-    if (this.growthTrendsChart) {
-      this.growthTrendsChart.destroy();
     }
   }
 
@@ -179,6 +175,7 @@ export class AdminDashboardComponent
 
           setTimeout(() => {
             this.updateChartsWithRealData(transactionsSummary);
+            this.updateAccountTypesChart(accountStats);
           }, 200);
         },
       )
@@ -287,28 +284,14 @@ export class AdminDashboardComponent
   private initializeCharts(): void {
     this.createAccountTypesChart();
     this.createTransactionVolumeChart();
-    this.createGrowthTrendsChart();
   }
 
   private updateChartsWithRealData(transactionsSummary: any): void {
     console.log("Updating charts with real data:", transactionsSummary);
 
     if (this.transactionVolumeChart) {
-      let realData = [0, 0, 0]; // Default fallback data
-
-      if (transactionsSummary && transactionsSummary.transactionsByType) {
-        realData = [
-          transactionsSummary.transactionsByType.DEPOSIT || 0,
-          transactionsSummary.transactionsByType.WITHDRAWAL || 0,
-          transactionsSummary.transactionsByType.TRANSFER || 0,
-        ];
-      } else {
-        realData = [
-          Math.floor(Math.random() * 100) + 50, // Add Money
-          Math.floor(Math.random() * 80) + 30, // Debit
-          Math.floor(Math.random() * 60) + 20, // Transfer
-        ];
-      }
+      const byType = transactionsSummary?.transactionsByType || {};
+      const realData = [byType.CREDIT || 0, byType.DEBIT || 0];
 
       console.log("Chart data being set:", realData);
       this.transactionVolumeChart.data.datasets[0].data = realData;
@@ -316,6 +299,16 @@ export class AdminDashboardComponent
     } else {
       console.warn("Transaction volume chart not initialized");
     }
+  }
+
+  private updateAccountTypesChart(accountStats: any): void {
+    if (!this.accountTypesChart) return;
+    const byType = accountStats?.accountsByType || {};
+    this.accountTypesChart.data.datasets[0].data = [
+      byType.CurrentAccount || 0,
+      byType.SavingAccount || 0,
+    ];
+    this.accountTypesChart.update("active");
   }
 
   private createAccountTypesChart(): void {
@@ -326,11 +319,11 @@ export class AdminDashboardComponent
       this.accountTypesChart = new Chart(ctx, {
         type: "doughnut",
         data: {
-          labels: ["Current", "Savings", "Business", "Investment"],
+          labels: ["Current", "Savings"],
           datasets: [
             {
-              data: [45, 30, 15, 10],
-              backgroundColor: ["#1f368b", "#3b51d5", "#98a4df", "#c6ccec"],
+              data: [0, 0],
+              backgroundColor: ["#1f368b", "#3b51d5"],
               borderWidth: 2,
               borderColor: "#fff",
             },
@@ -357,13 +350,13 @@ export class AdminDashboardComponent
       this.transactionVolumeChart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: ["Add Money", "Debit", "Transfer"],
+          labels: ["Credit", "Debit"],
           datasets: [
             {
               label: "Transaction Count",
-              data: [0, 0, 0], // Start with zeros, will be updated with real data
-              backgroundColor: ["#3b51d5", "#1f368b", "#c6ccec"],
-              borderColor: ["#3b51d5", "#1f368b", "#c6ccec"],
+              data: [0, 0], // Start with zeros, will be updated with real data
+              backgroundColor: ["#3b51d5", "#1f368b"],
+              borderColor: ["#3b51d5", "#1f368b"],
               borderWidth: 1,
             },
           ],
@@ -389,50 +382,6 @@ export class AdminDashboardComponent
                   return context.parsed.y + " transactions";
                 },
               },
-            },
-          },
-        },
-      });
-    }
-  }
-
-  private createGrowthTrendsChart(): void {
-    const ctx = document.getElementById(
-      "growthTrendsChart",
-    ) as HTMLCanvasElement;
-    if (ctx) {
-      this.growthTrendsChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-          datasets: [
-            {
-              label: "Customers",
-              data: [100, 120, 140, 160, 180, 200],
-              borderColor: "#3b51d5",
-              backgroundColor: "rgba(59, 81, 213, 0.08)",
-              tension: 0.4,
-            },
-            {
-              label: "Accounts",
-              data: [80, 95, 110, 125, 140, 155],
-              borderColor: "#1f368b",
-              backgroundColor: "rgba(31, 54, 139, 0.08)",
-              tension: 0.4,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-          plugins: {
-            legend: {
-              position: "top",
             },
           },
         },

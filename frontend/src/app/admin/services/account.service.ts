@@ -50,9 +50,9 @@ export interface CreateAccountRequest {
 
 export interface AccountStats {
   totalAccounts: number;
-  currentAccounts: number;
-  savingAccounts: number;
   totalBalance: number;
+  averageBalance: number;
+  accountsByType: { CurrentAccount: number; SavingAccount: number };
 }
 
 @Injectable({

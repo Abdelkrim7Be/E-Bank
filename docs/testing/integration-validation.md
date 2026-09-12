@@ -50,7 +50,7 @@ The application uses H2 and demo credentials. No production load benchmark or
 multi-broker Kafka failover is covered. Route screenshots establish rendering;
 only explicitly asserted interactions establish functional behavior.
 
-## Validation result — 2026-09-10
+## Validation result: 2026-09-10
 
 Validated against the retained `e-bank-validation` volumes at port 34200:
 
@@ -70,7 +70,7 @@ Validated against the retained `e-bank-validation` volumes at port 34200:
 - Frontend container build passed with warnings about the initial bundle size
   and skipped CSS selectors. All application service health checks passed.
 
-## Extended validation — 2026-09-11
+## Extended validation: 2026-09-11
 
 The [navbar and E2E review](navbar-e2e-review.md) records the expanded 40-check
 desktop/mobile suite, 20 backend tests, Kafka recovery/DLT checks, and a 200-request

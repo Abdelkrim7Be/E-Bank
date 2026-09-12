@@ -1,4 +1,4 @@
-# Kafka and microservices review — 2026-09-11
+# Kafka and microservices review: 2026-09-11
 
 This review is based on the repository and the local `e-bank-validation` stack.
 Recommendations below are follow-up work; they are not claimed as implemented.

@@ -25,9 +25,9 @@ public class CustomerEventListener {
             String name = node.has("name") ? node.get("name").asText() : "?";
 
             switch (eventType) {
-                case "CUSTOMER_CREATED" -> log.info("Account-service: new customer registered — customerId={}, name={}", customerId, name);
-                case "CUSTOMER_UPDATED" -> log.info("Account-service: customer updated — customerId={}, name={}", customerId, name);
-                case "CUSTOMER_DELETED" -> log.warn("Account-service: customer deleted — customerId={}. Linked accounts may need attention.", customerId);
+                case "CUSTOMER_CREATED" -> log.info("Account-service: new customer registered, customerId={}, name={}", customerId, name);
+                case "CUSTOMER_UPDATED" -> log.info("Account-service: customer updated, customerId={}, name={}", customerId, name);
+                case "CUSTOMER_DELETED" -> log.warn("Account-service: customer deleted, customerId={}. Linked accounts may need attention.", customerId);
                 default -> log.info("Account-service: unknown customer event type={}, customerId={}", eventType, customerId);
             }
         } catch (Exception e) {

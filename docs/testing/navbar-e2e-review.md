@@ -1,4 +1,4 @@
-# Navbar and E2E review — 2026-09-11
+# Navbar and E2E review: 2026-09-11
 
 Target: isolated Compose project `e-bank-validation`, http://127.0.0.1:34200.
 Existing workspace edits and retained data were preserved. Tests add small demo

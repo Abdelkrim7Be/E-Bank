@@ -339,4 +339,4 @@ demo-data loaders and infrastructure wiring.
 ## License
 
 MIT, see [LICENSE](LICENSE).
-Contribution by Nassim (nassim7792).
+.
